@@ -16,7 +16,7 @@ const SectionListItem = () => {
       <Card>
         <CardHeader
           title={
-            <Typography variant="h6" component="div">
+            <Typography variant="subtitle1" component="div">
               Sekce 1
             </Typography>
           }

@@ -1,4 +1,10 @@
-import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import Image from "next/image";
 import React from "react";
@@ -7,10 +13,15 @@ const QuestionBlock = () => {
   return (
     <Card>
       <CardActionArea>
+        <CardHeader
+          title={
+            <Typography variant="subtitle1" className="flex justify-center">
+              Which image is more symmetrical?
+            </Typography>
+          }
+          className="pb-0"
+        />
         <CardContent className="space-y-4">
-          <Typography variant="h6" className="flex justify-center">
-            Which image is more symmetrical?
-          </Typography>
           <Box className="flex justify-center gap-32">
             <Image
               src="https://picsum.photos/200"

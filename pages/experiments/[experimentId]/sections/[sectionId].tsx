@@ -1,11 +1,12 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import AppBar from "../../../../src/Components/common/AppBar";
 import Breadcrumbs from "../../../../src/Components/common/Breadcrumbs";
-import SectionList from "../../../../src/Components/common/experiments/SectionList";
-import SectionDetailList from "../../../../src/Components/common/experiments/sections/SectionDetailList";
-import SectionSettingsCard from "../../../../src/Components/common/experiments/sections/SectionSettingsCard";
 import ContentWrapper from "../../../../src/Components/common/layout/ContentWrapper";
+import SectionDetailPageToolbar from "../../../../src/Components/experiments/SectionDetailPageToolbar";
+import SectionList from "../../../../src/Components/experiments/SectionList";
+import SectionDetailList from "../../../../src/Components/experiments/sections/SectionDetailList";
+import SectionSettingsCard from "../../../../src/Components/experiments/sections/SectionSettingsCard";
 
 const SectionDetailPage = () => {
   // TODO: experiment id from url
@@ -16,13 +17,8 @@ const SectionDetailPage = () => {
     <>
       <AppBar />
       <ContentWrapper>
-        <Box className="flex justify-between">
-          <Breadcrumbs />
-          <Box className="flex justify start items-center gap-4">
-            <Button variant="outlined">Experiment settings</Button>
-            <Button variant="text">Preview experiment</Button>
-          </Box>
-        </Box>
+        <Breadcrumbs />
+        <SectionDetailPageToolbar />
 
         <Box className="flex gap-8 h-5/6">
           <aside>
@@ -34,7 +30,7 @@ const SectionDetailPage = () => {
           </main>
 
           <aside>
-            <SectionSettingsCard sectionId={sectionId as string} />
+            <SectionSettingsCard />
           </aside>
         </Box>
       </ContentWrapper>

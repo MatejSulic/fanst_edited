@@ -11,11 +11,11 @@ const SectionBlock = () => {
     <Card>
       <CardActionArea>
         <CardHeader
-          title={<Typography variant="h6">Sekce 1</Typography>}
+          title={<Typography variant="subtitle1">Sekce 1</Typography>}
           className="pb-0"
         />
         <CardContent className="space-y-4">
-          <Typography>
+          <Typography variant="body1">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
             dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante
             ante, eget condimentum sem convallis eget. Sed sed enim ut arcu

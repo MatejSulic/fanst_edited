@@ -1,5 +1,6 @@
-import { CardContent, List, ListSubheader } from "@mui/material";
+import { List } from "@mui/material";
 import { Box } from "@mui/system";
+import NewSectionListItem from "./NewSectionListItem";
 import SectionListItem from "./SectionListItem";
 
 const SectionList = () => {
@@ -7,22 +8,13 @@ const SectionList = () => {
     <Box className="max-h-full overflow-y-auto w-64">
       <List
         aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Sekce experimentu
-          </ListSubheader>
-        }
-        className="w-full max-w-xs bg-white"
+        className="w-full max-w-xs bg-white py-0"
       >
         <SectionListItem />
         <SectionListItem />
         <SectionListItem />
         <SectionListItem />
-        <SectionListItem />
-        <SectionListItem />
-        <SectionListItem />
-        <SectionListItem />
-        <SectionListItem />
+        <NewSectionListItem />
       </List>
     </Box>
   );
