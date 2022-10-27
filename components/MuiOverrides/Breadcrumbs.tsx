@@ -2,6 +2,7 @@ import React from "react";
 import { Breadcrumbs as MuiBreadcrumbs, Link, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
+// TODO: refactor this component - only MuiBreadcrumbs override belongs here
 const Breadcrumbs = () => {
   function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     event.preventDefault();

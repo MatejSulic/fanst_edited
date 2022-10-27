@@ -1,11 +1,11 @@
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import AppBar from "../../../src/Components/common/AppBar";
-import Breadcrumbs from "../../../src/Components/common/Breadcrumbs";
-import ContentWrapper from "../../../src/Components/common/layout/ContentWrapper";
-import ExperimentDetailList from "../../../src/Components/experiments/ExperimentDetailList";
-import ExperimentDetailPageToolbar from "../../../src/Components/experiments/ExperimentDetailPageToolbar";
-import SectionList from "../../../src/Components/experiments/SectionList";
+import AppBar from "../../../components/common/AppBar";
+import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
+import ContentWrapper from "../../../components/common/layout/ContentWrapper";
+import ExperimentDetailList from "../../../components/experiments/ExperimentDetailList";
+import ExperimentDetailPageToolbar from "../../../components/experiments/ExperimentDetailPageToolbar";
+import SectionList from "../../../components/experiments/SectionList";
 
 const ExperimentDetailPage = () => {
   // TODO: experiment id from url

@@ -1,17 +1,30 @@
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
-import AppBar from "../../../../src/Components/common/AppBar";
-import Breadcrumbs from "../../../../src/Components/common/Breadcrumbs";
-import ContentWrapper from "../../../../src/Components/common/layout/ContentWrapper";
-import SectionDetailPageToolbar from "../../../../src/Components/experiments/SectionDetailPageToolbar";
-import SectionList from "../../../../src/Components/experiments/SectionList";
-import SectionDetailList from "../../../../src/Components/experiments/sections/SectionDetailList";
-import SectionSettingsCard from "../../../../src/Components/experiments/sections/SectionSettingsCard";
+import AppBar from "../../../../components/common/AppBar";
+import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
+import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
+import SectionDetailPageToolbar from "../../../../components/experiments/SectionDetailPageToolbar";
+import SectionList from "../../../../components/experiments/SectionList";
+import SectionDetailList from "../../../../components/experiments/sections/SectionDetailList";
+import SectionSettingsCard from "../../../../components/experiments/sections/SectionSettingsCard";
+import { useState } from "react";
+import { DropResult } from "react-beautiful-dnd";
+import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {
+  const [items, setItems] = useState(() => [...Array(10).keys()]);
   // TODO: experiment id from url
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
+
+  const handleDragEnd = ({ destination, source }: DropResult) => {
+    // dropped outside the list
+    if (!destination) return;
+
+    const newItems = reorderList(items, source.index, destination.index);
+
+    setItems(newItems);
+  };
 
   return (
     <>
@@ -25,8 +38,12 @@ const SectionDetailPage = () => {
             <SectionList />
           </aside>
 
-          <main>
-            <SectionDetailList sectionId={sectionId as string} />
+          <main className="pt-2">
+            <SectionDetailList
+              items={items}
+              sectionId={sectionId as string}
+              onDragEnd={handleDragEnd}
+            />
           </main>
 
           <aside>

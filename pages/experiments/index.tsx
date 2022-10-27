@@ -1,11 +1,11 @@
 import CreateIcon from "@mui/icons-material/Create";
 import { Button, Card, CardContent, List } from "@mui/material";
 import { Box } from "@mui/system";
-import AppBar from "../../src/Components/common/AppBar";
-import Breadcrumbs from "../../src/Components/common/Breadcrumbs";
-import ContentWrapper from "../../src/Components/common/layout/ContentWrapper";
-import CategoriesList from "../../src/Components/experiments-list/CategoriesList";
-import ExperimentListItem from "../../src/Components/experiments-list/ExperimentListItem";
+import AppBar from "../../components/common/AppBar";
+import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
+import ContentWrapper from "../../components/common/layout/ContentWrapper";
+import CategoriesList from "../../components/experiments-list/CategoriesList";
+import ExperimentListItem from "../../components/experiments-list/ExperimentListItem";
 
 const ExperimentsListPage = () => {
   return (
