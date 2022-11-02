@@ -5,20 +5,24 @@ import {
   Button,
   ClickAwayListener,
   Grow,
+  IconButton,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
+  ListItemSecondaryAction,
   ListItemText,
   MenuItem,
   MenuList,
   Paper,
   Popper,
 } from "@mui/material";
-import React from "react";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import TextTruncate from "react-text-truncate";
 
 const ExperimentListItem = () => {
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLButtonElement>(null);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef<HTMLButtonElement>(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -45,8 +49,8 @@ const ExperimentListItem = () => {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  const prevOpen = useRef(open);
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
@@ -55,14 +59,14 @@ const ExperimentListItem = () => {
   }, [open]);
 
   return (
-    <ListItem className="flex justify-between gap-8">
-      <div className="flex">
+    <>
+      <ListItem>
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Remy Sharp" />
         </ListItemAvatar>
         <ListItemText
           disableTypography
-          primary="Symmetry experiment"
+          primary={<Link href={"/experiments/42"}>Symmetry experiment</Link>}
           secondary={
             <TextTruncate
               textElement="span"
@@ -74,64 +78,61 @@ const ExperimentListItem = () => {
             />
           }
         />
-      </div>
+        <ListItemSecondaryAction>
+          <IconButton
+            ref={anchorRef}
+            aria-controls={open ? "composition-menu" : undefined}
+            aria-expanded={open ? "true" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+          >
+            <MoreHorizIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
 
-      <div>
-        <Button
-          variant="outlined"
-          ref={anchorRef}
-          aria-controls={open ? "composition-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          <MoreHorizIcon />
-        </Button>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-          className="z-10"
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom-start" ? "left top" : "left bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+        className="z-10"
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === "bottom-start" ? "left top" : "left bottom",
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList
+                  autoFocusItem={open}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                  onKeyDown={handleListKeyDown}
+                >
+                  <MenuItem onClick={handleClose}>Edit</MenuItem>
+                  <MenuItem onClick={handleClose}>Preview experiment</MenuItem>
+                  <MenuItem onClick={handleClose}>View results</MenuItem>
+                  <MenuItem
+                    onClick={handleClose}
+                    className="text-red-700 flex items-center gap-2"
                   >
-                    <MenuItem onClick={handleClose}>Edit</MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      Preview experiment
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>View results</MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      className="text-red-700 flex items-center gap-2"
-                    >
-                      <DeleteIcon />
-                      Delete
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    </ListItem>
+                    <DeleteIcon />
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </>
   );
 };
 

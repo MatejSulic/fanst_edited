@@ -8,9 +8,9 @@ const SectionSettingsCard = () => {
       </Typography>
       <form className="space-y-4 p-2">
         <TextField fullWidth label="Čas zobrazení otázky" />
-        <TextField fullWidth label="Další možnost nastavení..." />
-        <TextField fullWidth label="Další možnost nastavení..." />
-        <TextField fullWidth label="Další možnost nastavení..." />
+        <TextField fullWidth label="Šířka obrázků v cm" />
+        <TextField fullWidth label="Výška obrázků v cm" />
+        <TextField fullWidth label="Vzdálenost mezi obrázky" />
         <Box className="flex justify-end">
           <Button type="submit" variant="contained">
             Uložit sekci

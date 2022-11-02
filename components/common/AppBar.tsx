@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import Link from "next/link";
 import React from "react";
 
 const AppBar = () => {
@@ -20,7 +21,11 @@ const AppBar = () => {
     null
   );
 
-  const pages = ["Dashboard", "Experiments", "Results"];
+  const pages = {
+    Dashboard: "/dashboard",
+    Experiments: "/experiments",
+    Results: "/results",
+  };
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -61,7 +66,6 @@ const AppBar = () => {
             LOGO
           </Typography>
 
-          {/* FIXME: Small display menu */}
           <Box className="flex md:hidden flex-1">
             <IconButton
               size="large"
@@ -91,9 +95,14 @@ const AppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {Object.entries(pages).map(([key, value]) => (
+                <MenuItem
+                  key={value}
+                  component={Link}
+                  href={value}
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">{key}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -116,15 +125,17 @@ const AppBar = () => {
             LOGO
           </Typography>
           <Box className="hidden md:flex grow justify-center items-center gap-8">
-            {pages.map((page, idx) => (
-              <React.Fragment key={page}>
+            {Object.entries(pages).map(([key, value], idx) => (
+              <React.Fragment key={value}>
                 <Button
+                  component={Link}
+                  href={value}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  {page}
+                  {key}
                 </Button>
-                {idx < pages.length - 1 && <span>&#8226;</span>}
+                {idx < Object.keys(pages).length - 1 && <span>&#8226;</span>}
               </React.Fragment>
             ))}
           </Box>
@@ -132,7 +143,7 @@ const AppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" />
               </IconButton>
             </Tooltip>
             <Menu
