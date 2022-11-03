@@ -1,13 +1,15 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
+import { useRouter } from "next/router";
 import React from "react";
 import SectionBlock from "./SectionBlock";
 
-type Props = {
-  experimentId: string;
-};
+type Props = {};
 
-const ExperimentDetailList = ({ experimentId }: Props) => {
+const ExperimentDetailList = ({}: Props) => {
+  const router = useRouter();
+  const { experimentId } = router.query;
+
   return (
     <Card variant="outlined" sx={{ maxHeight: "100%", overflowY: "auto" }}>
       <CardHeader

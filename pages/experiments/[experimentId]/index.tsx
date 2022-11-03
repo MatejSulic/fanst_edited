@@ -27,7 +27,7 @@ const ExperimentDetailPage = () => {
           </aside>
 
           <main>
-            <ExperimentDetailList experimentId={experimentId as string} />
+            <ExperimentDetailList />
           </main>
         </Box>
       </ContentWrapper>

@@ -5,7 +5,7 @@ import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import SectionDetailPageToolbar from "../../../../components/experiments/section-detail/SectionDetailPageToolbar";
 import SectionList from "../../../../components/experiments/SectionList";
-import SectionDetailList from "../../../../components/experiments/section-detail/SectionDetailList";
+import SectionDetailList from "../../../../components/experiments/section-detail/SectionDetailCard";
 import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
@@ -39,11 +39,7 @@ const SectionDetailPage = () => {
           </aside>
 
           <main className="pt-2">
-            <SectionDetailList
-              items={items}
-              sectionId={sectionId as string}
-              onDragEnd={handleDragEnd}
-            />
+            <SectionDetailList items={items} onDragEnd={handleDragEnd} />
           </main>
 
           <aside>

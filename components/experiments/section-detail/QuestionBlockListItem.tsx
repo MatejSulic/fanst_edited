@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Draggable, resetServerContext } from "react-beautiful-dnd";
 
 type Props = {
@@ -51,7 +51,9 @@ const QuestionBlockListItem = ({ item, index }: Props) => {
                 sx={{ pb: 0 }}
               />
               <CardContent>
-                <Box className="flex justify-center gap-32">
+                <Box
+                  sx={{ display: "flex", justifyContent: "center", gap: 16 }}
+                >
                   <Image
                     src="https://picsum.photos/200"
                     alt="first image"

@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
   DragDropContext,
@@ -19,12 +21,14 @@ import {
 import QuestionBlockListItem from "./QuestionBlockListItem";
 
 type Props = {
-  sectionId: string;
   items: number[];
   onDragEnd: (res: DropResult) => void;
 };
 
-const SectionDetailList = ({ sectionId, items, onDragEnd }: Props) => {
+const SectionDetailList = ({ items, onDragEnd }: Props) => {
+  const router = useRouter();
+  const { experimentId, sectionId } = router.query;
+
   const [loadedInBrowser, setloadedInBrowser] = useState(false);
 
   useEffect(() => {
@@ -37,7 +41,10 @@ const SectionDetailList = ({ sectionId, items, onDragEnd }: Props) => {
         <CardHeader
           action={
             <Tooltip title="Close section detail">
-              <IconButton>
+              <IconButton
+                component={Link}
+                href={`/experiments/${experimentId}`}
+              >
                 <CloseIcon />
               </IconButton>
             </Tooltip>
