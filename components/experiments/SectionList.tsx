@@ -1,6 +1,5 @@
 import { List } from "@mui/material";
 import { Box } from "@mui/system";
-import NewSectionListItem from "./NewSectionListItem";
 import SectionListItem from "./SectionListItem";
 
 const SectionList = () => {
@@ -14,7 +13,6 @@ const SectionList = () => {
         <SectionListItem />
         <SectionListItem />
         <SectionListItem />
-        <NewSectionListItem />
       </List>
     </Box>
   );

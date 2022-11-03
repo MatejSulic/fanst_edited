@@ -22,7 +22,7 @@ const SectionListItem = () => {
           }
           className="pb-0"
         />
-        <CardContent className="space-y-4">
+        <CardContent>
           <Typography variant="body2" component="div">
             <TextTruncate
               line={4}

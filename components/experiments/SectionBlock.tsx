@@ -9,6 +9,7 @@ import {
   ClickAwayListener,
   Grow,
   IconButton,
+  ListItemIcon,
   MenuItem,
   MenuList,
   Paper,
@@ -74,7 +75,7 @@ const SectionBlock = () => {
           }
           className="pb-0"
         />
-        <CardContent className="space-y-4">
+        <CardContent>
           <Typography variant="body1">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
             dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante
@@ -119,9 +120,11 @@ const SectionBlock = () => {
                 >
                   <MenuItem
                     onClick={handleClose}
-                    className="text-red-700 flex items-center gap-2"
+                    sx={{ color: (theme) => theme.palette.warning.main }}
                   >
-                    <DeleteIcon />
+                    <ListItemIcon>
+                      <DeleteIcon color="warning" />
+                    </ListItemIcon>
                     Delete section
                   </MenuItem>
                 </MenuList>

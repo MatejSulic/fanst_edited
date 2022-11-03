@@ -1,3 +1,4 @@
+import { Stack } from "@mui/system";
 import React from "react";
 
 type Props = {
@@ -7,9 +8,12 @@ type Props = {
 const ContentWrapper = ({ children }: Props) => {
   return (
     <div className="max-w-7xl mx-auto max-h-screen h-screen">
-      <div className="p-8 space-y-8 max-h-full h-full overflow-y-hidden">
+      <Stack
+        spacing={4}
+        sx={{ p: 1, maxHeight: "100%", height: "100%", overflowY: "hidden" }}
+      >
         {children}
-      </div>
+      </Stack>
     </div>
   );
 };

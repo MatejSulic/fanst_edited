@@ -1,5 +1,5 @@
 import CreateIcon from "@mui/icons-material/Create";
-import { Button, Card, CardContent, List } from "@mui/material";
+import { Button, Card, CardContent, List, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AppBar from "../../components/common/AppBar";
 import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
@@ -54,7 +54,13 @@ const ExperimentsListPage = ({
 
           <Card variant="outlined">
             <CardContent>
-              <List className="w-full max-w-3xl bg-white space-y-4">
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: (theme) => theme.breakpoints.values["md"],
+                  backgroundColor: "white",
+                }}
+              >
                 <ExperimentListItem />
                 <ExperimentListItem />
                 <ExperimentListItem />

@@ -48,9 +48,9 @@ const QuestionBlockListItem = ({ item, index }: Props) => {
                     {item} - Which image is more symmetrical?
                   </Typography>
                 }
-                className="pb-0"
+                sx={{ pb: 0 }}
               />
-              <CardContent className="space-y-4">
+              <CardContent>
                 <Box className="flex justify-center gap-32">
                   <Image
                     src="https://picsum.photos/200"
@@ -60,7 +60,7 @@ const QuestionBlockListItem = ({ item, index }: Props) => {
                   />
                   <Image
                     src="https://picsum.photos/200"
-                    alt="first image"
+                    alt="second image"
                     width={200}
                     height={200}
                   />

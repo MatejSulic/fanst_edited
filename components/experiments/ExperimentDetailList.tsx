@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { Stack } from "@mui/system";
 import React from "react";
 import SectionBlock from "./SectionBlock";
 
@@ -8,25 +9,25 @@ type Props = {
 
 const ExperimentDetailList = ({ experimentId }: Props) => {
   return (
-    <Card variant="outlined" className="max-h-full overflow-y-auto">
+    <Card variant="outlined" sx={{ maxHeight: "100%", overflowY: "auto" }}>
       <CardHeader
         title={<Typography variant="h6">Experiment {experimentId}</Typography>}
-        className="pb-0"
+        sx={{ pb: 0 }}
       />
-      <CardContent className="space-y-8">
-        <div className="space-y-4">
+      <CardContent>
+        <Stack spacing={1}>
           <Typography variant="body2">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
             dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante
             ante, eget condimentum sem convallis eget. Sed sed enim ut arcu
             suscipit fermentum.
           </Typography>
-        </div>
 
-        <SectionBlock />
-        <SectionBlock />
-        <SectionBlock />
-        <SectionBlock />
+          <SectionBlock />
+          <SectionBlock />
+          <SectionBlock />
+          <SectionBlock />
+        </Stack>
       </CardContent>
     </Card>
   );
