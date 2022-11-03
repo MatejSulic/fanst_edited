@@ -7,7 +7,7 @@ import {
   Stack,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import Dialog from "../../MuiOverrides/Dialog";
+import Dialog from "../../../MuiOverrides/Dialog";
 import SectionType2AFC from "./SectionType2AFC";
 import SectionTypeAcknowledgement from "./SectionTypeAcknowledgement";
 import SectionTypeIntroduction from "./SectionTypeIntroduction";
