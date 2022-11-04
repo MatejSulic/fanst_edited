@@ -8,10 +8,8 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Dialog from "../../../MuiOverrides/Dialog";
-import SectionType2AFC from "./SectionType2AFC";
-import SectionTypeAcknowledgement from "./SectionTypeAcknowledgement";
-import SectionTypeBlank from "./SectionTypeBlank";
-import SectionTypeIntroduction from "./SectionTypeIntroduction";
+import QuestionTypePlainText from "./QuestionTypePlainText";
+import QuestionTypeSelectImage from "./QuestionTypeSelectImage";
 
 type Props = {
   open: boolean;
@@ -19,20 +17,18 @@ type Props = {
   onSave: () => void;
 };
 
-const NewSectionDialog = ({ open, onClose, onSave }: Props) => {
+const NewQuestionDialog = ({ open, onClose, onSave }: Props) => {
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth maxWidth="sm">
-      <DialogTitle>New Section</DialogTitle>
+      <DialogTitle>New Question</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Select the type of section you would like to add:
+          Select the type of question you would like to add:
         </DialogContentText>
         <Box sx={{ mt: 1 }}>
           <Stack spacing={1}>
-            <SectionTypeIntroduction />
-            <SectionType2AFC />
-            <SectionTypeBlank />
-            <SectionTypeAcknowledgement />
+            <QuestionTypeSelectImage />
+            <QuestionTypePlainText />
           </Stack>
         </Box>
       </DialogContent>
@@ -44,11 +40,11 @@ const NewSectionDialog = ({ open, onClose, onSave }: Props) => {
           Cancel
         </Button>
         <Button variant="contained" onClick={() => onSave()}>
-          Add section
+          Add Question
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default NewSectionDialog;
+export default NewQuestionDialog;

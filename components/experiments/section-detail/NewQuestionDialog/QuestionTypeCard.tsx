@@ -14,7 +14,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const SectionTypeCard = ({ title, subheader, children }: Props) => {
+const QuestionTypeCard = ({ title, subheader, children }: Props) => {
   return (
     <Card variant="outlined" sx={{ maxWidth: "100%" }}>
       <CardActionArea>
@@ -42,4 +42,4 @@ const SectionTypeCard = ({ title, subheader, children }: Props) => {
   );
 };
 
-export default SectionTypeCard;
+export default QuestionTypeCard;
