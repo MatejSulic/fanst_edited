@@ -1,0 +1,42 @@
+[
+  {
+    "id": "0",
+    "title": "Symmetry Experiment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam, dui nec placerat scelerisque, ex enim auctor ex, a mattis tellus magna vitae tortor. Vivamus dolor quam, facilisis nec nisl porttitor, efficitur cursus justo. Vivamus sagittis malesuada maximus. Maecenas et quam porttitor, eleifend mi quis, finibus ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent massa lacus, commodo id turpis non, efficitur posuere lectus. Duis ex ipsum, sodales eu mauris id, eleifend bibendum elit.",
+    "sections": ["0", "1", "2", "3"],
+    "participants": [],
+    "settings": {
+      "maximumTimeValidity": 90,
+      "numberOfParticipantGroups": 3
+    }
+  },
+  {
+    "id": "1",
+    "title": "Design Experiment",
+    "description": "Donec at nisl at augue hendrerit tincidunt. Integer vitae lorem egestas elit tristique eleifend ac at tortor. Sed auctor feugiat imperdiet. Pellentesque ex elit, bibendum ut sagittis vel, maximus sed tortor. Nulla fermentum quis arcu ac viverra. Etiam congue posuere ipsum mollis lobortis. Duis sollicitudin sagittis placerat. Duis et egestas quam. Sed cursus, diam et pulvinar pulvinar, turpis enim venenatis erat, quis porta turpis metus sed nunc. In interdum neque metus, lacinia eleifend eros placerat sed. Etiam rutrum volutpat enim a placerat. Nam interdum dolor tristique tortor consectetur tristique.",
+    "sections": ["4", "5", "6"],
+    "participants": [],
+    "settings": {
+      "maximumTimeValidity": 60,
+      "numberOfParticipantGroups": 2
+    }
+  },
+  {
+    "id": "2",
+    "title": "Random Experiment",
+    "description": "Vivamus pellentesque hendrerit lobortis. Mauris et arcu sodales, placerat purus scelerisque, luctus nibh. Mauris odio augue, tempor nec viverra in, aliquam sed purus.",
+    "sections": ["7"],
+    "participants": [],
+    "settings": {
+      "numberOfParticipantGroups": 5
+    }
+  },
+  {
+    "id": "3",
+    "title": "Random Experiment",
+    "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis sed suscipit odio. Aenean non justo varius, convallis sapien a, aliquam purus. Sed vitae dui semper, laoreet nisl vel, vulputate massa. Curabitur sit amet mattis nunc. Nam venenatis nibh nec gravida vehicula. Nullam purus ipsum, ultrices ac urna ac, faucibus pulvinar tellus. Nunc quis aliquet eros, et consectetur elit. Ut vestibulum lacus vitae est semper consequat. Vestibulum in viverra ex, ac maximus sem.",
+    "sections": [],
+    "participants": [],
+    "settings": {}
+  }
+]

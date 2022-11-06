@@ -1,0 +1,79 @@
+[
+  {
+    "id": "0",
+    "experimentId": "0",
+    "title": "Title 0",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "INTRODUCTION",
+    "questions": ["0"],
+    "settings": {}
+  },
+  {
+    "id": "1",
+    "experimentId": "0",
+    "title": "Title 1",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "2AFC",
+    "questions": ["1"],
+    "settings": {
+      "questionDisplayTime": 30,
+      "distanceOfImages": 40,
+      "imageWidth": 70,
+      "imageHeight": 70
+    }
+  },
+  {
+    "id": "2",
+    "experimentId": "0",
+    "title": "Title 2",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "BLANK",
+    "questions": ["2", "3", "4", "5", "6", "7"],
+    "settings": {}
+  },
+  {
+    "id": "3",
+    "experimentId": "0",
+    "title": "Title 3",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "ACKNOWLEDGEMENT",
+    "questions": ["8"],
+    "settings": {}
+  },
+  {
+    "id": "4",
+    "experimentId": "1",
+    "title": "Title 4",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "INTRODUCTION",
+    "questions": ["9"],
+    "settings": {}
+  },
+  {
+    "id": "5",
+    "experimentId": "1",
+    "title": "Title 5",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "BLANK",
+    "questions": ["10", "11", "12"],
+    "settings": {}
+  },
+  {
+    "id": "6",
+    "experimentId": "1",
+    "title": "Title 6",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "ACKNOWLEDGEMENT",
+    "questions": ["13"],
+    "settings": {}
+  },
+  {
+    "id": "7",
+    "experimentId": "2",
+    "title": "Title 7",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum scelerisque erat, quis mattis neque dignissim egestas. Nulla hendrerit purus at turpis ultrices, quis facilisis nisl ornare.",
+    "type": "2AFC",
+    "questions": ["14"],
+    "settings": {}
+  }
+]

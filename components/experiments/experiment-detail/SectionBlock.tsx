@@ -17,11 +17,20 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { SectionType } from "../../../types/section";
 
-const SectionBlock = () => {
+type Props = {
+  section: SectionType;
+};
+
+const SectionBlock = ({ section }: Props) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
+
+  const router = useRouter();
+  const { experimentId } = router.query;
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -61,7 +70,7 @@ const SectionBlock = () => {
     <>
       <Card>
         <CardHeader
-          title={<Typography variant="subtitle1">Sekce 1</Typography>}
+          title={<Typography variant="subtitle1">{section.title}</Typography>}
           action={
             <IconButton
               ref={anchorRef}
@@ -76,19 +85,10 @@ const SectionBlock = () => {
           className="pb-0"
         />
         <CardContent>
-          <Typography variant="body1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
-            dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante
-            ante, eget condimentum sem convallis eget. Sed sed enim ut arcu
-            suscipit fermentum. Proin id elementum nisi. Mauris iaculis
-            sollicitudin felis, quis viverra orci mollis a. Fusce semper, tellus
-            quis posuere rhoncus, ante nulla faucibus nibh, et vestibulum est
-            turpis vitae sapien. Nam luctus laoreet aliquam. Quisque justo enim,
-            viverra vel ultrices a, vulputate at ligula.
-          </Typography>
+          <Typography variant="body1">{section.description}</Typography>
         </CardContent>
         <CardActions>
-          <Link href="/experiments/42/sections/7">
+          <Link href={`/experiments/${experimentId}/sections/${section.id}`}>
             <Button size="small">Edit Section</Button>
           </Link>
         </CardActions>

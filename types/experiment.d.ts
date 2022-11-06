@@ -1,3 +1,5 @@
+import { SectionType } from "./section";
+
 export type ExperimentSettingsType = {
   maximumTimeValidity: number; // number of minutes
   numberOfParticipantGroups: number;
@@ -10,5 +12,5 @@ export type ExperimentType = {
   sections: string[]; // section ids
   participants: string[]; // participant ids
 
-  setting: ExperimentSettingsType;
+  settings: ExperimentSettingsType;
 };

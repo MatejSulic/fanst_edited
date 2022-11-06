@@ -1,7 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
+import { SectionType } from "../../../types/section";
 
-const SectionSettingsCard = () => {
+type Props = {
+  sectionId: SectionType["id"];
+};
+
+const SectionSettingsCard = ({ sectionId }: Props) => {
   return (
     <Box
       sx={{

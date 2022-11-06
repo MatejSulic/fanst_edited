@@ -3,7 +3,9 @@ import type { AppProps } from "next/app";
 import { StyledEngineProvider } from "@mui/material";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: Infinity } },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -18,14 +18,17 @@ import {
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
+import { QuestionType } from "../../../types/question";
+import { SectionType } from "../../../types/section";
 import QuestionBlockListItem from "./QuestionBlockListItem";
 
 type Props = {
-  items: number[];
+  section: SectionType;
+  questions: QuestionType[];
   onDragEnd: (res: DropResult) => void;
 };
 
-const SectionDetailList = ({ items, onDragEnd }: Props) => {
+const SectionDetailList = ({ section, questions, onDragEnd }: Props) => {
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
 
@@ -49,26 +52,21 @@ const SectionDetailList = ({ items, onDragEnd }: Props) => {
               </IconButton>
             </Tooltip>
           }
-          title={<Typography variant="h6">Section {sectionId}</Typography>}
+          title={<Typography variant="h6">{section.title}</Typography>}
           className="pb-0"
         />
         <CardContent>
           <Stack spacing={2}>
-            <Typography variant="body2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
-              dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante
-              ante, eget condimentum sem convallis eget. Sed sed enim ut arcu
-              suscipit fermentum.
-            </Typography>
+            <Typography variant="body2">{section.description}</Typography>
             <Droppable droppableId="section-detail-list-droppable">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <List sx={{ p: 0, m: 0 }}>
                     <Stack spacing={1}>
-                      {items.map((item, idx) => (
+                      {questions.map((item, idx) => (
                         <QuestionBlockListItem
-                          key={item}
-                          item={item}
+                          key={item.id}
+                          question={item}
                           index={idx}
                         />
                       ))}

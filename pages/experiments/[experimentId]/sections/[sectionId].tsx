@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import AppBar from "../../../../components/common/AppBar";
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
@@ -10,11 +10,23 @@ import SectionSettingsCard from "../../../../components/experiments/section-deta
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { reorderList } from "../../../../utils/list";
+import { useExperimentSections } from "../../../../hooks/experiments/experiment-detail/useExperimentSections";
+import { useSectionQuestions } from "../../../../hooks/experiments/experiment-detail/useSectionDetail";
 
 const SectionDetailPage = () => {
   const [items, setItems] = useState(() => [...Array(10).keys()]);
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
+  const {
+    data: questions,
+    isLoading,
+    isError,
+  } = useSectionQuestions(experimentId as string, sectionId as string);
+  const {
+    data: sections,
+    isLoading: sectionsIsLoading,
+    isError: sectionsIsError,
+  } = useExperimentSections(experimentId as string);
 
   const handleDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -25,6 +37,14 @@ const SectionDetailPage = () => {
     setItems(newItems);
   };
 
+  if (isLoading || sectionsIsLoading) {
+    return <Typography variant="h1">Loading...</Typography>;
+  }
+
+  if (isError || sectionsIsError) {
+    return <Typography variant="h1">Error</Typography>;
+  }
+
   return (
     <>
       <AppBar />
@@ -34,15 +54,19 @@ const SectionDetailPage = () => {
 
         <Box className="flex gap-8 h-5/6">
           <aside>
-            <SectionList />
+            <SectionList sections={sections} />
           </aside>
 
           <main className="pt-2">
-            <SectionDetailList items={items} onDragEnd={handleDragEnd} />
+            <SectionDetailList
+              section={sections.find((item) => item.id === sectionId)!}
+              questions={questions}
+              onDragEnd={handleDragEnd}
+            />
           </main>
 
           <aside>
-            <SectionSettingsCard />
+            <SectionSettingsCard sectionId={sectionId as string} />
           </aside>
         </Box>
       </ContentWrapper>

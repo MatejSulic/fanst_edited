@@ -1,3 +1,5 @@
+import { QuestionType } from "./question";
+
 export type SectionTypeType =
   | "INTRODUCTION"
   | "2AFC"
@@ -5,7 +7,7 @@ export type SectionTypeType =
   | "ACKNOWLEDGEMENT";
 
 export type SectionSettingsType = {
-  questionDisplayTime: number; // time in seconds
+  questionDisplayTime?: number; // time in seconds (indifinitely when undefined)
   distanceOfImages?: number; // distance in mm (only for '2AFC' or 'Blank' type)
   imageWidth?: number; // in mm (only for '2AFC' or 'Blank' type)
   imageHeight?: number; // in mm (only for '2AFC' or 'Blank' type)
@@ -18,5 +20,6 @@ export type SectionType = {
   description: string;
   type: SectionTypeType;
   questions: string[]; // question ids
-  setting: SectionSettingsType;
+
+  settings: SectionSettingsType;
 };

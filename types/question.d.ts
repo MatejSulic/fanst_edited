@@ -1,12 +1,13 @@
-export type QuestionTypeType = "PLAIN_TEXT" | "IMAGE_CHOICE";
+export type QuestionTypeType = "PLAIN_TEXT" | "IMAGE_CHOICE" | "2AFC";
 
 export type QuestionSettingsType = {};
 
 export type QuestionType = {
   id: string;
-  experimentId: string;
   sectionId: string;
   title: string;
   type: QuestionTypeType;
-  setting: QuestionSettingsType;
+  images: string[]; // images associated with the question
+
+  settings: QuestionSettingsType;
 };

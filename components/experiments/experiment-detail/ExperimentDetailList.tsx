@@ -1,34 +1,30 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { useRouter } from "next/router";
-import React from "react";
+import { ExperimentType } from "../../../types/experiment";
+import { SectionType } from "../../../types/section";
 import SectionBlock from "./SectionBlock";
 
-type Props = {};
+type Props = {
+  experiment: ExperimentType;
+  sections: SectionType[];
+};
 
-const ExperimentDetailList = ({}: Props) => {
-  const router = useRouter();
-  const { experimentId } = router.query;
-
+const ExperimentDetailList = ({ experiment, sections }: Props) => {
   return (
     <Card variant="outlined" sx={{ maxHeight: "100%", overflowY: "auto" }}>
       <CardHeader
-        title={<Typography variant="h6">Experiment {experimentId}</Typography>}
+        title={<Typography variant="h6">{experiment.title}</Typography>}
         sx={{ pb: 0 }}
       />
       <CardContent>
-        <Stack spacing={1}>
-          <Typography variant="body2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
-            dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante
-            ante, eget condimentum sem convallis eget. Sed sed enim ut arcu
-            suscipit fermentum.
-          </Typography>
+        <Stack spacing={2}>
+          <Typography variant="body2">{experiment.description}</Typography>
 
-          <SectionBlock />
-          <SectionBlock />
-          <SectionBlock />
-          <SectionBlock />
+          <Stack spacing={1}>
+            {sections.map((item) => (
+              <SectionBlock key={item.id} section={item} />
+            ))}
+          </Stack>
         </Stack>
       </CardContent>
     </Card>

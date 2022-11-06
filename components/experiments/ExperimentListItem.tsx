@@ -1,12 +1,10 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
-  Avatar,
   ClickAwayListener,
   Grow,
   IconButton,
   ListItem,
-  ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
   MenuItem,
@@ -17,8 +15,13 @@ import {
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import TextTruncate from "react-text-truncate";
+import { ExperimentType } from "../../types/experiment";
 
-const ExperimentListItem = () => {
+type Props = {
+  experiment: ExperimentType;
+};
+
+const ExperimentListItem = ({ experiment }: Props) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
@@ -59,20 +62,19 @@ const ExperimentListItem = () => {
   return (
     <>
       <ListItem>
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" />
-        </ListItemAvatar>
         <ListItemText
           disableTypography
-          primary={<Link href={"/experiments/42"}>Symmetry experiment</Link>}
+          primary={
+            <Link href={`/experiments/${experiment.id}`}>
+              {experiment.title}
+            </Link>
+          }
           secondary={
             <TextTruncate
               textElement="span"
               containerClassName="text-gray-500 text-sm pt-2"
               line={2}
-              text={
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id dignissim eros. Ut eu imperdiet augue. Phasellus porttitor ante ante, eget condimentum sem convallis eget. Sed sed enim ut arcu suscipit fermentum. Proin id elementum nisi. Mauris iaculis sollicitudin felis, quis viverra orci mollis a. Fusce semper, tellus quis posuere rhoncus, ante nulla faucibus nibh, et vestibulum est turpis vitae sapien. Nam luctus laoreet aliquam. Quisque justo enim, viverra vel ultrices a, vulputate at ligula. Aliquam fringilla est in nibh bibendum, pretium tempor nisl lacinia. Vivamus tincidunt lacus ut nulla semper, ullamcorper vehicula velit convallis. Integer ex velit, aliquet eget vulputate vitae, congue porta odio. Curabitur sit amet vulputate diam, in bibendum dui."
-              }
+              text={experiment.description}
             />
           }
         />
@@ -96,7 +98,7 @@ const ExperimentListItem = () => {
         placement="bottom-start"
         transition
         disablePortal
-        className="z-10"
+        sx={{ zIndex: 10 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow

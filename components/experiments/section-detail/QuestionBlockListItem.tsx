@@ -10,13 +10,14 @@ import { Box } from "@mui/system";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Draggable, resetServerContext } from "react-beautiful-dnd";
+import { QuestionType } from "../../../types/question";
 
 type Props = {
-  item: number;
+  question: QuestionType;
   index: number;
 };
 
-const QuestionBlockListItem = ({ item, index }: Props) => {
+const QuestionBlockListItem = ({ question, index }: Props) => {
   const [loadedInBrowser, setloadedInBrowser] = useState(false);
 
   useEffect(() => {
@@ -25,8 +26,8 @@ const QuestionBlockListItem = ({ item, index }: Props) => {
 
   return loadedInBrowser ? (
     <Draggable
-      key={item}
-      draggableId={`section-detail-list-draggable-${String(item)}`}
+      key={question.id}
+      draggableId={`section-detail-list-draggable-${question.id}`}
       index={index}
     >
       {(provided, snapshot) => (
@@ -45,7 +46,7 @@ const QuestionBlockListItem = ({ item, index }: Props) => {
                     variant="subtitle1"
                     className="flex justify-center"
                   >
-                    {item} - Which image is more symmetrical?
+                    {question.title}
                   </Typography>
                 }
                 sx={{ pb: 0 }}
