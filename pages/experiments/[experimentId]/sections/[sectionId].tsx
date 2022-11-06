@@ -4,7 +4,7 @@ import AppBar from "../../../../components/common/AppBar";
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import SectionDetailPageToolbar from "../../../../components/experiments/section-detail/SectionDetailPageToolbar";
-import SectionList from "../../../../components/experiments/SectionList";
+import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
 import SectionDetailList from "../../../../components/experiments/section-detail/SectionDetailCard";
 import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import { useState } from "react";
@@ -13,7 +13,6 @@ import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {
   const [items, setItems] = useState(() => [...Array(10).keys()]);
-  // TODO: experiment id from url
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
 

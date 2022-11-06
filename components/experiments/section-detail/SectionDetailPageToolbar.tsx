@@ -6,6 +6,7 @@ import NewQuestionDialog from "./NewQuestionDialog";
 
 const SectionDetailPageToolbar = () => {
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
+
   return (
     <>
       <PageToolbar>

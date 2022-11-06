@@ -4,10 +4,10 @@ import { Box } from "@mui/system";
 import AppBar from "../../components/common/AppBar";
 import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
 import ContentWrapper from "../../components/common/layout/ContentWrapper";
-import CategoriesList from "../../components/experiments-list/CategoriesList";
-import ExperimentListItem from "../../components/experiments-list/ExperimentListItem";
+import CategoriesList from "../../components/experiments/CategoriesList";
 import clientPromise from "../../lib/mongodb";
 import { InferGetServerSidePropsType } from "next";
+import ExperimentListItem from "../../components/experiments/ExperimentListItem";
 
 export async function getServerSideProps(context) {
   try {

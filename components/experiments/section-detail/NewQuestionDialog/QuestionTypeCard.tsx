@@ -34,7 +34,7 @@ const QuestionTypeCard = ({ title, subheader, children }: Props) => {
         )}
         {children && (
           <CardContent>
-            <Box sx={{ opacity: 0.5, pointerEvents: "none" }}>{children}</Box>
+            <Box sx={{ opacity: 0.7, pointerEvents: "none" }}>{children}</Box>
           </CardContent>
         )}
       </CardActionArea>

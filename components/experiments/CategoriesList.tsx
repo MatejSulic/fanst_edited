@@ -2,8 +2,6 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import {
   Box,
-  Card,
-  CardContent,
   List,
   ListItemButton,
   ListItemIcon,
@@ -13,8 +11,6 @@ import {
 
 const CategoriesList = () => {
   return (
-    // <Box className="py-1 border border-solid border-gray-200 rounded shadow-sm">
-    // <Card variant="outlined">
     <Box>
       <List
         aria-labelledby="nested-list-subheader"
