@@ -1,17 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import path from "path";
-import { promises as fs } from "fs";
+import Experiment from "../../../lib/db/models/Experiment";
+import dbConnect from "../../../lib/db/mongooseDb";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await dbConnect();
+
   if (req.method === "GET") {
-    const jsonDirectory = path.join(process.cwd(), "mock");
-    const fileContents = await fs.readFile(
-      jsonDirectory + "/experimentList.json",
-      "utf8"
-    );
-    res.status(200).json(JSON.parse(fileContents));
+    try {
+      const experiments = await Experiment.find({});
+      res.status(200).json({ success: true, data: experiments });
+    } catch (error) {
+      res.status(400).json({ success: false });
+    }
+  } else if (req.method === "POST") {
+    try {
+      const createdExperiment = new Experiment(req.body);
+      createdExperiment.save();
+      res.status(200).json({ success: true, data: createdExperiment });
+    } catch (error) {
+      res.status(400).json({ success: false });
+    }
   }
 }

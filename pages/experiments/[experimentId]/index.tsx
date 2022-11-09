@@ -1,13 +1,14 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import AppBar from "../../../components/common/AppBar";
 import ContentWrapper from "../../../components/common/layout/ContentWrapper";
 import ExperimentDetailList from "../../../components/experiments/experiment-detail/ExperimentDetailList";
 import ExperimentDetailPageToolbar from "../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
 import SectionList from "../../../components/experiments/section-list-aside/SectionList";
 import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
-import { useExperimentSections } from "../../../hooks/experiments/experiment-detail/useExperimentSections";
+import { useSections } from "../../../hooks/experiments/experiment-detail/useSections";
 import { useExperiments } from "../../../hooks/experiments/useExperiments";
 
 const ExperimentDetailPage = () => {
@@ -17,7 +18,8 @@ const ExperimentDetailPage = () => {
     data: sections,
     isLoading,
     isError,
-  } = useExperimentSections(experimentId as string);
+  } = useSections(experimentId as string | undefined);
+
   const {
     data: experiments,
     isLoading: experimentsIsLoading,
@@ -47,10 +49,16 @@ const ExperimentDetailPage = () => {
           </aside>
 
           <main>
-            <ExperimentDetailList
-              experiment={experiments.find((item) => item.id === experimentId)!}
-              sections={sections}
-            />
+            {experiments.length > 0 && (
+              <ExperimentDetailList
+                experiment={
+                  experiments.find(
+                    (item) => item._id.toString() === experimentId
+                  )!
+                }
+                sections={sections}
+              />
+            )}
           </main>
         </Box>
       </ContentWrapper>

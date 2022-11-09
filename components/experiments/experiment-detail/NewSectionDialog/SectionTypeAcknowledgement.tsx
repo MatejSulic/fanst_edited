@@ -1,12 +1,15 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import TextTruncate from "react-text-truncate";
-import SectionTypeCard from "./SectionTypeCard";
+import SectionTypeCard, { SectionTypeCardSharedProps } from "./SectionTypeCard";
 
-const SectionTypeAcknowledgement = () => {
+const SectionTypeAcknowledgement = ({
+  ...props
+}: SectionTypeCardSharedProps) => {
   return (
     <SectionTypeCard
       title="Acknowledgement"
       subheader="Predefined section including acknowledgement and a button to cancel the GDPR consent"
+      {...props}
     >
       <Stack spacing={2}>
         <Typography variant="body2" color="text.secondary">
@@ -26,10 +29,15 @@ const SectionTypeAcknowledgement = () => {
             columnGap: 2,
           }}
         >
-          <Button variant="outlined" size="small" color="warning">
+          <Button
+            variant="outlined"
+            size="small"
+            color="warning"
+            component="div"
+          >
             Remove consent
           </Button>
-          <Button variant="contained" size="small">
+          <Button variant="contained" size="small" component="div">
             Finish experiment
           </Button>
         </Box>

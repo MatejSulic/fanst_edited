@@ -1,6 +1,6 @@
 import { List } from "@mui/material";
 import { Box } from "@mui/system";
-import { SectionType } from "../../../types/section";
+import { SectionType } from "../../../types/section/section";
 import SectionListItem from "./SectionListItem";
 
 type Props = {
@@ -9,13 +9,14 @@ type Props = {
 
 const SectionList = ({ sections }: Props) => {
   return (
-    <Box className="max-h-full overflow-y-auto w-64">
-      <List
-        aria-labelledby="nested-list-subheader"
-        className="w-full max-w-xs bg-white py-0"
-      >
+    <Box sx={{ maxHeight: "100%", overflowY: "auto", width: 256 }}>
+      <List sx={{ width: "100%", maxWidth: 320, py: 0 }}>
         {sections.map((item, idx) => (
-          <SectionListItem key={item.id} idx={idx + 1} section={item} />
+          <SectionListItem
+            key={item._id.toString()}
+            idx={idx + 1}
+            section={item}
+          />
         ))}
       </List>
     </Box>

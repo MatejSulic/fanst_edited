@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import TextTruncate from "react-text-truncate";
-import { SectionType } from "../../../types/section";
+import { SectionType } from "../../../types/section/section";
 
 type Props = {
   idx: number;

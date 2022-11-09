@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { ExperimentType } from "../../../types/experiment";
-import { SectionType } from "../../../types/section";
+import { SectionType } from "../../../types/section/section";
 import SectionBlock from "./SectionBlock";
 
 type Props = {
@@ -11,7 +11,15 @@ type Props = {
 
 const ExperimentDetailList = ({ experiment, sections }: Props) => {
   return (
-    <Card variant="outlined" sx={{ maxHeight: "100%", overflowY: "auto" }}>
+    <Card
+      variant="outlined"
+      sx={{
+        width: (theme) => theme.breakpoints.values["md"],
+        maxWidth: (theme) => theme.breakpoints.values["md"],
+        maxHeight: "100%",
+        overflowY: "auto",
+      }}
+    >
       <CardHeader
         title={<Typography variant="h6">{experiment.title}</Typography>}
         sx={{ pb: 0 }}
@@ -22,7 +30,7 @@ const ExperimentDetailList = ({ experiment, sections }: Props) => {
 
           <Stack spacing={1}>
             {sections.map((item) => (
-              <SectionBlock key={item.id} section={item} />
+              <SectionBlock key={item._id.toString()} section={item} />
             ))}
           </Stack>
         </Stack>

@@ -10,12 +10,12 @@ const ExperimentSettingsSchema = new Schema<ExperimentSettingsType>({
 });
 
 const ExperimentSchema = new Schema<ExperimentType>({
-  id: { type: String, auto: true },
   title: { type: String, required: true },
   description: String,
-  participants: { type: [String], default: [] },
-  sections: { type: [String], default: [] },
+  sections: [{ type: Schema.Types.ObjectId, ref: "Section" }],
+  participants: [{ type: String }],
   settings: ExperimentSettingsSchema,
 });
 
-export default mongoose.model<ExperimentType>("Users", ExperimentSchema);
+export default mongoose.models.Experiment ||
+  mongoose.model("Experiment", ExperimentSchema);

@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ExperimentType } from "../../../types/experiment";
-import { QuestionType } from "../../../types/question";
-import { SectionType } from "../../../types/section";
+import { QuestionType } from "../../../types/question/question";
 
 const getSectionQuestions = async (
-  experimentId: ExperimentType["id"],
-  sectionId: SectionType["id"]
+  experimentId: string,
+  sectionId: string
 ): Promise<QuestionType[]> => {
   const { data } = await axios.get(
     `/api/experiments/${experimentId}/sections/${sectionId}/questions`
@@ -15,8 +13,8 @@ const getSectionQuestions = async (
 };
 
 export const useSectionQuestions = (
-  experimentId: ExperimentType["id"],
-  sectionId: SectionType["id"]
+  experimentId: string,
+  sectionId: string
 ) => {
   return useQuery(
     ["experiments", experimentId, "sections", sectionId, "questions"],

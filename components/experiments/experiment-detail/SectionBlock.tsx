@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { SectionType } from "../../../types/section";
+import { SectionType } from "../../../types/section/section";
 
 type Props = {
   section: SectionType;
@@ -88,7 +88,9 @@ const SectionBlock = ({ section }: Props) => {
           <Typography variant="body1">{section.description}</Typography>
         </CardContent>
         <CardActions>
-          <Link href={`/experiments/${experimentId}/sections/${section.id}`}>
+          <Link
+            href={`/experiments/${experimentId}/sections/${section._id.toString()}`}
+          >
             <Button size="small">Edit Section</Button>
           </Link>
         </CardActions>

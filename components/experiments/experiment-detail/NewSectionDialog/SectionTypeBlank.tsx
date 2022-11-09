@@ -1,10 +1,11 @@
-import SectionTypeCard from "./SectionTypeCard";
+import SectionTypeCard, { SectionTypeCardSharedProps } from "./SectionTypeCard";
 
-const SectionTypeBlank = () => {
+const SectionTypeBlank = ({ ...props }: SectionTypeCardSharedProps) => {
   return (
     <SectionTypeCard
       title="Blank section"
       subheader="Create a blank section. You can then e.g. add plain text questions, comparison questions etc. manually."
+      {...props}
     />
   );
 };

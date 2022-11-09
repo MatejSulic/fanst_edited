@@ -65,7 +65,7 @@ const ExperimentListItem = ({ experiment }: Props) => {
         <ListItemText
           disableTypography
           primary={
-            <Link href={`/experiments/${experiment.id}`}>
+            <Link href={`/experiments/${experiment._id.toString()}`}>
               {experiment.title}
             </Link>
           }

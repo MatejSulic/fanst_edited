@@ -1,12 +1,13 @@
 import { Box } from "@mui/system";
 import Image from "next/image";
-import SectionTypeCard from "./SectionTypeCard";
+import SectionTypeCard, { SectionTypeCardSharedProps } from "./SectionTypeCard";
 
-const SectionType2AFC = () => {
+const SectionType2AFC = ({ ...props }: SectionTypeCardSharedProps) => {
   return (
     <SectionTypeCard
       title="2-AFC"
       subheader="Upload multiple images at once. The system generates 2-AFC using the uploaded images."
+      {...props}
     >
       <Box
         sx={{

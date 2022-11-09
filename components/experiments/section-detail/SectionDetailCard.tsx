@@ -18,8 +18,8 @@ import {
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import { QuestionType } from "../../../types/question";
-import { SectionType } from "../../../types/section";
+import { QuestionType } from "../../../types/question/question";
+import { SectionType } from "../../../types/section/section";
 import QuestionBlockListItem from "./QuestionBlockListItem";
 
 type Props = {
@@ -40,7 +40,17 @@ const SectionDetailList = ({ section, questions, onDragEnd }: Props) => {
 
   return loadedInBrowser ? (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Card variant="outlined" className="max-h-full overflow-y-auto">
+      <Card
+        variant="outlined"
+        sx={{
+          // width: (theme) => theme.breakpoints.values["sm"],
+          // maxWidth: (theme) => theme.breakpoints.values["sm"],
+          width: "100%",
+          maxWidth: "100%",
+          maxHeight: "100%",
+          overflowY: "auto",
+        }}
+      >
         <CardHeader
           action={
             <Tooltip title="Close section detail">

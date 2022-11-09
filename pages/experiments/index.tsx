@@ -1,14 +1,24 @@
-import CreateIcon from "@mui/icons-material/Create";
-import { Button, Card, CardContent, List, Typography } from "@mui/material";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  List,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
+import { useState } from "react";
 import AppBar from "../../components/common/AppBar";
 import ContentWrapper from "../../components/common/layout/ContentWrapper";
 import CategoriesList from "../../components/experiments/CategoriesList";
+import CreateNewExperimentButton from "../../components/experiments/CreateNewExperimentButton";
+import CreateNewExperimentDialog from "../../components/experiments/CreateNewExperimentDialog";
 import ExperimentListItem from "../../components/experiments/ExperimentListItem";
 import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
 import { useExperiments } from "../../hooks/experiments/useExperiments";
 
 const ExperimentsListPage = () => {
+  const [newExperimentDialogIsOpen, setNewExperimentDialogIsOpen] =
+    useState(false);
   const { data: experiments, isLoading, isError } = useExperiments();
 
   if (isLoading) {
@@ -25,9 +35,9 @@ const ExperimentsListPage = () => {
       <ContentWrapper>
         <Box className="flex justify-between">
           <Breadcrumbs />
-          <Button variant={"contained"} startIcon={<CreateIcon />}>
-            Create new experiment
-          </Button>
+          <CreateNewExperimentButton
+            onClick={() => setNewExperimentDialogIsOpen(true)}
+          />
         </Box>
 
         <Box className="flex gap-8">
@@ -37,21 +47,54 @@ const ExperimentsListPage = () => {
 
           <Card variant="outlined">
             <CardContent>
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: (theme) => theme.breakpoints.values["md"],
-                  backgroundColor: "white",
-                }}
-              >
-                {experiments.map((item) => (
-                  <ExperimentListItem key={item.id} experiment={item} />
-                ))}
-              </List>
+              {experiments.length > 0 ? (
+                <List
+                  sx={{
+                    width: (theme) => theme.breakpoints.values["md"],
+                    maxWidth: (theme) => theme.breakpoints.values["md"],
+                    backgroundColor: "white",
+                  }}
+                >
+                  <>
+                    {experiments.map((item) => (
+                      <ExperimentListItem
+                        key={item._id.toString()}
+                        experiment={item}
+                      />
+                    ))}
+                  </>
+                </List>
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    gap: 4,
+                    width: "100%",
+                    maxWidth: (theme) => theme.breakpoints.values["md"],
+                    p: 8,
+                  }}
+                >
+                  <Typography variant="h4">No Experiments</Typography>
+                  <CardActions>
+                    <CreateNewExperimentButton
+                      onClick={() => setNewExperimentDialogIsOpen(true)}
+                    />
+                  </CardActions>
+                </Box>
+              )}
             </CardContent>
           </Card>
         </Box>
       </ContentWrapper>
+
+      <CreateNewExperimentDialog
+        open={newExperimentDialogIsOpen}
+        onSave={() => setNewExperimentDialogIsOpen(false)}
+        onClose={() => setNewExperimentDialogIsOpen(false)}
+      />
     </>
   );
 };

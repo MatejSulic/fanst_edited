@@ -2,13 +2,14 @@ import { Button, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React from "react";
 import TextTruncate from "react-text-truncate";
-import SectionTypeCard from "./SectionTypeCard";
+import SectionTypeCard, { SectionTypeCardSharedProps } from "./SectionTypeCard";
 
-const SectionTypeIntroduction = () => {
+const SectionTypeIntroduction = ({ ...props }: SectionTypeCardSharedProps) => {
   return (
     <SectionTypeCard
       title="Introduction"
       subheader="Predefined section including title, text description and a start button"
+      {...props}
     >
       <Stack spacing={2}>
         <Typography variant="body2" color="text.secondary">
@@ -27,7 +28,7 @@ const SectionTypeIntroduction = () => {
             alignItems: "center",
           }}
         >
-          <Button variant="contained" size="small">
+          <Button variant="contained" size="small" component="div">
             Start experiment
           </Button>
         </Box>

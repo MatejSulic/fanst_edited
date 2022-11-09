@@ -10,7 +10,7 @@ import { Box } from "@mui/system";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Draggable, resetServerContext } from "react-beautiful-dnd";
-import { QuestionType } from "../../../types/question";
+import { QuestionType } from "../../../types/question/question";
 
 type Props = {
   question: QuestionType;

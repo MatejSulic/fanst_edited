@@ -10,7 +10,7 @@ import SectionSettingsCard from "../../../../components/experiments/section-deta
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { reorderList } from "../../../../utils/list";
-import { useExperimentSections } from "../../../../hooks/experiments/experiment-detail/useExperimentSections";
+import { useSections } from "../../../../hooks/experiments/experiment-detail/useSections";
 import { useSectionQuestions } from "../../../../hooks/experiments/experiment-detail/useSectionDetail";
 
 const SectionDetailPage = () => {
@@ -26,7 +26,7 @@ const SectionDetailPage = () => {
     data: sections,
     isLoading: sectionsIsLoading,
     isError: sectionsIsError,
-  } = useExperimentSections(experimentId as string);
+  } = useSections(experimentId as string);
 
   const handleDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -57,9 +57,11 @@ const SectionDetailPage = () => {
             <SectionList sections={sections} />
           </aside>
 
-          <main className="pt-2">
+          <main style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}>
             <SectionDetailList
-              section={sections.find((item) => item.id === sectionId)!}
+              section={
+                sections.find((item) => item._id.toString() === sectionId)!
+              }
               questions={questions}
               onDragEnd={handleDragEnd}
             />
