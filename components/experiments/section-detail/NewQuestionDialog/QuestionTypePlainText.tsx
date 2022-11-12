@@ -1,12 +1,15 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import TextTruncate from "react-text-truncate";
-import QuestionTypeCard from "./QuestionTypeCard";
+import QuestionTypeCard, {
+  QuestionTypeCardSharedProps,
+} from "./QuestionTypeCard";
 
-const QuestionTypePlainText = () => {
+const QuestionTypePlainText = ({ ...props }: QuestionTypeCardSharedProps) => {
   return (
     <QuestionTypeCard
       title="Plain text"
       subheader="Add a question that does contain only user configurable text and a button to continue to next question. This type of question doesn't include any interactive element or answer beside the continue button."
+      {...props}
     >
       <Stack spacing={2}>
         <Typography variant="body2" color="text.secondary">

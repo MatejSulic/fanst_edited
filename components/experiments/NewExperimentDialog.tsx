@@ -7,7 +7,6 @@ import {
   TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { BaseSyntheticEvent } from "react";
 import useCreateNewExperimentForm from "../../hooks/experiments/useCreateNewExperimentForm";
 import Dialog from "../MuiOverrides/Dialog";
 
@@ -17,7 +16,7 @@ type Props = {
   onSave: () => void;
 };
 
-const CreateNewExperimentDialog = ({ open, onClose, onSave }: Props) => {
+const NewExperimentDialog = ({ open, onClose, onSave }: Props) => {
   const [register, onSubmit, errors] = useCreateNewExperimentForm();
 
   return (
@@ -62,4 +61,4 @@ const CreateNewExperimentDialog = ({ open, onClose, onSave }: Props) => {
   );
 };
 
-export default CreateNewExperimentDialog;
+export default NewExperimentDialog;

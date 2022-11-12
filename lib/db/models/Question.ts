@@ -8,12 +8,17 @@ import {
 const QuestionSettingsSchema = new Schema<QuestionSettingsType>({});
 
 const QuestionSchema = new Schema<QuestionType>({
-  sectionId: { type: Schema.Types.ObjectId, ref: "Section" },
-  title: { type: String, required: true },
+  experimentId: {
+    type: Schema.Types.ObjectId,
+    ref: "Experiment",
+    required: true,
+  },
+  sectionId: { type: Schema.Types.ObjectId, ref: "Section", required: true },
+  title: { type: String, default: "New Question" },
   type: { type: String, enum: questionTypeTypes, required: true },
   images: [{ type: Schema.Types.ObjectId }],
 
-  settings: QuestionSettingsSchema,
+  settings: { type: QuestionSettingsSchema, default: {} },
 });
 
 export default mongoose.models.Question ||

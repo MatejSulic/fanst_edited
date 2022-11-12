@@ -26,8 +26,8 @@ const QuestionBlockListItem = ({ question, index }: Props) => {
 
   return loadedInBrowser ? (
     <Draggable
-      key={question.id}
-      draggableId={`section-detail-list-draggable-${question.id}`}
+      key={question._id.toString()}
+      draggableId={`section-detail-list-draggable-${question._id.toString()}`}
       index={index}
     >
       {(provided, snapshot) => (

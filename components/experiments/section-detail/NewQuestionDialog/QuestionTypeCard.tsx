@@ -8,16 +8,34 @@ import {
 import { Box } from "@mui/system";
 import React from "react";
 
+export type QuestionTypeCardSharedProps = {
+  onClick: () => void;
+  selected: boolean;
+};
+
 type Props = {
   title?: string;
   subheader?: string;
   children?: React.ReactNode;
-};
+} & QuestionTypeCardSharedProps;
 
-const QuestionTypeCard = ({ title, subheader, children }: Props) => {
+const QuestionTypeCard = ({
+  title,
+  subheader,
+  children,
+  onClick,
+  selected,
+}: Props) => {
   return (
-    <Card variant="outlined" sx={{ maxWidth: "100%" }}>
-      <CardActionArea>
+    <Card
+      variant="outlined"
+      sx={{
+        maxWidth: "100%",
+        backgroundColor: (theme) =>
+          selected ? theme.palette.action.focus : undefined,
+      }}
+    >
+      <CardActionArea onClick={() => onClick()}>
         {(title || subheader) && (
           <CardHeader
             title={

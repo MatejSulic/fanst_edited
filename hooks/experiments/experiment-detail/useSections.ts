@@ -17,7 +17,7 @@ export const useCreateSectionMutation = (experimentId: string) => {
       `/api/experiments/${experimentId}/sections`,
       newSectionData
     );
-    return data;
+    return data.data;
   };
 
   return useMutation(["experiments", experimentId, "sections-create"], {
@@ -28,7 +28,7 @@ export const useCreateSectionMutation = (experimentId: string) => {
 };
 
 export const useSections = (experimentId?: string) => {
-  const getSections = async (experimentId?: string): Promise<SectionType[]> => {
+  const getSections = async (experimentId: string): Promise<SectionType[]> => {
     const { data } = await axios.get(
       `/api/experiments/${experimentId}/sections`
     );
@@ -37,7 +37,7 @@ export const useSections = (experimentId?: string) => {
 
   return useQuery(
     ["experiments", experimentId, "sections"],
-    async () => await getSections(experimentId),
+    async () => await getSections(experimentId as string),
     { enabled: experimentId !== undefined }
   );
 };

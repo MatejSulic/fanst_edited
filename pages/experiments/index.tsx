@@ -11,7 +11,7 @@ import AppBar from "../../components/common/AppBar";
 import ContentWrapper from "../../components/common/layout/ContentWrapper";
 import CategoriesList from "../../components/experiments/CategoriesList";
 import CreateNewExperimentButton from "../../components/experiments/CreateNewExperimentButton";
-import CreateNewExperimentDialog from "../../components/experiments/CreateNewExperimentDialog";
+import NewExperimentDialog from "../../components/experiments/NewExperimentDialog";
 import ExperimentListItem from "../../components/experiments/ExperimentListItem";
 import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
 import { useExperiments } from "../../hooks/experiments/useExperiments";
@@ -90,7 +90,7 @@ const ExperimentsListPage = () => {
         </Box>
       </ContentWrapper>
 
-      <CreateNewExperimentDialog
+      <NewExperimentDialog
         open={newExperimentDialogIsOpen}
         onSave={() => setNewExperimentDialogIsOpen(false)}
         onClose={() => setNewExperimentDialogIsOpen(false)}

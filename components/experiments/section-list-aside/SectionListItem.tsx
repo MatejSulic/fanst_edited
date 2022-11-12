@@ -5,21 +5,48 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import TextTruncate from "react-text-truncate";
 import { SectionType } from "../../../types/section/section";
 
 type Props = {
   idx: number;
   section: SectionType;
+  activeExperimentId: string;
+  activeSectionId?: string;
 };
 
-const SectionListItem = ({ idx, section }: Props) => {
+const SectionListItem = ({
+  idx,
+  section,
+  activeExperimentId,
+  activeSectionId,
+}: Props) => {
   return (
-    <ListItem button className="flex items-start gap-4">
+    <ListItem
+      component={Link}
+      href={`/experiments/${activeExperimentId}/sections/${section._id.toString()}`}
+      sx={{
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 2,
+        backgroundColor: (theme) =>
+          activeSectionId === section._id.toString()
+            ? theme.palette.action.selected
+            : undefined,
+      }}
+    >
       <Typography variant="h6" component="div">
         {idx}
       </Typography>
-      <Card>
+      <Card
+        sx={{
+          backgroundColor: (theme) =>
+            activeSectionId === section._id.toString()
+              ? theme.palette.action.selected
+              : undefined,
+        }}
+      >
         <CardHeader
           title={
             <Typography variant="subtitle1" component="div">

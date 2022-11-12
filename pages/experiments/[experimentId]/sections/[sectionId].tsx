@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import AppBar from "../../../../components/common/AppBar";
-import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
-import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
-import SectionDetailPageToolbar from "../../../../components/experiments/section-detail/SectionDetailPageToolbar";
-import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
-import SectionDetailList from "../../../../components/experiments/section-detail/SectionDetailCard";
-import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import { useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
-import { reorderList } from "../../../../utils/list";
+import AppBar from "../../../../components/common/AppBar";
+import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
+import ExperimentDetailPageToolbar from "../../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
+import SectionDetailList from "../../../../components/experiments/section-detail/SectionDetailCard";
+import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
+import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
+import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
+import { useSectionQuestions } from "../../../../hooks/experiments/experiment-detail/useQuestions";
 import { useSections } from "../../../../hooks/experiments/experiment-detail/useSections";
-import { useSectionQuestions } from "../../../../hooks/experiments/experiment-detail/useSectionDetail";
+import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {
   const [items, setItems] = useState(() => [...Array(10).keys()]);
@@ -21,12 +21,15 @@ const SectionDetailPage = () => {
     data: questions,
     isLoading,
     isError,
-  } = useSectionQuestions(experimentId as string, sectionId as string);
+  } = useSectionQuestions(
+    experimentId as string | undefined,
+    sectionId as string | undefined
+  );
   const {
     data: sections,
     isLoading: sectionsIsLoading,
     isError: sectionsIsError,
-  } = useSections(experimentId as string);
+  } = useSections(experimentId as string | undefined);
 
   const handleDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -50,7 +53,7 @@ const SectionDetailPage = () => {
       <AppBar />
       <ContentWrapper>
         <Breadcrumbs />
-        <SectionDetailPageToolbar />
+        <ExperimentDetailPageToolbar />
 
         <Box className="flex gap-8 h-5/6">
           <aside>

@@ -1,12 +1,15 @@
 import { Box } from "@mui/system";
 import Image from "next/image";
-import QuestionTypeCard from "./QuestionTypeCard";
+import QuestionTypeCard, {
+  QuestionTypeCardSharedProps,
+} from "./QuestionTypeCard";
 
-const QuestionTypeSelectImage = () => {
+const QuestionTypeSelectImage = ({ ...props }: QuestionTypeCardSharedProps) => {
   return (
     <QuestionTypeCard
       title="Select one of two images"
       subheader="Manually upload two images for the comparison."
+      {...props}
     >
       <Box
         sx={{

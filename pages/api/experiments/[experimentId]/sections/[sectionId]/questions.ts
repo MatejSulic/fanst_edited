@@ -1,23 +1,42 @@
-import { promises as fs } from "fs";
+import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import path from "path";
-import { QuestionType } from "../../../../../../types/question/question";
+import Question from "../../../../../../lib/db/models/Question";
+import dbConnect from "../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { sectionId } = req.query;
+  await dbConnect();
+
+  const { experimentId, sectionId } = req.query;
 
   if (req.method === "GET") {
-    const jsonDirectory = path.join(process.cwd(), "mock");
-    const fileContents = (await fs
-      .readFile(jsonDirectory + "/sectionQuestions.json", "utf8")
-      .then((res) => JSON.parse(res))) as QuestionType[];
-    const filteredBySectionId = fileContents.filter(
-      (item) => item.sectionId === sectionId
-    );
+    try {
+      const questions = await Question.find({
+        experimentId: experimentId,
+        sectionId: sectionId,
+      });
 
-    res.status(200).json(filteredBySectionId);
+      res.status(200).json({ success: true, data: questions });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false });
+    }
+  } else if (req.method === "POST") {
+    try {
+      const experimentIdObjectId = new Types.ObjectId(experimentId as string);
+      const sectionIdObjectId = new Types.ObjectId(sectionId as string);
+      const createdQuestion = new Question({
+        ...req.body,
+        experimentId: experimentIdObjectId,
+        sectionId: sectionIdObjectId,
+      });
+      createdQuestion.save();
+
+      res.status(200).json({ success: true, data: createdQuestion });
+    } catch (error) {
+      res.status(400).json({ success: false });
+    }
   }
 }

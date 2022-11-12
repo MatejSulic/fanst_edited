@@ -29,7 +29,7 @@ const NewSectionDialog = ({ open, onClose, onSave }: Props) => {
   const [register, setValue, onSubmit, errors] = useCreateNewSectionForm(
     experimentId as string
   );
-  const type = register("type");
+  const newSectionFormFieldType = register("type");
 
   useEffect(() => {
     setValue("type", selectedSectionType);
