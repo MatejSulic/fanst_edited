@@ -18,12 +18,12 @@ npm install
 
 ### Run the app
 
-Run the MongoDB daemon / service:
+Run the MongoDB service:
 [Run MongoDB Community Edition (MacOS)](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition)
 
-Create a file `.env.local` with a signle line containing uri, where your instance of MongoDB run.
+Create a file `.env.local` with a single line containing URI, where your instance of MongoDB run. Keep in mind that the URI must have the database name at the end.
 
-E.g.
+E.g. this means that my MongoDB instance run at `127.0.0.1:27017` and I want to use the database called `fanst` for this project (the database does not have to be initialized before).
 ```
 MONGODB_URI=mongodb://127.0.0.1:27017/fanst
 ```
@@ -38,4 +38,4 @@ Open [http://localhost:3000/experiments](http://localhost:3000/experiments) with
 
 ## Working stuff
 
-Only Experiments tab from the main top menu works. Creating experiments, creating sections and creating questions work. Everything else has just static data for now...
+Only 'Experiments' tab from the main top menu works. Creating experiments, creating sections and creating questions work. Everything else has just static data for now...
