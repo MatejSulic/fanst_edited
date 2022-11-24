@@ -45,48 +45,50 @@ const ExperimentsListPage = () => {
             <CategoriesList />
           </aside>
 
-          <Card variant="outlined">
-            <CardContent>
-              {experiments.length > 0 ? (
-                <List
-                  sx={{
-                    width: (theme) => theme.breakpoints.values["md"],
-                    maxWidth: (theme) => theme.breakpoints.values["md"],
-                    backgroundColor: "white",
-                  }}
-                >
-                  <>
-                    {experiments.map((item) => (
-                      <ExperimentListItem
-                        key={item._id.toString()}
-                        experiment={item}
+          <main>
+            <Card variant="outlined">
+              <CardContent>
+                {experiments.length > 0 ? (
+                  <List
+                    sx={{
+                      width: (theme) => theme.breakpoints.values["md"],
+                      maxWidth: (theme) => theme.breakpoints.values["md"],
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <>
+                      {experiments.map((item) => (
+                        <ExperimentListItem
+                          key={item._id.toString()}
+                          experiment={item}
+                        />
+                      ))}
+                    </>
+                  </List>
+                ) : (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                      alignItems: "center",
+                      gap: 4,
+                      width: "100%",
+                      maxWidth: (theme) => theme.breakpoints.values["md"],
+                      p: 8,
+                    }}
+                  >
+                    <Typography variant="h4">No Experiments</Typography>
+                    <CardActions>
+                      <CreateNewExperimentButton
+                        onClick={() => setNewExperimentDialogIsOpen(true)}
                       />
-                    ))}
-                  </>
-                </List>
-              ) : (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                    gap: 4,
-                    width: "100%",
-                    maxWidth: (theme) => theme.breakpoints.values["md"],
-                    p: 8,
-                  }}
-                >
-                  <Typography variant="h4">No Experiments</Typography>
-                  <CardActions>
-                    <CreateNewExperimentButton
-                      onClick={() => setNewExperimentDialogIsOpen(true)}
-                    />
-                  </CardActions>
-                </Box>
-              )}
-            </CardContent>
-          </Card>
+                    </CardActions>
+                  </Box>
+                )}
+              </CardContent>
+            </Card>
+          </main>
         </Box>
       </ContentWrapper>
 

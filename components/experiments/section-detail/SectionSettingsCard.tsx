@@ -1,9 +1,8 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { SectionType } from "../../../types/section/section";
 
 type Props = {
-  sectionId: SectionType["id"];
+  sectionId: string;
 };
 
 const SectionSettingsCard = ({ sectionId }: Props) => {
@@ -22,7 +21,7 @@ const SectionSettingsCard = ({ sectionId }: Props) => {
           color: (theme) => theme.palette.text.secondary,
         }}
       >
-        Nastavení sekce
+        Section options
       </Typography>
       <Box sx={{ mt: 2 }}>
         <form>
@@ -33,7 +32,7 @@ const SectionSettingsCard = ({ sectionId }: Props) => {
             <TextField fullWidth label="Vzdálenost mezi obrázky" />
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Button type="submit" variant="contained">
-                Uložit sekci
+                Save section settings
               </Button>
             </Box>
           </Stack>

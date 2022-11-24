@@ -21,6 +21,7 @@ export default async function handler(
       createdExperiment.save();
       res.status(200).json({ success: true, data: createdExperiment });
     } catch (error) {
+      console.log(error);
       res.status(400).json({ success: false });
     }
   }

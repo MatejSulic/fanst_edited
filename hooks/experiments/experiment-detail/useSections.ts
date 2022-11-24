@@ -3,7 +3,33 @@ import axios from "axios";
 import {
   CreateNewSectionType,
   SectionType,
+  UpdateSectionType,
 } from "../../../types/section/section";
+
+export const useUpdateSectionMutation = (
+  experimentId: string,
+  sectionId: string
+) => {
+  const queryClient = useQueryClient();
+
+  const updateSection = async ({
+    sectionData,
+  }: {
+    sectionData: UpdateSectionType;
+  }) => {
+    const { data } = await axios.patch(
+      `/api/experiments/${experimentId}/sections/${sectionId}`,
+      sectionData
+    );
+    return data.data;
+  };
+
+  return useMutation(["experiments", experimentId, "sections", sectionId], {
+    mutationFn: updateSection,
+    onSuccess: () =>
+      queryClient.invalidateQueries(["experiments", experimentId, "sections"]),
+  });
+};
 
 export const useCreateSectionMutation = (experimentId: string) => {
   const queryClient = useQueryClient();

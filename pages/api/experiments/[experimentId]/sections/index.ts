@@ -31,6 +31,7 @@ export default async function handler(
       createdSection.save();
       res.status(200).json({ success: true, data: createdSection });
     } catch (error) {
+      console.log(error);
       res.status(400).json({ success: false });
     }
   }

@@ -25,3 +25,7 @@ export type SectionType = {
 export type CreateNewSectionType = Pick<SectionType, "type"> & {
   experimentId: string;
 };
+
+export type UpdateSectionType = Partial<
+  Omit<SectionType, "_id" | "experimentId" | "type">
+>;

@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { CreateNewExperimentType } from "../../types/experiment";
 import { useCreateExperimentMutation } from "./useExperiments";
-import type { FieldErrors } from "react-hook-form";
 
 const useCreateNewExperimentForm = () => {
   const {
