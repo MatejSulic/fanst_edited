@@ -4,10 +4,13 @@ import {
   ExperimentType,
 } from "../../../types/experiment";
 
-const ExperimentSettingsSchema = new Schema<ExperimentSettingsType>({
-  maximumTimeValidity: { type: Number, default: 90 },
-  numberOfParticipantGroups: { type: Number, default: 1 },
-});
+const ExperimentSettingsSchema = new Schema<ExperimentSettingsType>(
+  {
+    maximumTimeValidity: { type: Number, default: 90 },
+    numberOfParticipantGroups: { type: Number, default: 1 },
+  },
+  { _id: false }
+);
 
 const ExperimentSchema = new Schema<ExperimentType>({
   title: { type: String, required: true },

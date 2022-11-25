@@ -1,9 +1,14 @@
 import { Types } from "mongoose";
-import { questionTypeTypes } from ".";
+import { questionTypeTypes } from "./questionTypes";
 
 type QuestionTypeType = typeof questionTypeTypes[number];
 
 type QuestionSettingsType = {};
+
+type QuestionContentType = {
+  text?: string; // in case question is of type PLAIN_TEXT
+  images?: string[]; // in case question is of type IMAGE_SELECT
+};
 
 export type QuestionType = {
   _id: Types.ObjectId;
@@ -11,8 +16,7 @@ export type QuestionType = {
   sectionId: Types.ObjectId;
   title: string;
   type: QuestionTypeType;
-  images: Types.ObjectId[]; // images associated with the question
-
+  content: QuestionContentType;
   settings: QuestionSettingsType;
 };
 
@@ -20,3 +24,7 @@ export type CreateNewQuestionType = Pick<QuestionType, "type"> & {
   experimentId: string;
   sectionId: string;
 };
+
+export type UpdateQuestionType = Partial<
+  Omit<QuestionType, "_id" | "experimentId" | "sectionId" | "type">
+>;

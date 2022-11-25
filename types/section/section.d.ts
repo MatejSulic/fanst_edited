@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { sectionTypeTypes } from ".";
-import { QuestionType } from "../question/question";
+import { sectionTypeTypes } from "./sectionTypes";
+import { QuestionType, UpdateQuestionType } from "../question/question";
 
 type SectionTypeType = typeof sectionTypeTypes[number];
 
@@ -27,5 +27,7 @@ export type CreateNewSectionType = Pick<SectionType, "type"> & {
 };
 
 export type UpdateSectionType = Partial<
-  Omit<SectionType, "_id" | "experimentId" | "type">
+  Omit<SectionType, "_id" | "experimentId" | "type" | "questions"> & {
+    questions: UpdateQuestionType[];
+  }
 >;

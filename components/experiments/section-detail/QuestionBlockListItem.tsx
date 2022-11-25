@@ -1,16 +1,8 @@
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  ListItem,
-  Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import Image from "next/image";
+import { ListItem } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Draggable, resetServerContext } from "react-beautiful-dnd";
 import { QuestionType } from "../../../types/question/question";
+import QuestionBlockCard from "./QuestionBlockCard";
 
 type Props = {
   question: QuestionType;
@@ -38,39 +30,7 @@ const QuestionBlockListItem = ({ question, index }: Props) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Card>
-            <CardActionArea>
-              <CardHeader
-                title={
-                  <Typography
-                    variant="subtitle1"
-                    className="flex justify-center"
-                  >
-                    {question.title}
-                  </Typography>
-                }
-                sx={{ pb: 0 }}
-              />
-              <CardContent>
-                <Box
-                  sx={{ display: "flex", justifyContent: "center", gap: 16 }}
-                >
-                  <Image
-                    src="https://picsum.photos/200"
-                    alt="first image"
-                    width={200}
-                    height={200}
-                  />
-                  <Image
-                    src="https://picsum.photos/200"
-                    alt="second image"
-                    width={200}
-                    height={200}
-                  />
-                </Box>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <QuestionBlockCard question={question} index={index} />
         </ListItem>
       )}
     </Draggable>

@@ -1,16 +1,19 @@
 import mongoose, { Schema } from "mongoose";
-import { sectionTypeTypes } from "../../../types/section";
 import {
   SectionSettingsType,
   SectionType,
 } from "../../../types/section/section";
+import { sectionTypeTypes } from "../../../types/section/sectionTypes";
 
-const SectionSettingsSchema = new Schema<SectionSettingsType>({
-  questionDisplayTime: Number,
-  distanceOfImages: Number,
-  imageWidth: Number,
-  imageHeight: Number,
-});
+const SectionSettingsSchema = new Schema<SectionSettingsType>(
+  {
+    questionDisplayTime: Number,
+    distanceOfImages: Number,
+    imageWidth: Number,
+    imageHeight: Number,
+  },
+  { _id: false }
+);
 
 const SectionSchema = new Schema<SectionType>({
   title: { type: String, default: "New Section" },
@@ -21,6 +24,8 @@ const SectionSchema = new Schema<SectionType>({
   },
   description: { type: String, default: "The most amazing section of all!" },
   type: { type: String, enum: sectionTypeTypes, required: true },
+  questions: [{ type: String, default: [] }],
+
   settings: { type: SectionSettingsSchema, default: {} },
 });
 

@@ -15,7 +15,7 @@ const QuestionTypeDisplayedCard = ({ type, ...props }: Props) => {
     case "PLAIN_TEXT":
       Component = QuestionTypePlainText;
       break;
-    case "SELECT_IMAGE":
+    case "IMAGE_SELECT":
       Component = QuestionTypeSelectImage;
       break;
     default:

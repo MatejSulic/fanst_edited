@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import Question from "../../../../../../lib/db/models/Question";
 import Section from "../../../../../../lib/db/models/Section";
 import dbConnect from "../../../../../../lib/db/mongooseDb";
 
@@ -27,11 +28,25 @@ export default async function handler(
         experimentId: experimentId,
         _id: sectionId,
       });
-      // update values from the request
-      Object.entries(req.body).forEach(
+      const { questions, ...sectionDetails } = req.body;
+
+      // update section title and description values from the request
+      Object.entries(sectionDetails).forEach(
         ([key, value]) => (section[key] = value)
       );
       await section.save();
+
+      // update questions
+      const questionDocuments = await Question.find({
+        _id: { $in: Object.keys(questions) },
+      });
+      questionDocuments.forEach(async (doc) => {
+        Object.entries(questions[doc._id.toString()]).forEach(
+          ([key, value]) => (doc[key] = value)
+        );
+        await doc.save();
+      });
+
       res.status(200).json({ success: true, data: section });
     } catch (error) {
       console.log(error);
