@@ -15,6 +15,8 @@ const QuestionContentSchema = new Schema<QuestionContentType>(
   {
     text: String,
     images: [{ type: String }],
+    leftImage: String,
+    rightImage: String,
   },
   { _id: false }
 );

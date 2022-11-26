@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import Question from "../../../../../../lib/db/models/Question";
+import Section from "../../../../../../lib/db/models/Section";
 import dbConnect from "../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
@@ -33,6 +34,12 @@ export default async function handler(
         sectionId: sectionIdObjectId,
       });
       createdQuestion.save();
+      const section = await Section.findOne({
+        experimentId: experimentId,
+        _id: sectionId,
+      });
+      section.questions.push(createdQuestion._id.toString());
+      section.save();
 
       res.status(200).json({ success: true, data: createdQuestion });
     } catch (error) {

@@ -7,13 +7,14 @@ import {
   CardHeader,
   IconButton,
   List,
+  NoSsr,
   TextField,
   Tooltip,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -38,20 +39,13 @@ const SectionDetailList = ({ section, questions, onDragEnd }: Props) => {
   const { experimentId, sectionId } = router.query;
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
 
-  // TODO: loadedInBrowser is in use because of Drag'n'Drop API - doesn't work when server-rendered
-  const [loadedInBrowser, setloadedInBrowser] = useState(false);
-
   const [register, setValue, onSubmit, errors] = useUpdateSectionForm(
     experimentId as string,
     sectionId as string
   );
 
-  useEffect(() => {
-    setloadedInBrowser(true);
-  }, []);
-
-  return loadedInBrowser ? (
-    <>
+  return (
+    <NoSsr>
       <UpdateSectionFormContextProvider
         value={{ register, setValue, onSubmit, errors }}
       >
@@ -143,8 +137,8 @@ const SectionDetailList = ({ section, questions, onDragEnd }: Props) => {
         onClose={() => setNewQuestionDialogOpen(false)}
         onSave={() => setNewQuestionDialogOpen(false)}
       />
-    </>
-  ) : null;
+    </NoSsr>
+  );
 };
 
 SectionDetailList.getInitialProps = async (context) => {

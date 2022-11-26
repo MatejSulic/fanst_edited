@@ -1,12 +1,4 @@
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, CardHeader, TextField } from "@mui/material";
 import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/sectionDetailContext";
 import { QuestionType } from "../../../../types/question/question";
 import QuestionBlockImageSelect from "./QuestionBlockImageSelect";

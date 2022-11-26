@@ -28,7 +28,7 @@ const QuestionTypePlainText = ({ ...props }: QuestionTypeCardSharedProps) => {
             alignItems: "center",
           }}
         >
-          <Button variant="contained" size="small">
+          <Button variant="contained" size="small" component={Box}>
             Continue
           </Button>
         </Box>
