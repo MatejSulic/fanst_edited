@@ -10,7 +10,7 @@ import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
 
 type UploadFileButtonProps = { onClick: () => void };
 
-const UploadFileButton = ({ onClick }: UploadFileButtonProps) => {
+const UploadFileButtonCard = ({ onClick }: UploadFileButtonProps) => {
   return (
     <Paper
       variant="outlined"
@@ -29,6 +29,18 @@ const UploadFileButton = ({ onClick }: UploadFileButtonProps) => {
       <UploadFileOutlinedIcon />
       <Typography variant="subtitle2">Upload Image</Typography>
     </Paper>
+  );
+};
+
+const UploadFileButtonSimple = ({ onClick }: UploadFileButtonProps) => {
+  return (
+    <Button
+      variant="outlined"
+      onClick={() => onClick()}
+      startIcon={<UploadFileOutlinedIcon />}
+    >
+      Change image
+    </Button>
   );
 };
 
@@ -80,6 +92,23 @@ const QuestionBlockImageSelect = ({
     );
   }, [rightImagePublicId, setValue, question._id]);
 
+  const handleUploadFileOnClick = (position: "left" | "right") => {
+    return () =>
+      openUploadWidget({
+        onSuccess: (result) => {
+          // console.log(result.info);
+          if (position === "left") {
+            setLeftImagePublicId(result.info.public_id);
+          } else {
+            setRightImagePublicId(result.info.public_id);
+          }
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      });
+  };
+
   return (
     <Stack spacing={4}>
       <Box
@@ -91,38 +120,22 @@ const QuestionBlockImageSelect = ({
         }}
       >
         {leftImagePublicId ? (
-          <CloudinaryImagePreview imagePublicId={leftImagePublicId} />
+          <Stack spacing={2}>
+            <CloudinaryImagePreview imagePublicId={leftImagePublicId} />
+            <UploadFileButtonSimple onClick={handleUploadFileOnClick("left")} />
+          </Stack>
         ) : (
-          <UploadFileButton
-            onClick={() =>
-              openUploadWidget({
-                onSuccess: (result) => {
-                  // console.log(result.info);
-                  setLeftImagePublicId(result.info.public_id);
-                },
-                onError: (error) => {
-                  console.log(error);
-                },
-              })
-            }
-          />
+          <UploadFileButtonCard onClick={handleUploadFileOnClick("left")} />
         )}
         {rightImagePublicId ? (
-          <CloudinaryImagePreview imagePublicId={rightImagePublicId} />
+          <Stack spacing={2}>
+            <CloudinaryImagePreview imagePublicId={rightImagePublicId} />
+            <UploadFileButtonSimple
+              onClick={handleUploadFileOnClick("right")}
+            />
+          </Stack>
         ) : (
-          <UploadFileButton
-            onClick={() =>
-              openUploadWidget({
-                onSuccess: (result) => {
-                  // console.log(result.info);
-                  setRightImagePublicId(result.info.public_id);
-                },
-                onError: (error) => {
-                  console.log(error);
-                },
-              })
-            }
-          />
+          <UploadFileButtonCard onClick={handleUploadFileOnClick("right")} />
         )}
       </Box>
     </Stack>
