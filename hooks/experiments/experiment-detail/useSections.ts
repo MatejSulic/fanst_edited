@@ -46,7 +46,7 @@ export const useCreateSectionMutation = (experimentId: string) => {
     return data.data;
   };
 
-  return useMutation(["experiments", experimentId, "sections-create"], {
+  return useMutation(["experiments", experimentId, "sections", "create"], {
     mutationFn: createSection,
     onSuccess: () =>
       queryClient.invalidateQueries(["experiments", experimentId, "sections"]),

@@ -19,3 +19,7 @@ export type CreateNewExperimentType = Pick<
   ExperimentType,
   "title" | "description"
 >;
+
+export type UpdateExperimentType = Partial<
+  Omit<ExperimentType, "_id" | "sections" | "participants">
+>;

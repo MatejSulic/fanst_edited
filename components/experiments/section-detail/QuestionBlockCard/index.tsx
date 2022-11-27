@@ -24,6 +24,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDeleteQuestionMutation } from "../../../../hooks/experiments/experiment-detail/useQuestions";
 import { useRouter } from "next/router";
 import { useIsSectionEditableContext } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
+import { useSections } from "../../../../hooks/experiments/experiment-detail/useSections";
+import { SectionType } from "../../../../types/section/section";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;

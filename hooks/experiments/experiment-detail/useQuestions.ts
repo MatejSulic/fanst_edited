@@ -24,7 +24,7 @@ export const useCreateQuestionMutation = (
   };
 
   return useMutation(
-    ["experiments", experimentId, "sections", sectionId, "questions-create"],
+    ["experiments", experimentId, "sections", sectionId, "questions", "create"],
     {
       mutationFn: createQuestion,
       onSuccess: () =>
@@ -58,8 +58,9 @@ export const useDeleteQuestionMutation = (
       experimentId,
       "sections",
       sectionId,
-      "questions-delete",
+      "questions",
       questionId,
+      "delete",
     ],
     {
       mutationFn: deleteQuestion,
