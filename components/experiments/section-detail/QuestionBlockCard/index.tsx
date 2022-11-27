@@ -15,12 +15,15 @@ import {
   TextField,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/sectionDetailContext";
+import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { QuestionType } from "../../../../types/question/question";
 import QuestionBlock2AFC from "./QuestionBlock2AFC";
 import QuestionBlockImageSelect from "./QuestionBlockImageSelect";
 import QuestionBlockPlainText from "./QuestionBlockPlainText";
 import { useEffect, useRef, useState } from "react";
+import { useDeleteQuestionMutation } from "../../../../hooks/experiments/experiment-detail/useQuestions";
+import { useRouter } from "next/router";
+import { useIsSectionEditableContext } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;
@@ -31,11 +34,26 @@ const QuestionBlockCard = ({
   question,
   index,
 }: QuestionBlockCardSharedProps) => {
+  const router = useRouter();
+  const { experimentId, sectionId } = router.query;
+
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
+  const deleteQuestionMutation = useDeleteQuestionMutation(
+    experimentId as string,
+    sectionId as string,
+    question._id.toString()
+  );
+
   const { register, setValue, onSubmit, errors } =
     useUpdateSectionFormContext();
+
+  const { isSectionEditable } = useIsSectionEditableContext();
+
+  const handleDeleteQuestion = () => {
+    deleteQuestionMutation.mutate();
+  };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -101,59 +119,63 @@ const QuestionBlockCard = ({
             </Box>
           }
           action={
-            <IconButton
-              ref={anchorRef}
-              aria-controls={open ? "composition-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleToggle}
-            >
-              <MoreHorizIcon />
-            </IconButton>
+            isSectionEditable ? (
+              <IconButton
+                ref={anchorRef}
+                aria-controls={open ? "composition-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
+              >
+                <MoreHorizIcon />
+              </IconButton>
+            ) : undefined
           }
         />
         <CardContent>{renderQuestionTypeBlock()}</CardContent>
       </Card>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement="bottom-start"
-        transition
-        disablePortal
-        className="z-10"
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom-start" ? "left top" : "left bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
-                >
-                  <MenuItem
-                    onClick={handleClose}
-                    sx={{ color: (theme) => theme.palette.warning.main }}
+      {isSectionEditable && (
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+          className="z-10"
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === "bottom-start" ? "left top" : "left bottom",
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="composition-menu"
+                    aria-labelledby="composition-button"
+                    onKeyDown={handleListKeyDown}
                   >
-                    <ListItemIcon>
-                      <DeleteIcon color="warning" />
-                    </ListItemIcon>
-                    Delete question
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+                    <MenuItem
+                      onClick={() => handleDeleteQuestion()}
+                      sx={{ color: (theme) => theme.palette.warning.main }}
+                    >
+                      <ListItemIcon>
+                        <DeleteIcon color="warning" />
+                      </ListItemIcon>
+                      Delete question
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      )}
     </>
   );
 };

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { QuestionBlockCardSharedProps } from ".";
-import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/sectionDetailContext";
+import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const QuestionBlockPlainText = ({

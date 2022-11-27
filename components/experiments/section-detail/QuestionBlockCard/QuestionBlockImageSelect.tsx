@@ -4,7 +4,7 @@ import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { QuestionBlockCardSharedProps } from ".";
-import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/sectionDetailContext";
+import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
 

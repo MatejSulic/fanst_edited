@@ -39,6 +39,42 @@ export const useCreateQuestionMutation = (
   );
 };
 
+export const useDeleteQuestionMutation = (
+  experimentId: string,
+  sectionId: string,
+  questionId: string
+) => {
+  const queryClient = useQueryClient();
+
+  const deleteQuestion = async () => {
+    await axios.delete(
+      `/api/experiments/${experimentId}/sections/${sectionId}/questions/${questionId}`
+    );
+  };
+
+  return useMutation(
+    [
+      "experiments",
+      experimentId,
+      "sections",
+      sectionId,
+      "questions-delete",
+      questionId,
+    ],
+    {
+      mutationFn: deleteQuestion,
+      onSuccess: () =>
+        queryClient.invalidateQueries([
+          "experiments",
+          experimentId,
+          "sections",
+          sectionId,
+          "questions",
+        ]),
+    }
+  );
+};
+
 export const useSectionQuestions = (
   experimentId?: string,
   sectionId?: string

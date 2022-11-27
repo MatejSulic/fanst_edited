@@ -26,7 +26,7 @@ export default async function handler(
     }
   } else if (req.method === "POST") {
     try {
-      res.status(200).json({ success: true, data: {} });
+      res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });
