@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import Question from "../../../../../../lib/db/models/Question";
-import Section from "../../../../../../lib/db/models/Section";
-import dbConnect from "../../../../../../lib/db/mongooseDb";
+import Question from "../../../../../../../lib/db/models/Question";
+import Section from "../../../../../../../lib/db/models/Section";
+import dbConnect from "../../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
   req: NextApiRequest,

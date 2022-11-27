@@ -14,19 +14,19 @@ import {
 import { Stack } from "@mui/system";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/sectionDetailContext";
-import useUpdateSectionForm from "../../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
-import { QuestionType } from "../../../../types/question/question";
-import { SectionType } from "../../../../types/section/section";
-import NewQuestionDialog from "../NewQuestionDialog";
-import QuestionBlockListItem from "../QuestionBlockListItem";
+import { UpdateSectionFormContextProvider } from "../../../contexts/experiments/experiment-detail/sectionDetailContext";
+import useUpdateSectionForm from "../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
+import { QuestionType } from "../../../types/question/question";
+import { SectionType } from "../../../types/section/section";
+import NewQuestionDialog from "./NewQuestionDialog";
+import QuestionBlockListItem from "./QuestionBlockListItem";
 
 type Props = {
   section: SectionType;
@@ -34,7 +34,7 @@ type Props = {
   onDragEnd: (res: DropResult) => void;
 };
 
-const BlackSectionDetail = ({ section, questions, onDragEnd }: Props) => {
+const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
@@ -118,12 +118,14 @@ const BlackSectionDetail = ({ section, questions, onDragEnd }: Props) => {
                   p: 2,
                 }}
               >
-                <Button
-                  variant="outlined"
-                  onClick={() => setNewQuestionDialogOpen(true)}
-                >
-                  Add New Question
-                </Button>
+                {section.type === "BLANK" && (
+                  <Button
+                    variant="outlined"
+                    onClick={() => setNewQuestionDialogOpen(true)}
+                  >
+                    Add New Question
+                  </Button>
+                )}
                 <Button type="submit" variant="contained">
                   Save section
                 </Button>
@@ -132,18 +134,20 @@ const BlackSectionDetail = ({ section, questions, onDragEnd }: Props) => {
           </Card>
         </DragDropContext>
       </UpdateSectionFormContextProvider>
-      <NewQuestionDialog
-        open={newQuestionDialogOpen}
-        onClose={() => setNewQuestionDialogOpen(false)}
-        onSave={() => setNewQuestionDialogOpen(false)}
-      />
+      {section.type === "BLANK" && (
+        <NewQuestionDialog
+          open={newQuestionDialogOpen}
+          onClose={() => setNewQuestionDialogOpen(false)}
+          onSave={() => setNewQuestionDialogOpen(false)}
+        />
+      )}
     </NoSsr>
   );
 };
 
-BlackSectionDetail.getInitialProps = async (context) => {
+SectionDetailCard.getInitialProps = async (context) => {
   resetServerContext();
   return {};
 };
 
-export default BlackSectionDetail;
+export default SectionDetailCard;

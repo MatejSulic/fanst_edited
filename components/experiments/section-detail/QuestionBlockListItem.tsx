@@ -18,6 +18,7 @@ const QuestionBlockListItem = ({ question, index }: Props) => {
       >
         {(provided, snapshot) => (
           <ListItem
+            key={question._id.toString()}
             ref={provided.innerRef}
             className={snapshot.isDragging ? "bg-gray-50" : ""}
             sx={{ display: "list-item", padding: 0 }}

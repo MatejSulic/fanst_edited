@@ -5,8 +5,7 @@ import { DropResult } from "react-beautiful-dnd";
 import AppBar from "../../../../components/common/AppBar";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import ExperimentDetailPageToolbar from "../../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
-import AFCSectionDetail from "../../../../components/experiments/section-detail/SectionDetailCard/AFCSectionDetail";
-import BlackSectionDetail from "../../../../components/experiments/section-detail/SectionDetailCard/BlankSectionDetail";
+import SectionDetailCard from "../../../../components/experiments/section-detail/SectionDetailCard";
 import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
@@ -66,19 +65,12 @@ const SectionDetailPage = () => {
           </aside>
 
           <main style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}>
-            {currentSection.type === "BLANK" && (
-              <BlackSectionDetail
-                section={currentSection}
-                questions={questions}
-                onDragEnd={handleDragEnd}
-              />
-            )}
-            {currentSection.type === "2AFC" && (
-              <AFCSectionDetail
-                section={currentSection}
-                questions={questions}
-              />
-            )}
+            <SectionDetailCard
+              key={currentSection._id.toString()}
+              section={currentSection}
+              questions={questions}
+              onDragEnd={handleDragEnd}
+            />
           </main>
 
           <aside>
