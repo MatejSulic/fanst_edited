@@ -38,4 +38,8 @@ Open [http://localhost:3000/experiments](http://localhost:3000/experiments) with
 
 ## Working stuff
 
-Only 'Experiments' tab from the main top menu works. Creating experiments, creating sections and creating questions work. Everything else has just static data for now...
+* Only 'Experiments' tab from the main top menu works
+* Create experiment, create all types of sections and questions
+* Edit experiment settings
+* Edit and delete sections (excluding section settings)
+* Edit and delete questions
