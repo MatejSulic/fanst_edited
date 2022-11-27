@@ -37,15 +37,17 @@ export default async function handler(
       await section.save();
 
       // update questions
-      const questionDocuments = await Question.find({
-        _id: { $in: Object.keys(questions) },
-      });
-      questionDocuments.forEach(async (doc) => {
-        Object.entries(questions[doc._id.toString()]).forEach(
-          ([key, value]) => (doc[key] = value)
-        );
-        await doc.save();
-      });
+      if (questions) {
+        const questionDocuments = await Question.find({
+          _id: { $in: Object.keys(questions) },
+        });
+        questionDocuments.forEach(async (doc) => {
+          Object.entries(questions[doc._id.toString()]).forEach(
+            ([key, value]) => (doc[key] = value)
+          );
+          await doc.save();
+        });
+      }
 
       res.status(200).json({ success: true, data: section });
     } catch (error) {

@@ -1,1 +1,5 @@
-export const questionTypeTypes = ["PLAIN_TEXT", "IMAGE_SELECT"] as const;
+export const questionTypeTypes = [
+  "PLAIN_TEXT",
+  "IMAGE_SELECT",
+  "2AFC",
+] as const;

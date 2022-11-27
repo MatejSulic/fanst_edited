@@ -5,7 +5,8 @@ import { DropResult } from "react-beautiful-dnd";
 import AppBar from "../../../../components/common/AppBar";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import ExperimentDetailPageToolbar from "../../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
-import SectionDetailList from "../../../../components/experiments/section-detail/SectionDetailCard";
+import AFCSectionDetail from "../../../../components/experiments/section-detail/SectionDetailCard/AFCSectionDetail";
+import BlackSectionDetail from "../../../../components/experiments/section-detail/SectionDetailCard/BlankSectionDetail";
 import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
@@ -48,6 +49,10 @@ const SectionDetailPage = () => {
     return <Typography variant="h1">Error</Typography>;
   }
 
+  const currentSection = sections.find(
+    (item) => item._id.toString() === sectionId
+  )!;
+
   return (
     <>
       <AppBar />
@@ -61,13 +66,19 @@ const SectionDetailPage = () => {
           </aside>
 
           <main style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}>
-            <SectionDetailList
-              section={
-                sections.find((item) => item._id.toString() === sectionId)!
-              }
-              questions={questions}
-              onDragEnd={handleDragEnd}
-            />
+            {currentSection.type === "BLANK" && (
+              <BlackSectionDetail
+                section={currentSection}
+                questions={questions}
+                onDragEnd={handleDragEnd}
+              />
+            )}
+            {currentSection.type === "2AFC" && (
+              <AFCSectionDetail
+                section={currentSection}
+                questions={questions}
+              />
+            )}
           </main>
 
           <aside>

@@ -21,12 +21,12 @@ import {
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import { UpdateSectionFormContextProvider } from "../../../contexts/experiments/experiment-detail/sectionDetailContext";
-import useUpdateSectionForm from "../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
-import { QuestionType } from "../../../types/question/question";
-import { SectionType } from "../../../types/section/section";
-import NewQuestionDialog from "./NewQuestionDialog";
-import QuestionBlockListItem from "./QuestionBlockListItem";
+import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/sectionDetailContext";
+import useUpdateSectionForm from "../../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
+import { QuestionType } from "../../../../types/question/question";
+import { SectionType } from "../../../../types/section/section";
+import NewQuestionDialog from "../NewQuestionDialog";
+import QuestionBlockListItem from "../QuestionBlockListItem";
 
 type Props = {
   section: SectionType;
@@ -34,7 +34,7 @@ type Props = {
   onDragEnd: (res: DropResult) => void;
 };
 
-const SectionDetailList = ({ section, questions, onDragEnd }: Props) => {
+const BlackSectionDetail = ({ section, questions, onDragEnd }: Props) => {
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
@@ -141,9 +141,9 @@ const SectionDetailList = ({ section, questions, onDragEnd }: Props) => {
   );
 };
 
-SectionDetailList.getInitialProps = async (context) => {
+BlackSectionDetail.getInitialProps = async (context) => {
   resetServerContext();
   return {};
 };
 
-export default SectionDetailList;
+export default BlackSectionDetail;

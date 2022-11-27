@@ -18,7 +18,8 @@ export default async function handler(
   } else if (req.method === "POST") {
     try {
       const createdExperiment = new Experiment(req.body);
-      createdExperiment.save();
+      await createdExperiment.save();
+
       res.status(200).json({ success: true, data: createdExperiment });
     } catch (error) {
       console.log(error);
