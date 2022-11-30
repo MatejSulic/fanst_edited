@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import AppBar from "../../../components/common/AppBar";
 import ContentWrapper from "../../../components/common/layout/ContentWrapper";
 import ExperimentDetailList from "../../../components/experiments/experiment-detail/ExperimentDetailList";
@@ -34,7 +33,11 @@ const ExperimentDetailPage = () => {
     return <Typography variant="h1">Error</Typography>;
   }
 
-  return (
+  const currentExperiment = experiments.find(
+    (item) => item._id.toString() === experimentId
+  )!;
+
+  return currentExperiment ? (
     <>
       <AppBar />
       <ContentWrapper>
@@ -63,7 +66,7 @@ const ExperimentDetailPage = () => {
         </Box>
       </ContentWrapper>
     </>
-  );
+  ) : null;
 };
 
 export default ExperimentDetailPage;

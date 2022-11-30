@@ -45,19 +45,26 @@ const SectionListItem = ({
             activeSectionId === section._id.toString()
               ? theme.palette.action.selected
               : undefined,
+          width: "100%",
+          height: 120,
         }}
       >
         <CardHeader
           title={
             <Typography variant="subtitle1" component="div">
-              {section.title}
+              <TextTruncate
+                textElement="span"
+                // containerClassName="text-gray-500 text-sm pt-2"
+                line={1}
+                text={section.title}
+              />
             </Typography>
           }
           className="pb-0"
         />
         <CardContent>
           <Typography variant="body2" component="div">
-            <TextTruncate line={4} element="span" text={section.description} />
+            <TextTruncate line={2} element="span" text={section.description} />
           </Typography>
         </CardContent>
       </Card>

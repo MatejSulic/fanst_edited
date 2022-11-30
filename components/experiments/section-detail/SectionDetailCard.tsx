@@ -14,16 +14,14 @@ import {
 import { Stack } from "@mui/system";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DragDropContext,
   Droppable,
   DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import { IsSectionEditableContextProvider } from "../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
-import { UpdateSectionFormContextProvider } from "../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
-import useUpdateSectionForm from "../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
+import { useUpdateSectionFormContext } from "../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { QuestionType } from "../../../types/question/question";
 import { SectionType } from "../../../types/section/section";
 import NewQuestionDialog from "./NewQuestionDialog";
@@ -40,108 +38,95 @@ const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
   const { experimentId, sectionId } = router.query;
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
 
-  const [register, setValue, onSubmit, errors] = useUpdateSectionForm(
-    experimentId as string,
-    sectionId as string
-  );
-
-  const isSectionEditable = section.type === "BLANK";
+  const { register, setValue, onSubmit, errors } =
+    useUpdateSectionFormContext();
 
   return (
     <NoSsr>
-      <UpdateSectionFormContextProvider
-        value={{ register, setValue, onSubmit, errors }}
-      >
-        <IsSectionEditableContextProvider value={{ isSectionEditable }}>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Card
-              variant="outlined"
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Card
+          variant="outlined"
+          sx={{
+            width: "100%",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            overflowY: "auto",
+          }}
+        >
+          <form onSubmit={onSubmit()}>
+            <CardHeader
+              action={
+                <Tooltip title="Close section detail">
+                  <IconButton
+                    component={Link}
+                    href={`/experiments/${experimentId}`}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+              title={
+                <TextField
+                  label="Section title"
+                  defaultValue={section.title}
+                  {...register("title")}
+                />
+              }
+              className="pb-0"
+            />
+            <CardContent>
+              <Stack spacing={4}>
+                <TextField
+                  label="Section description"
+                  multiline
+                  minRows={4}
+                  defaultValue={section.description}
+                  size="small"
+                  {...register("description")}
+                />
+                <Droppable droppableId="section-detail-list-droppable">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <List sx={{ p: 0, m: 0 }}>
+                        <Stack spacing={2}>
+                          {questions.map((item, idx) => (
+                            <QuestionBlockListItem
+                              key={item._id.toString()}
+                              question={item}
+                              index={idx}
+                            />
+                          ))}
+                        </Stack>
+                      </List>
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </Stack>
+            </CardContent>
+            <CardActions
               sx={{
-                width: "100%",
-                maxWidth: "100%",
-                maxHeight: "100%",
-                overflowY: "auto",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                p: 2,
               }}
             >
-              <form onSubmit={onSubmit()}>
-                <CardHeader
-                  action={
-                    <Tooltip title="Close section detail">
-                      <IconButton
-                        component={Link}
-                        href={`/experiments/${experimentId}`}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </Tooltip>
-                  }
-                  title={
-                    <TextField
-                      label="Section title"
-                      defaultValue={section.title}
-                      {...register("title")}
-                    />
-                  }
-                  className="pb-0"
-                />
-                <CardContent>
-                  <Stack spacing={4}>
-                    <TextField
-                      label="Section description"
-                      multiline
-                      minRows={4}
-                      defaultValue={section.description}
-                      size="small"
-                      {...register("description")}
-                    />
-                    <Droppable droppableId="section-detail-list-droppable">
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          <List sx={{ p: 0, m: 0 }}>
-                            <Stack spacing={2}>
-                              {questions.map((item, idx) => (
-                                <QuestionBlockListItem
-                                  key={item._id.toString()}
-                                  question={item}
-                                  index={idx}
-                                />
-                              ))}
-                            </Stack>
-                          </List>
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </Stack>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    p: 2,
-                  }}
+              {section.type === "BLANK" && (
+                <Button
+                  variant="outlined"
+                  onClick={() => setNewQuestionDialogOpen(true)}
                 >
-                  {section.type === "BLANK" && (
-                    <Button
-                      variant="outlined"
-                      onClick={() => setNewQuestionDialogOpen(true)}
-                    >
-                      Add New Question
-                    </Button>
-                  )}
-                  <Button type="submit" variant="contained">
-                    Save section
-                  </Button>
-                </CardActions>
-              </form>
-            </Card>
-          </DragDropContext>
-        </IsSectionEditableContextProvider>
-      </UpdateSectionFormContextProvider>
+                  Add New Question
+                </Button>
+              )}
+              <Button type="submit" variant="contained">
+                Save section
+              </Button>
+            </CardActions>
+          </form>
+        </Card>
+      </DragDropContext>
       {section.type === "BLANK" && (
         <NewQuestionDialog
           open={newQuestionDialogOpen}

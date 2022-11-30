@@ -34,9 +34,12 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
     isLoading: experimentsIsLoading,
     isError: experimentsIsError,
   } = useExperiments();
-  const currentExperiment = (experiments as ExperimentType[]).find(
-    (item) => item._id.toString() === experimentId
-  )!;
+  let currentExperiment;
+  if (experiments) {
+    currentExperiment = (experiments as ExperimentType[]).find(
+      (item) => item._id.toString() === experimentId
+    )!;
+  }
 
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth maxWidth="sm">
@@ -55,7 +58,7 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
                   inputProps={{ min: 1 }}
                   fullWidth
                   defaultValue={
-                    currentExperiment.settings?.numberOfParticipantGroups
+                    currentExperiment?.settings?.numberOfParticipantGroups
                   }
                   {...register("settings.numberOfParticipantGroups")}
                 />
@@ -66,7 +69,7 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
                     inputProps={{ min: 1 }}
                     fullWidth
                     defaultValue={
-                      currentExperiment.settings?.maximumTimeValidity
+                      currentExperiment?.settings?.maximumTimeValidity
                     }
                     {...register("settings.maximumTimeValidity")}
                   />

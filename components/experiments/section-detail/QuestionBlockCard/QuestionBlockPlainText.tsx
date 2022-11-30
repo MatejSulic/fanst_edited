@@ -19,7 +19,7 @@ const QuestionBlockPlainText = ({
 
   useEffect(() => {
     setValue(`questions.${question._id.toString()}.content.text`, quillValue);
-  }, [quillValue, setValue, index]);
+  }, [quillValue, setValue, index, question._id]);
 
   return (
     <Box id="react-quill-container" sx={{ pb: 5 }}>

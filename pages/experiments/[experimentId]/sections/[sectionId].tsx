@@ -9,8 +9,11 @@ import SectionDetailCard from "../../../../components/experiments/section-detail
 import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
+import { IsSectionEditableContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
+import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { useSectionQuestions } from "../../../../hooks/experiments/experiment-detail/useQuestions";
 import { useSections } from "../../../../hooks/experiments/experiment-detail/useSections";
+import useUpdateSectionForm from "../../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
 import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {
@@ -30,6 +33,11 @@ const SectionDetailPage = () => {
     isLoading: sectionsIsLoading,
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
+
+  const [register, setValue, onSubmit, errors] = useUpdateSectionForm(
+    experimentId as string,
+    sectionId as string
+  );
 
   const handleDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -51,35 +59,49 @@ const SectionDetailPage = () => {
   const currentSection = sections.find(
     (item) => item._id.toString() === sectionId
   )!;
+  const isSectionEditable = currentSection.type === "BLANK";
+  const sectionHasEditableSettings =
+    currentSection.type === "BLANK" || currentSection.type === "2AFC";
 
-  return (
+  return currentSection ? (
     <>
       <AppBar />
       <ContentWrapper>
-        <Breadcrumbs />
-        <ExperimentDetailPageToolbar />
+        <UpdateSectionFormContextProvider
+          value={{ register, setValue, onSubmit, errors }}
+        >
+          <IsSectionEditableContextProvider value={{ isSectionEditable }}>
+            <Breadcrumbs />
+            <ExperimentDetailPageToolbar />
 
-        <Box className="flex gap-8 h-5/6">
-          <aside>
-            <SectionList sections={sections} />
-          </aside>
+            <Box className="flex gap-8 h-5/6">
+              <aside>
+                <SectionList sections={sections} />
+              </aside>
 
-          <main style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}>
-            <SectionDetailCard
-              key={currentSection._id.toString()}
-              section={currentSection}
-              questions={questions}
-              onDragEnd={handleDragEnd}
-            />
-          </main>
+              <main style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}>
+                <SectionDetailCard
+                  key={currentSection._id.toString()}
+                  section={currentSection}
+                  questions={questions}
+                  onDragEnd={handleDragEnd}
+                />
+              </main>
 
-          <aside>
-            <SectionSettingsCard sectionId={sectionId as string} />
-          </aside>
-        </Box>
+              {sectionHasEditableSettings && (
+                <aside>
+                  <SectionSettingsCard
+                    key={currentSection._id.toString()}
+                    section={currentSection}
+                  />
+                </aside>
+              )}
+            </Box>
+          </IsSectionEditableContextProvider>
+        </UpdateSectionFormContextProvider>
       </ContentWrapper>
     </>
-  );
+  ) : null;
 };
 
 export default SectionDetailPage;
