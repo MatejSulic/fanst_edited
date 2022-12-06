@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import Experiment from "../../../../../lib/db/models/Experiment";
 import Question from "../../../../../lib/db/models/Question";
 import Section from "../../../../../lib/db/models/Section";
 import dbConnect from "../../../../../lib/db/mongooseDb";
@@ -16,6 +17,12 @@ const createBlankSection = async (sectionDetails: CreateNewSectionType) => {
     experimentId: experimentIdObjectId,
   });
   await createdSection.save();
+
+  const experiment = await Experiment.findOne({
+    _id: sectionDetails.experimentId,
+  });
+  experiment.sections.push(createdSection._id.toString());
+  await experiment.save();
 
   return createdSection;
 };

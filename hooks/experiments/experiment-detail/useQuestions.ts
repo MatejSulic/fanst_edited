@@ -4,6 +4,11 @@ import {
   CreateNewQuestionType,
   QuestionType,
 } from "../../../types/question/question";
+import {
+  questionCreateMutationKey,
+  questionDeleteMutationKey,
+  questionListQueryKey,
+} from "./queries";
 
 export const useCreateQuestionMutation = (
   experimentId: string,
@@ -23,20 +28,13 @@ export const useCreateQuestionMutation = (
     return data.data;
   };
 
-  return useMutation(
-    ["experiments", experimentId, "sections", sectionId, "questions", "create"],
-    {
-      mutationFn: createQuestion,
-      onSuccess: () =>
-        queryClient.invalidateQueries([
-          "experiments",
-          experimentId,
-          "sections",
-          sectionId,
-          "questions",
-        ]),
-    }
-  );
+  return useMutation(questionCreateMutationKey(experimentId, sectionId), {
+    mutationFn: createQuestion,
+    onSuccess: () =>
+      queryClient.invalidateQueries(
+        questionListQueryKey(experimentId, sectionId)
+      ),
+  });
 };
 
 export const useDeleteQuestionMutation = (
@@ -53,25 +51,13 @@ export const useDeleteQuestionMutation = (
   };
 
   return useMutation(
-    [
-      "experiments",
-      experimentId,
-      "sections",
-      sectionId,
-      "questions",
-      questionId,
-      "delete",
-    ],
+    questionDeleteMutationKey(experimentId, sectionId, questionId),
     {
       mutationFn: deleteQuestion,
       onSuccess: () =>
-        queryClient.invalidateQueries([
-          "experiments",
-          experimentId,
-          "sections",
-          sectionId,
-          "questions",
-        ]),
+        queryClient.invalidateQueries(
+          questionListQueryKey(experimentId, sectionId)
+        ),
     }
   );
 };
@@ -91,7 +77,7 @@ export const useSectionQuestions = (
   };
 
   return useQuery(
-    ["experiments", experimentId, "sections", sectionId, "questions"],
+    questionListQueryKey(experimentId as string, sectionId as string),
     async () =>
       await getSectionQuestions(experimentId as string, sectionId as string),
     { enabled: experimentId !== undefined && sectionId !== undefined }

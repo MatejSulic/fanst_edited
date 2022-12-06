@@ -5,6 +5,12 @@ import {
   ExperimentType,
   UpdateExperimentType,
 } from "../../types/experiment";
+import {
+  experimentCreateMutationKey,
+  experimentDetailQueryKey,
+  experimentListQueryKey,
+  experimentUpdateMutationKey,
+} from "./queries";
 
 export const useUpdateExperimentMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
@@ -21,9 +27,9 @@ export const useUpdateExperimentMutation = (experimentId: string) => {
     return data.data;
   };
 
-  return useMutation(["experiments", experimentId], {
+  return useMutation(experimentUpdateMutationKey(experimentId), {
     mutationFn: updateExperiment,
-    onSuccess: () => queryClient.invalidateQueries(["experiments"]),
+    onSuccess: () => queryClient.invalidateQueries(experimentListQueryKey()),
   });
 };
 
@@ -39,9 +45,9 @@ export const useCreateExperimentMutation = () => {
     return data;
   };
 
-  return useMutation(["experiments", "create"], {
+  return useMutation(experimentCreateMutationKey(), {
     mutationFn: createExperiment,
-    onSuccess: () => queryClient.invalidateQueries(["experiments"]),
+    onSuccess: () => queryClient.invalidateQueries(experimentListQueryKey()),
   });
 };
 
@@ -51,5 +57,20 @@ export const useExperiments = () => {
     return data.data;
   };
 
-  return useQuery(["experiments"], getExperiments);
+  return useQuery(experimentListQueryKey(), getExperiments);
+};
+
+export const useExperiment = (experimentId?: string) => {
+  const getExperiment = async (
+    experimentId: string
+  ): Promise<ExperimentType> => {
+    const { data } = await axios.get(`/api/experiments/${experimentId}/`);
+    return data.data;
+  };
+
+  return useQuery(
+    experimentDetailQueryKey(experimentId as string),
+    async () => await getExperiment(experimentId as string),
+    { enabled: experimentId !== undefined }
+  );
 };

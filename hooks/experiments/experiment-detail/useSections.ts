@@ -5,6 +5,11 @@ import {
   SectionType,
   UpdateSectionType,
 } from "../../../types/section/section";
+import {
+  sectionCreateMutationKey,
+  sectionListQueryKey,
+  sectionUpdateMutationKey,
+} from "./queries";
 
 export const useUpdateSectionMutation = (
   experimentId: string,
@@ -24,10 +29,10 @@ export const useUpdateSectionMutation = (
     return data.data;
   };
 
-  return useMutation(["experiments", experimentId, "sections", sectionId], {
+  return useMutation(sectionUpdateMutationKey(experimentId, sectionId), {
     mutationFn: updateSection,
     onSuccess: () =>
-      queryClient.invalidateQueries(["experiments", experimentId, "sections"]),
+      queryClient.invalidateQueries(sectionListQueryKey(experimentId)),
   });
 };
 
@@ -46,10 +51,10 @@ export const useCreateSectionMutation = (experimentId: string) => {
     return data.data;
   };
 
-  return useMutation(["experiments", experimentId, "sections", "create"], {
+  return useMutation(sectionCreateMutationKey(experimentId), {
     mutationFn: createSection,
     onSuccess: () =>
-      queryClient.invalidateQueries(["experiments", experimentId, "sections"]),
+      queryClient.invalidateQueries(sectionListQueryKey(experimentId)),
   });
 };
 
@@ -62,7 +67,7 @@ export const useSections = (experimentId?: string) => {
   };
 
   return useQuery(
-    ["experiments", experimentId, "sections"],
+    sectionListQueryKey(experimentId as string),
     async () => await getSections(experimentId as string),
     { enabled: experimentId !== undefined }
   );

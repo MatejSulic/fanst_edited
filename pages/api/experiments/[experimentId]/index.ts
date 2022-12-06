@@ -26,5 +26,16 @@ export default async function handler(
       console.log(error);
       res.status(400).json({ success: false });
     }
+  } else if (req.method === "GET") {
+    try {
+      const experiment = await Experiment.findOne({
+        _id: experimentId,
+      });
+
+      res.status(200).json({ success: true, data: experiment });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false });
+    }
   }
 }
