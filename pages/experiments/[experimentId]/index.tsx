@@ -42,11 +42,9 @@ const ExperimentDetailPage = () => {
       <AppBar />
       <ContentWrapper>
         <Breadcrumbs />
-        <Box className="space-y-4">
-          <ExperimentDetailPageToolbar />
-        </Box>
+        <ExperimentDetailPageToolbar />
 
-        <Box className="flex gap-8 h-5/6">
+        <Box sx={{ display: "flex", gap: 4, height: "83.3%", mt: 2 }}>
           <aside>
             <SectionList sections={sections} />
           </aside>

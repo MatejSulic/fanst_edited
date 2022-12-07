@@ -45,14 +45,16 @@ const ExperimentsListPage = () => {
             <CategoriesList />
           </aside>
 
-          <main>
+          <main style={{ width: "100%" }}>
             <Card variant="outlined">
               <CardContent>
                 {experiments.length > 0 ? (
                   <List
                     sx={{
-                      width: (theme) => theme.breakpoints.values["md"],
-                      maxWidth: (theme) => theme.breakpoints.values["md"],
+                      // width: "100%",
+                      // maxWidth: "100%",
+                      // width: (theme) => theme.breakpoints.values["md"],
+                      // maxWidth: (theme) => theme.breakpoints.values["md"],
                       backgroundColor: "white",
                     }}
                   >

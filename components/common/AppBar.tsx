@@ -45,7 +45,7 @@ const AppBar = () => {
 
   return (
     <MuiAppBar position="static">
-      <div className="max-w-full mx-8">
+      <Box sx={{ maxWidth: "100%", mx: 8 }}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -170,7 +170,7 @@ const AppBar = () => {
             </Menu>
           </Box>
         </Toolbar>
-      </div>
+      </Box>
     </MuiAppBar>
   );
 };
