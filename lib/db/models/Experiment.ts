@@ -15,7 +15,7 @@ const ExperimentSettingsSchema = new Schema<ExperimentSettingsType>(
 const ExperimentSchema = new Schema<ExperimentType>({
   title: { type: String, required: true },
   description: String,
-  sections: [{ type: Schema.Types.ObjectId, ref: "Section" }],
+  sections: [{ type: String, default: [] }],
   participants: [{ type: String }],
   settings: ExperimentSettingsSchema,
 });

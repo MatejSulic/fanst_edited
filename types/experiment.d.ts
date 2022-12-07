@@ -9,8 +9,8 @@ export type ExperimentType = {
   _id: Types.ObjectId;
   title: string;
   description: string;
-  sections: Types.ObjectId[]; // section ids
-  participants: Types.ObjectId[]; // participant ids
+  sections: string[]; // section ids
+  participants: string[]; // participant ids
 
   settings: ExperimentSettingsType;
 };

@@ -9,7 +9,7 @@ import {
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useCreateNewSectionForm from "../../../../hooks/experiments/experiment-detail/useCreateNewSectionForm";
+import useCreateNewSectionForm from "../../../../hooks/sections/useCreateNewSectionForm";
 import { sectionTypeTypes } from "../../../../types/section/sectionTypes";
 import { SectionType } from "../../../../types/section/section";
 import Dialog from "../../../MuiOverrides/Dialog";

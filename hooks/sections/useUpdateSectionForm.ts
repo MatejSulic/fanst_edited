@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { UpdateSectionType } from "../../../types/section/section";
+import { UpdateSectionType } from "../../types/section/section";
 import { useUpdateSectionMutation } from "./useSections";
 
 const useUpdateSectionForm = (experimentId: string, sectionId: string) => {

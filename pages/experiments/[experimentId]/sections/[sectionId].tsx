@@ -11,9 +11,9 @@ import SectionList from "../../../../components/experiments/section-list-aside/S
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
 import { IsSectionEditableContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
-import { useSectionQuestions } from "../../../../hooks/experiments/experiment-detail/useQuestions";
-import { useSections } from "../../../../hooks/experiments/experiment-detail/useSections";
-import useUpdateSectionForm from "../../../../hooks/experiments/experiment-detail/useUpdateSectionForm";
+import { useSectionQuestions } from "../../../../hooks/questions/useQuestions";
+import { useSections } from "../../../../hooks/sections/useSections";
+import useUpdateSectionForm from "../../../../hooks/sections/useUpdateSectionForm";
 import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {

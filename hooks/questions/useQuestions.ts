@@ -3,7 +3,7 @@ import axios from "axios";
 import {
   CreateNewQuestionType,
   QuestionType,
-} from "../../../types/question/question";
+} from "../../types/question/question";
 import {
   questionCreateMutationKey,
   questionDeleteMutationKey,

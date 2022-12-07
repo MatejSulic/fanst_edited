@@ -4,7 +4,7 @@ import {
   CreateNewSectionType,
   SectionType,
   UpdateSectionType,
-} from "../../../types/section/section";
+} from "../../types/section/section";
 import {
   sectionCreateMutationKey,
   sectionListQueryKey,

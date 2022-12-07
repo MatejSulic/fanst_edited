@@ -7,7 +7,7 @@ import ExperimentDetailList from "../../../components/experiments/experiment-det
 import ExperimentDetailPageToolbar from "../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
 import SectionList from "../../../components/experiments/section-list-aside/SectionList";
 import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
-import { useSections } from "../../../hooks/experiments/experiment-detail/useSections";
+import { useSections } from "../../../hooks/sections/useSections";
 import { useExperiments } from "../../../hooks/experiments/useExperiments";
 
 const ExperimentDetailPage = () => {

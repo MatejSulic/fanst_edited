@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { CreateNewSectionType } from "../../../types/section/section";
+import { CreateNewSectionType } from "../../types/section/section";
 import { useCreateSectionMutation } from "./useSections";
 
 const useCreateNewSectionForm = (experimentId: string) => {

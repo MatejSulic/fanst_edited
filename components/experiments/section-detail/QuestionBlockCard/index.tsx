@@ -21,10 +21,10 @@ import QuestionBlock2AFC from "./QuestionBlock2AFC";
 import QuestionBlockImageSelect from "./QuestionBlockImageSelect";
 import QuestionBlockPlainText from "./QuestionBlockPlainText";
 import { useEffect, useRef, useState } from "react";
-import { useDeleteQuestionMutation } from "../../../../hooks/experiments/experiment-detail/useQuestions";
+import { useDeleteQuestionMutation } from "../../../../hooks/questions/useQuestions";
 import { useRouter } from "next/router";
 import { useIsSectionEditableContext } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
-import { useSections } from "../../../../hooks/experiments/experiment-detail/useSections";
+import { useSections } from "../../../../hooks/sections/useSections";
 import { SectionType } from "../../../../types/section/section";
 
 export type QuestionBlockCardSharedProps = {

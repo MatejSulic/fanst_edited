@@ -9,7 +9,7 @@ import {
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useCreateNewQuestionForm from "../../../../hooks/experiments/experiment-detail/useCreateNewQuestionForm";
+import useCreateNewQuestionForm from "../../../../hooks/questions/useCreateNewQuestionForm";
 import { questionTypeTypes } from "../../../../types/question/questionTypes";
 import { QuestionType } from "../../../../types/question/question";
 import Dialog from "../../../MuiOverrides/Dialog";
