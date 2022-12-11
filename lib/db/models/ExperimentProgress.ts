@@ -39,6 +39,7 @@ const ExperimentProgressSchema = new Schema<ExperimentProgressType>({
     // required: true,
   },
   currentSectionIdx: { type: Number, default: 0 },
+  finished: { type: Boolean, default: false },
   sectionResults: { type: [SectionResultsSchema], default: [] },
 });
 

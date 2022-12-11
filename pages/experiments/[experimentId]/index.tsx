@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import AppBar from "../../../components/common/AppBar";
@@ -41,7 +41,9 @@ const ExperimentDetailPage = () => {
     <>
       <AppBar />
       <ContentWrapper>
-        <Breadcrumbs />
+        <Box sx={{ width: "100%" }}>
+          <Breadcrumbs />
+        </Box>
         <ExperimentDetailPageToolbar />
 
         <Box sx={{ display: "flex", gap: 4, height: "83.3%", mt: 2 }}>

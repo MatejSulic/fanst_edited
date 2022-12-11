@@ -9,7 +9,7 @@ const useCreateNewSectionForm = (experimentId: string) => {
     formState: { errors },
     setValue,
   } = useForm<CreateNewSectionType>({
-    defaultValues: { experimentId },
+    // defaultValues: { experimentId },
   });
   const createExperimentMutation = useCreateSectionMutation(experimentId);
 

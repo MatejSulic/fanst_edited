@@ -1,7 +1,8 @@
 import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import ExperimentProgress from "../../../../lib/db/models/ExperimentProgress";
-import dbConnect from "../../../../lib/db/mongooseDb";
+import Experiment from "../../../../../lib/db/models/Experiment";
+import ExperimentProgress from "../../../../../lib/db/models/ExperimentProgress";
+import dbConnect from "../../../../../lib/db/mongooseDb";
 
 export default async function handler(
   req: NextApiRequest,
@@ -42,10 +43,31 @@ export default async function handler(
       const experimentProgress = await ExperimentProgress.findOne({
         experimentId: experimentId,
       });
+      const experiment = await Experiment.findOne({
+        _id: experimentId,
+      });
 
-      Object.entries(req.body).forEach(
+      const { sectionResults, ...experimentProgressData } = req.body;
+
+      // if the submitted data contains section results, increase currentSectionIdx
+      if (sectionResults) {
+        experimentProgress.sectionResults.push(sectionResults);
+        if (
+          experiment.sections.length === 0 ||
+          experimentProgress.currentSectionIdx ===
+            experiment.sections.length - 1
+        ) {
+          experimentProgress.finished = true;
+        } else {
+          experimentProgress.currentSectionIdx += 1;
+        }
+      }
+
+      // update other fields
+      Object.entries(experimentProgressData).forEach(
         ([key, value]) => (experimentProgress[key] = value)
       );
+
       await experimentProgress.save();
 
       res.status(200).json({ success: true, data: experimentProgress });

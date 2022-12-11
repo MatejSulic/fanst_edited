@@ -1,4 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   Box,
   Card,
@@ -14,18 +15,15 @@ import {
   Popper,
   TextField,
 } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useIsSectionEditableContext } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
+import { useDeleteQuestionMutation } from "../../../../hooks/questions/useQuestions";
 import { QuestionType } from "../../../../types/question/question";
 import QuestionBlock2AFC from "./QuestionBlock2AFC";
 import QuestionBlockImageSelect from "./QuestionBlockImageSelect";
 import QuestionBlockPlainText from "./QuestionBlockPlainText";
-import { useEffect, useRef, useState } from "react";
-import { useDeleteQuestionMutation } from "../../../../hooks/questions/useQuestions";
-import { useRouter } from "next/router";
-import { useIsSectionEditableContext } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
-import { useSections } from "../../../../hooks/sections/useSections";
-import { SectionType } from "../../../../types/section/section";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;

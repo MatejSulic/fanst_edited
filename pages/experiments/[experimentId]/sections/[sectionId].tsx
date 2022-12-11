@@ -71,10 +71,14 @@ const SectionDetailPage = () => {
           value={{ register, setValue, onSubmit, errors }}
         >
           <IsSectionEditableContextProvider value={{ isSectionEditable }}>
-            <Breadcrumbs />
+            <Box sx={{ width: "100%" }}>
+              <Breadcrumbs />
+            </Box>
             <ExperimentDetailPageToolbar />
 
-            <Box className="flex gap-8 h-5/6">
+            <Box
+              sx={{ display: "flex", gap: 8, height: "83.3%", width: "100%" }}
+            >
               <aside>
                 <SectionList sections={sections} />
               </aside>

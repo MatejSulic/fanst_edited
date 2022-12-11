@@ -2,11 +2,19 @@ import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import PublicAppBar from "../../../../components/public/common/PublicAppBar";
+import ExperimentWithdrawConsentCard from "../../../../components/public/experiment/ExperimentWithdrawConsentCard";
 import ExperimentSectionCard from "../../../../components/public/experiment/ExperimentSectionCard";
 import ExperimentStartCard from "../../../../components/public/experiment/ExperimentStartCard";
 import { useExperiment } from "../../../../hooks/experiments/useExperiments";
-import { useExperimentProgress } from "../../../../hooks/public/experiment-progress/useExperimentProgresses";
+import {
+  useExperimentProgress,
+  useUpdateExperimentProgressMutation,
+} from "../../../../hooks/public/experiment-progress/useExperimentProgresses";
 import { useSections } from "../../../../hooks/sections/useSections";
+import {
+  SectionResults,
+  UpdateSectionResultsType,
+} from "../../../../types/experimentProgress";
 
 const ExperimentPreviewPage = () => {
   const router = useRouter();
@@ -23,6 +31,10 @@ const ExperimentPreviewPage = () => {
     isError: experimentProgressIsError,
   } = useExperimentProgress(experimentId as string | undefined);
 
+  const experimentProgressMutation = useUpdateExperimentProgressMutation(
+    experimentId as string
+  );
+
   const {
     data: sections,
     isLoading: sectionsIsLoading,
@@ -37,20 +49,35 @@ const ExperimentPreviewPage = () => {
     return <Typography variant="h1">Error</Typography>;
   }
 
+  const experimentFinished = !!experimentProgress?.finished;
+
   // experimentProgress does not exist yet - first time opening the experiment
   const currentSection =
     experimentProgress === null
       ? null
       : sections[experimentProgress.currentSectionIdx];
 
+  const handleSectionSubmit = (results: UpdateSectionResultsType) => {
+    experimentProgressMutation.mutate({
+      experimentProgressData: {
+        sectionResults: results,
+      },
+    });
+  };
+
   return (
     <>
       <PublicAppBar />
       <ContentWrapper>
-        {currentSection === null ? (
+        {experimentFinished ? (
+          <ExperimentWithdrawConsentCard experiment={experiment} />
+        ) : currentSection === null ? (
           <ExperimentStartCard experiment={experiment} />
         ) : (
-          <ExperimentSectionCard section={currentSection} />
+          <ExperimentSectionCard
+            section={currentSection}
+            submitSection={handleSectionSubmit}
+          />
         )}
       </ContentWrapper>
     </>

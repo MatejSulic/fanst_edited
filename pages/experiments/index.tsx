@@ -33,14 +33,22 @@ const ExperimentsListPage = () => {
     <>
       <AppBar />
       <ContentWrapper>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 8,
+            width: "100%",
+            height: "min-content",
+          }}
+        >
           <Breadcrumbs />
           <CreateNewExperimentButton
             onClick={() => setNewExperimentDialogIsOpen(true)}
           />
         </Box>
 
-        <Box className="flex gap-8">
+        <Box sx={{ display: "flex", gap: 8, width: "100%" }}>
           <aside>
             <CategoriesList />
           </aside>

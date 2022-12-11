@@ -1,6 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { ExperimentProgressType } from "../../../types/experimentProgress";
+import {
+  ExperimentProgressType,
+  UpdateExperimentProgressType,
+} from "../../../types/experimentProgress";
 import {
   experimentProgressListQueryKey,
   experimentProgressDetailQueryKey,
@@ -14,8 +17,8 @@ export const useUpdateExperimentProgressMutation = (experimentId: string) => {
   const updateExperimentProgress = async ({
     experimentProgressData,
   }: {
-    experimentProgressData: any;
-  }) => {
+    experimentProgressData: UpdateExperimentProgressType;
+  }): Promise<ExperimentProgressType> => {
     const { data } = await axios.patch(
       `/api/public/experiment-progress/${experimentId}`,
       experimentProgressData
@@ -39,7 +42,7 @@ export const useCreateExperimentProgressMutation = (experimentId: string) => {
     experimentId,
   }: {
     experimentId: string;
-  }) => {
+  }): Promise<ExperimentProgressType> => {
     const { data } = await axios.post(
       `/api/public/experiment-progress/${experimentId}`,
       experimentId
