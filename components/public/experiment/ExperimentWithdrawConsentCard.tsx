@@ -7,7 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useWithdrawConsentMutation } from "../../../hooks/public/experiment-progress/useWIthdrawConsent";
 import { ExperimentType } from "../../../types/experiment";
 
 type Props = {
@@ -15,6 +17,18 @@ type Props = {
 };
 
 const ExperimentWithdrawConsentCard = ({ experiment }: Props) => {
+  const router = useRouter();
+  const withdrawConsentMutation = useWithdrawConsentMutation(
+    experiment._id.toString()
+  );
+
+  const handleWithdrawConsent = () => {
+    withdrawConsentMutation.mutate();
+    router.replace(
+      `/public/experiment-preview/${experiment._id.toString()}/consent-removed`
+    );
+  };
+
   return (
     <Card
       variant="outlined"
@@ -49,7 +63,11 @@ const ExperimentWithdrawConsentCard = ({ experiment }: Props) => {
       <CardActions
         sx={{ display: "flex", justifyContent: "flex-end", gap: 4, pb: 2 }}
       >
-        <Button variant="contained" color="warning">
+        <Button
+          variant="contained"
+          color="warning"
+          onClick={() => handleWithdrawConsent()}
+        >
           Withdraw consent
         </Button>
         <Link

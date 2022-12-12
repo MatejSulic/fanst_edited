@@ -24,3 +24,10 @@ export const experimentProgressUpdateMutationKey = (experimentId: string) => [
   experimentId,
   "update-mutation",
 ];
+
+export const withdrawConsentMutationKey = (experimentId: string) => [
+  "public",
+  "experiment-progress",
+  experimentId,
+  "withdraw-consent-mutation",
+];
