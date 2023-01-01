@@ -43,7 +43,7 @@ export default async function handler(
       section.questions.push(createdQuestion._id.toString());
       await section.save();
 
-      res.status(200).json({ success: true, data: createdQuestion });
+      res.status(201).json({ success: true, data: createdQuestion });
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });

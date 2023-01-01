@@ -24,7 +24,7 @@ const SectionSchema = new Schema<SectionType>({
   },
   description: { type: String, default: "The most amazing section of all!" },
   type: { type: String, enum: sectionTypeTypes, required: true },
-  questions: [{ type: String, default: [] }],
+  questions: { type: [String], default: [] },
 
   settings: { type: SectionSettingsSchema, default: {} },
 });

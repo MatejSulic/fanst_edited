@@ -15,3 +15,4 @@ export const cloudinaryApiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
 // export const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET;
 export const cloudinaryUploadPreset =
   process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+export const jwtSecret = process.env.JWT_SECRET;

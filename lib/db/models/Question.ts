@@ -14,7 +14,7 @@ const QuestionSettingsSchema = new Schema<QuestionSettingsType>(
 const QuestionContentSchema = new Schema<QuestionContentType>(
   {
     text: String,
-    images: [{ type: String }],
+    images: { type: [String] },
     leftImage: String,
     rightImage: String,
   },

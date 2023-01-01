@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { StyledEngineProvider } from "@mui/material";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Script from "next/script";
+import { AuthContextProvider } from "../contexts/auth/authContext";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity } },
@@ -11,12 +12,14 @@ const queryClient = new QueryClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <StyledEngineProvider injectFirst>
+      <Script
+        src="https://widget.cloudinary.com/v2.0/global/all.js"
+        type="text/javascript"
+      ></Script>
       <QueryClientProvider client={queryClient}>
-        <Script
-          src="https://widget.cloudinary.com/v2.0/global/all.js"
-          type="text/javascript"
-        ></Script>
-        <Component {...pageProps} />
+        <AuthContextProvider>
+          <Component {...pageProps} />
+        </AuthContextProvider>
       </QueryClientProvider>
     </StyledEngineProvider>
   );
