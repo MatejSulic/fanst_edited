@@ -50,35 +50,33 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
             This settings apply to the whole experiment.
           </DialogContentText>
           <Box sx={{ mt: 1 }}>
-            <form>
-              <Stack spacing={1}>
+            <Stack spacing={1}>
+              <TextField
+                label="Number of participant groups"
+                type="number"
+                inputProps={{ min: 1 }}
+                fullWidth
+                defaultValue={
+                  currentExperiment?.settings?.numberOfParticipantGroups
+                }
+                {...register("settings.numberOfParticipantGroups")}
+              />
+              <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
                 <TextField
-                  label="Number of participant groups"
+                  label="Maximum time validity"
                   type="number"
                   inputProps={{ min: 1 }}
                   fullWidth
                   defaultValue={
-                    currentExperiment?.settings?.numberOfParticipantGroups
+                    currentExperiment?.settings?.maximumTimeValidity
                   }
-                  {...register("settings.numberOfParticipantGroups")}
+                  {...register("settings.maximumTimeValidity")}
                 />
-                <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
-                  <TextField
-                    label="Maximum time validity"
-                    type="number"
-                    inputProps={{ min: 1 }}
-                    fullWidth
-                    defaultValue={
-                      currentExperiment?.settings?.maximumTimeValidity
-                    }
-                    {...register("settings.maximumTimeValidity")}
-                  />
-                  <Typography component="span" variant="body2">
-                    minutes
-                  </Typography>
-                </Box>
-              </Stack>
-            </form>
+                <Typography component="span" variant="body2">
+                  minutes
+                </Typography>
+              </Box>
+            </Stack>
           </Box>
         </DialogContent>
         <DialogActions>

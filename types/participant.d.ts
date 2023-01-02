@@ -1,5 +1,7 @@
+import { Types } from "mongoose";
+
 export type ParticipantType = {
-  id: string;
+  _id: Types.ObjectId;
   email: string;
   consent: boolean;
 };

@@ -11,6 +11,7 @@ import SectionList from "../../../../components/experiments/section-list-aside/S
 import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
 import { IsSectionEditableContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
+import { LockExperimentContextProvider } from "../../../../contexts/experiments/lockExperimentContext";
 import { useSectionQuestions } from "../../../../hooks/questions/useQuestions";
 import { useSections } from "../../../../hooks/sections/useSections";
 import useUpdateSectionForm from "../../../../hooks/sections/useUpdateSectionForm";
@@ -48,7 +49,7 @@ const SectionDetailPage = () => {
     setItems(newItems);
   };
 
-  if (isLoading || sectionsIsLoading) {
+  if (isLoading || sectionsIsLoading || !router.isReady) {
     return <Typography variant="h1">Loading...</Typography>;
   }
 
@@ -67,42 +68,46 @@ const SectionDetailPage = () => {
     <>
       <AppBar />
       <ContentWrapper>
-        <UpdateSectionFormContextProvider
-          value={{ register, setValue, onSubmit, errors }}
-        >
-          <IsSectionEditableContextProvider value={{ isSectionEditable }}>
-            <Box sx={{ width: "100%" }}>
-              <Breadcrumbs />
-            </Box>
-            <ExperimentDetailPageToolbar />
+        <LockExperimentContextProvider experimentId={experimentId as string}>
+          <UpdateSectionFormContextProvider
+            value={{ register, setValue, onSubmit, errors }}
+          >
+            <IsSectionEditableContextProvider value={{ isSectionEditable }}>
+              <Box sx={{ width: "100%" }}>
+                <Breadcrumbs />
+              </Box>
+              <ExperimentDetailPageToolbar />
 
-            <Box
-              sx={{ display: "flex", gap: 8, height: "83.3%", width: "100%" }}
-            >
-              <aside>
-                <SectionList sections={sections} />
-              </aside>
-
-              <main style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}>
-                <SectionDetailCard
-                  key={currentSection._id.toString()}
-                  section={currentSection}
-                  questions={questions}
-                  onDragEnd={handleDragEnd}
-                />
-              </main>
-
-              {sectionHasEditableSettings && (
+              <Box
+                sx={{ display: "flex", gap: 8, height: "83.3%", width: "100%" }}
+              >
                 <aside>
-                  <SectionSettingsCard
+                  <SectionList sections={sections} />
+                </aside>
+
+                <main
+                  style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}
+                >
+                  <SectionDetailCard
                     key={currentSection._id.toString()}
                     section={currentSection}
+                    questions={questions}
+                    onDragEnd={handleDragEnd}
                   />
-                </aside>
-              )}
-            </Box>
-          </IsSectionEditableContextProvider>
-        </UpdateSectionFormContextProvider>
+                </main>
+
+                {sectionHasEditableSettings && (
+                  <aside>
+                    <SectionSettingsCard
+                      key={currentSection._id.toString()}
+                      section={currentSection}
+                    />
+                  </aside>
+                )}
+              </Box>
+            </IsSectionEditableContextProvider>
+          </UpdateSectionFormContextProvider>
+        </LockExperimentContextProvider>
       </ContentWrapper>
     </>
   ) : null;

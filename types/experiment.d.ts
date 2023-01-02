@@ -11,7 +11,9 @@ export type ExperimentType = {
   description: string;
   sections: string[]; // section ids
   participants: string[]; // participant ids
+  participantGroups: string[]; // participantGroup ids
 
+  locked: boolean; // locked experiment cannot be further edited - create participant groups, question permutations etc. on lock
   settings: ExperimentSettingsType;
 };
 
@@ -21,5 +23,5 @@ export type CreateNewExperimentType = Pick<
 >;
 
 export type UpdateExperimentType = Partial<
-  Omit<ExperimentType, "_id" | "sections" | "participants">
+  Pick<ExperimentType, "title" | "description" | "settings">
 >;

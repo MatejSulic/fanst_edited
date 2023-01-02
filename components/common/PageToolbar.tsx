@@ -1,16 +1,7 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  List,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
+import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
 import ExperimentSettingsDialog from "./ExperimentSettingsDialog";
 
 type Props = {
@@ -19,6 +10,8 @@ type Props = {
 
 const PageToolbar = ({ children }: Props) => {
   const [open, setOpen] = useState(false);
+  const lockExperimentContext = useLockExperimentContext();
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -27,12 +20,24 @@ const PageToolbar = ({ children }: Props) => {
       <Box className="w-full px-8 flex justify-between gap-8">
         {children}
         <Box className="flex justify start items-center gap-4">
-          <Button variant="outlined" size="small" onClick={handleOpen}>
-            Experiment settings
-          </Button>
+          {lockExperimentContext.isExperimentLocked ? null : (
+            <Button variant="outlined" size="small" onClick={handleOpen}>
+              Experiment settings
+            </Button>
+          )}
           <Button variant="text" size="small">
             Preview experiment
           </Button>
+          {lockExperimentContext.isExperimentLocked ? null : (
+            <Button
+              variant="outlined"
+              size="small"
+              color="warning"
+              onClick={() => lockExperimentContext.lockExperiment()}
+            >
+              Lock experiment
+            </Button>
+          )}
         </Box>
       </Box>
 

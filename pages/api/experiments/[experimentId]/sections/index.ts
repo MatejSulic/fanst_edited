@@ -115,16 +115,17 @@ export default async function handler(
   } else if (req.method === "POST") {
     try {
       const sectionType = req.body.type as SectionType["type"];
+      const sectionDetails = { ...req.body, experimentId };
 
       let createdSection;
       if (sectionType === "INTRODUCTION") {
-        createdSection = await createIntroductionSection(req.body);
+        createdSection = await createIntroductionSection(sectionDetails);
       } else if (sectionType === "2AFC") {
-        createdSection = await create2AFCSection(req.body);
+        createdSection = await create2AFCSection(sectionDetails);
       } else if (sectionType === "ACKNOWLEDGEMENT") {
-        createdSection = await createAcknowledgementSection(req.body);
+        createdSection = await createAcknowledgementSection(sectionDetails);
       } else {
-        createdSection = await createBlankSection(req.body);
+        createdSection = await createBlankSection(sectionDetails);
       }
 
       res.status(200).json({ success: true, data: createdSection });

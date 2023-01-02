@@ -6,8 +6,11 @@ type QuestionTypeType = typeof questionTypeTypes[number];
 type QuestionSettingsType = {};
 
 type QuestionContentType = {
-  text?: string; // in case question is of type PLAIN_TEXT
+  // in case of PLAIN_TEXT
+  text?: string;
+  // in case of 2AFC
   images?: string[];
+  imagePermutations?: { participantGroup: string; permutation: string[] }[]; // permutation is a list of image ids - same as `images` field
   // in case of IMAGE_SELECT
   leftImage?: string;
   rightImage?: string;

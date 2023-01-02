@@ -26,7 +26,7 @@ const SectionSchema = new Schema<SectionType>({
   type: { type: String, enum: sectionTypeTypes, required: true },
   questions: { type: [String], default: [] },
 
-  settings: { type: SectionSettingsSchema, default: {} },
+  settings: { type: SectionSettingsSchema, default: () => ({}) },
 });
 
 export default mongoose.models.Section ||

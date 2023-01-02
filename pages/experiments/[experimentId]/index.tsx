@@ -9,6 +9,7 @@ import SectionList from "../../../components/experiments/section-list-aside/Sect
 import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
 import { useSections } from "../../../hooks/sections/useSections";
 import { useExperiments } from "../../../hooks/experiments/useExperiments";
+import { LockExperimentContextProvider } from "../../../contexts/experiments/lockExperimentContext";
 
 const ExperimentDetailPage = () => {
   const router = useRouter();
@@ -41,29 +42,33 @@ const ExperimentDetailPage = () => {
     <>
       <AppBar />
       <ContentWrapper>
-        <Box sx={{ width: "100%" }}>
-          <Breadcrumbs />
-        </Box>
-        <ExperimentDetailPageToolbar />
+        <LockExperimentContextProvider
+          experimentId={currentExperiment._id.toString()}
+        >
+          <Box sx={{ width: "100%" }}>
+            <Breadcrumbs />
+          </Box>
+          <ExperimentDetailPageToolbar />
 
-        <Box sx={{ display: "flex", gap: 4, height: "83.3%", mt: 2 }}>
-          <aside>
-            <SectionList sections={sections} />
-          </aside>
+          <Box sx={{ display: "flex", gap: 4, height: "83.3%", mt: 2 }}>
+            <aside>
+              <SectionList sections={sections} />
+            </aside>
 
-          <main>
-            {experiments.length > 0 && (
-              <ExperimentDetailList
-                experiment={
-                  experiments.find(
-                    (item) => item._id.toString() === experimentId
-                  )!
-                }
-                sections={sections}
-              />
-            )}
-          </main>
-        </Box>
+            <main>
+              {experiments.length > 0 && (
+                <ExperimentDetailList
+                  experiment={
+                    experiments.find(
+                      (item) => item._id.toString() === experimentId
+                    )!
+                  }
+                  sections={sections}
+                />
+              )}
+            </main>
+          </Box>
+        </LockExperimentContextProvider>
       </ContentWrapper>
     </>
   ) : null;

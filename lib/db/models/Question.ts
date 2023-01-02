@@ -1,10 +1,13 @@
+import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
-import { questionTypeTypes } from "../../../types/question/questionTypes";
 import {
   QuestionContentType,
   QuestionSettingsType,
   QuestionType,
 } from "../../../types/question/question";
+import { questionTypeTypes } from "../../../types/question/questionTypes";
+import { arrayZip, permute } from "../../../utils/list";
+import dbConnect from "../mongooseDb";
 
 const QuestionSettingsSchema = new Schema<QuestionSettingsType>(
   {},
@@ -15,6 +18,12 @@ const QuestionContentSchema = new Schema<QuestionContentType>(
   {
     text: String,
     images: { type: [String] },
+    imagePermutations: [
+      {
+        participantGroup: String,
+        permutation: [String],
+      },
+    ],
     leftImage: String,
     rightImage: String,
   },
@@ -30,10 +39,37 @@ const QuestionSchema = new Schema<QuestionType>({
   sectionId: { type: Schema.Types.ObjectId, ref: "Section", required: true },
   title: { type: String, default: "New Question" },
   type: { type: String, enum: questionTypeTypes, required: true },
-  content: { type: QuestionContentSchema, default: {} },
+  content: { type: QuestionContentSchema, default: () => ({}) },
 
-  settings: { type: QuestionSettingsSchema, default: {} },
+  settings: { type: QuestionSettingsSchema, default: () => ({}) },
 });
 
-export default mongoose.models.Question ||
-  mongoose.model("Question", QuestionSchema);
+const QuestionModel =
+  mongoose.models.Question || mongoose.model("Question", QuestionSchema);
+export default QuestionModel;
+
+export const generateImagePermutations = async (
+  numberOfParticipantGroups: number,
+  participantGroupsIds: string[],
+  questionId: string
+): Promise<void> => {
+  await dbConnect();
+  const question = await QuestionModel.findById(new ObjectId(questionId));
+
+  const imagesPermutations = permute(question.content.images || []);
+
+  const selectedPermutationsIndices = [...Array(numberOfParticipantGroups)].map(
+    (__) => Math.floor(imagesPermutations.length * Math.random())
+  );
+
+  question.content.imagePermutations = arrayZip(
+    participantGroupsIds,
+    selectedPermutationsIndices
+  ).map(([groupId, permIdx]) => ({
+    participantGroup: groupId,
+    permutation: imagesPermutations[permIdx],
+  }));
+
+  question.markModified("content.imagePermutations");
+  await question.save();
+};

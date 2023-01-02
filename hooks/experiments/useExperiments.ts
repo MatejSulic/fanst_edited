@@ -29,7 +29,29 @@ export const useUpdateExperimentMutation = (experimentId: string) => {
 
   return useMutation(experimentUpdateMutationKey(experimentId), {
     mutationFn: updateExperiment,
-    onSuccess: () => queryClient.invalidateQueries(experimentListQueryKey()),
+    onSuccess: () => {
+      queryClient.invalidateQueries(experimentListQueryKey()),
+        queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+    },
+  });
+};
+
+export const useLockExperimentMutation = (experimentId: string) => {
+  const queryClient = useQueryClient();
+
+  const lockExperiment = async () => {
+    const { data } = await axios.post(
+      `/api/experiments/${experimentId}/experiment-lock`
+    );
+    return data.data;
+  };
+
+  return useMutation(experimentUpdateMutationKey(experimentId), {
+    mutationFn: lockExperiment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(experimentListQueryKey()),
+        queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+    },
   });
 };
 
@@ -58,6 +80,16 @@ export const useExperiments = () => {
   };
 
   return useQuery(experimentListQueryKey(), getExperiments);
+};
+
+export const useExperimentsSafe = () => {
+  const { data: experiments, isLoading, isError } = useExperiments();
+
+  if (isLoading || isError) {
+    return null;
+  }
+
+  return experiments;
 };
 
 export const useExperiment = (experimentId?: string) => {
