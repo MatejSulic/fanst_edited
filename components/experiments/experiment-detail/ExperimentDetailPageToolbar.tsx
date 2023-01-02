@@ -3,20 +3,24 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import NewSectionDialog from "./NewSectionDialog";
 import PageToolbar from "../../common/PageToolbar";
+import { useLockExperimentContext } from "../../../contexts/experiments/lockExperimentContext";
 
 const ExperimentDetailPageToolbar = () => {
   const [newSectionDialogOpen, setNewSectionDialogOpen] = useState(false);
+  const lockExperimentContext = useLockExperimentContext();
 
   return (
     <>
       <PageToolbar>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setNewSectionDialogOpen(true)}
-        >
-          Add section
-        </Button>
+        {!lockExperimentContext.isExperimentLocked && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setNewSectionDialogOpen(true)}
+          >
+            Add section
+          </Button>
+        )}
       </PageToolbar>
       <NewSectionDialog
         open={newSectionDialogOpen}

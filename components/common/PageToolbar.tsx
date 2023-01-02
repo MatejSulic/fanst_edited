@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
@@ -17,28 +17,59 @@ const PageToolbar = ({ children }: Props) => {
 
   return (
     <>
-      <Box className="w-full px-8 flex justify-between gap-8">
-        {children}
-        <Box className="flex justify start items-center gap-4">
-          {lockExperimentContext.isExperimentLocked ? null : (
-            <Button variant="outlined" size="small" onClick={handleOpen}>
-              Experiment settings
+      <Box sx={{ width: "100%" }}>
+        <Box
+          sx={{
+            width: "100%",
+            px: 2,
+            display: "flex",
+            justifyContent: children ? "space-between" : "flex-end",
+            gap: 4,
+          }}
+        >
+          {children}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {lockExperimentContext.isExperimentLocked ? null : (
+              <Button variant="outlined" size="small" onClick={handleOpen}>
+                Experiment settings
+              </Button>
+            )}
+            <Button variant="text" size="small">
+              Preview experiment
             </Button>
-          )}
-          <Button variant="text" size="small">
-            Preview experiment
-          </Button>
-          {lockExperimentContext.isExperimentLocked ? null : (
-            <Button
-              variant="outlined"
-              size="small"
-              color="warning"
-              onClick={() => lockExperimentContext.lockExperiment()}
-            >
-              Lock experiment
-            </Button>
-          )}
+            {lockExperimentContext.isExperimentLocked ? null : (
+              <Button
+                variant="contained"
+                size="small"
+                color="warning"
+                onClick={() => lockExperimentContext.lockExperiment()}
+              >
+                Lock experiment
+              </Button>
+            )}
+          </Box>
         </Box>
+        {lockExperimentContext.isExperimentLocked && (
+          <Box
+            sx={{
+              display: "flex",
+              m: 0,
+              mt: 1,
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              lineHeight: "normal",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              fontWeight="bold"
+              color={(theme) => theme.palette.warning.dark}
+            >
+              Experiment is locked
+            </Typography>
+          </Box>
+        )}
       </Box>
 
       <ExperimentSettingsDialog
