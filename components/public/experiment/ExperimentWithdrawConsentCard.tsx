@@ -14,18 +14,23 @@ import { ExperimentType } from "../../../types/experiment";
 
 type Props = {
   experiment: ExperimentType;
+  participantId: string;
 };
 
-const ExperimentWithdrawConsentCard = ({ experiment }: Props) => {
+const ExperimentWithdrawConsentCard = ({
+  experiment,
+  participantId,
+}: Props) => {
   const router = useRouter();
   const withdrawConsentMutation = useWithdrawConsentMutation(
-    experiment._id.toString()
+    experiment._id.toString(),
+    participantId
   );
 
   const handleWithdrawConsent = () => {
     withdrawConsentMutation.mutate();
     router.replace(
-      `/public/experiment-preview/${experiment._id.toString()}/consent-removed`
+      `/public/experiment-preview/${experiment._id.toString()}/${participantId}/consent-removed`
     );
   };
 
@@ -71,7 +76,7 @@ const ExperimentWithdrawConsentCard = ({ experiment }: Props) => {
           Withdraw consent
         </Button>
         <Link
-          href={`/public/experiment-preview/${experiment._id.toString()}/finished`}
+          href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}/finished`}
         >
           <Button variant="contained">Finish</Button>
         </Link>

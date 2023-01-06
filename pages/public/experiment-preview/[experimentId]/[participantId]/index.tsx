@@ -1,24 +1,21 @@
 import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
-import PublicAppBar from "../../../../components/public/common/PublicAppBar";
-import ExperimentWithdrawConsentCard from "../../../../components/public/experiment/ExperimentWithdrawConsentCard";
-import ExperimentSectionCard from "../../../../components/public/experiment/ExperimentSectionCard";
-import ExperimentStartCard from "../../../../components/public/experiment/ExperimentStartCard";
-import { useExperiment } from "../../../../hooks/experiments/useExperiments";
+import ContentWrapper from "../../../../../components/common/layout/ContentWrapper";
+import PublicAppBar from "../../../../../components/public/common/PublicAppBar";
+import ExperimentSectionCard from "../../../../../components/public/experiment/ExperimentSectionCard";
+import ExperimentStartCard from "../../../../../components/public/experiment/ExperimentStartCard";
+import ExperimentWithdrawConsentCard from "../../../../../components/public/experiment/ExperimentWithdrawConsentCard";
+import { useExperiment } from "../../../../../hooks/experiments/useExperiments";
 import {
   useExperimentProgress,
   useUpdateExperimentProgressMutation,
-} from "../../../../hooks/public/experiment-progress/useExperimentProgresses";
-import { useSections } from "../../../../hooks/sections/useSections";
-import {
-  SectionResults,
-  UpdateSectionResultsType,
-} from "../../../../types/experimentProgress";
+} from "../../../../../hooks/public/experiment-progress/useExperimentProgresses";
+import { useSections } from "../../../../../hooks/sections/useSections";
+import { UpdateSectionResultsType } from "../../../../../types/experimentProgress";
 
 const ExperimentPreviewPage = () => {
   const router = useRouter();
-  const { experimentId } = router.query;
+  const { experimentId, participantId } = router.query;
   const {
     data: experiment,
     isLoading: experimentIsLoading,
@@ -29,10 +26,14 @@ const ExperimentPreviewPage = () => {
     data: experimentProgress,
     isLoading: experimentProgressIsLoading,
     isError: experimentProgressIsError,
-  } = useExperimentProgress(experimentId as string | undefined);
+  } = useExperimentProgress(
+    experimentId as string | undefined,
+    participantId as string | undefined
+  );
 
   const experimentProgressMutation = useUpdateExperimentProgressMutation(
-    experimentId as string
+    experimentId as string,
+    participantId as string
   );
 
   const {
@@ -41,7 +42,12 @@ const ExperimentPreviewPage = () => {
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
 
-  if (experimentIsLoading || experimentProgressIsLoading || sectionsIsLoading) {
+  if (
+    experimentIsLoading ||
+    experimentProgressIsLoading ||
+    sectionsIsLoading ||
+    !router.isReady
+  ) {
     return <Typography variant="h1">Loading...</Typography>;
   }
 
@@ -58,11 +64,7 @@ const ExperimentPreviewPage = () => {
       : sections[experimentProgress.currentSectionIdx];
 
   const handleSectionSubmit = (results: UpdateSectionResultsType) => {
-    experimentProgressMutation.mutate({
-      experimentProgressData: {
-        sectionResults: results,
-      },
-    });
+    experimentProgressMutation.mutate({ sectionResults: results });
   };
 
   return (
@@ -70,9 +72,15 @@ const ExperimentPreviewPage = () => {
       <PublicAppBar />
       <ContentWrapper>
         {experimentFinished ? (
-          <ExperimentWithdrawConsentCard experiment={experiment} />
+          <ExperimentWithdrawConsentCard
+            experiment={experiment}
+            participantId={participantId as string}
+          />
         ) : currentSection === null ? (
-          <ExperimentStartCard experiment={experiment} />
+          <ExperimentStartCard
+            experiment={experiment}
+            participantId={participantId as string}
+          />
         ) : (
           <ExperimentSectionCard
             section={currentSection}

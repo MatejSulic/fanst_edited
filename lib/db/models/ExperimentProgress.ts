@@ -21,7 +21,7 @@ const QuestionResultsSchema = new Schema<QuestionResults>(
 const SectionResultsSchema = new Schema<SectionResults>(
   {
     sectionId: { type: Schema.Types.ObjectId, ref: "Section", required: true },
-    results: { type: [QuestionResultsSchema], default: [] },
+    results: { type: [QuestionResultsSchema], default: () => [] },
   },
   { _id: false }
 );
@@ -34,13 +34,12 @@ const ExperimentProgressSchema = new Schema<ExperimentProgressType>({
   },
   participantId: {
     type: Schema.Types.ObjectId,
-    // TODO:
-    // ref: "Experiment",
-    // required: true,
+    ref: "Participant",
+    required: true,
   },
   currentSectionIdx: { type: Number, default: 0 },
   finished: { type: Boolean, default: false },
-  sectionResults: { type: [SectionResultsSchema], default: [] },
+  sectionResults: { type: [SectionResultsSchema], default: () => [] },
 });
 
 export default mongoose.models.ExperimentProgress ||

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import ExperimentProgress from "../../../../../lib/db/models/ExperimentProgress";
-import dbConnect from "../../../../../lib/db/mongooseDb";
+import ExperimentProgress from "../../../../../../lib/db/models/ExperimentProgress";
+import dbConnect from "../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,12 +8,13 @@ export default async function handler(
 ) {
   await dbConnect();
 
-  const { experimentId } = req.query;
+  const { experimentId, participantId } = req.query;
 
   if (req.method === "POST") {
     try {
       const experimentProgress = await ExperimentProgress.findOne({
         experimentId: experimentId,
+        participantId: participantId,
       });
       await experimentProgress.remove();
 

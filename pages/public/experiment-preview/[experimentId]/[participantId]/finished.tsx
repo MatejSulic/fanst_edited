@@ -1,11 +1,11 @@
 import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
-import PublicAppBar from "../../../../components/public/common/PublicAppBar";
-import ExperimentConsentRemovedCard from "../../../../components/public/experiment/ExperimentConsentRemovedCard";
-import { useExperiment } from "../../../../hooks/experiments/useExperiments";
+import ContentWrapper from "../../../../../components/common/layout/ContentWrapper";
+import PublicAppBar from "../../../../../components/public/common/PublicAppBar";
+import ExperimentFinishedCard from "../../../../../components/public/experiment/ExperimentFinishedCard";
+import { useExperiment } from "../../../../../hooks/experiments/useExperiments";
 
-const ExperimentConsentRemovedPage = () => {
+const ExperimentFinishedPage = () => {
   const router = useRouter();
   const { experimentId } = router.query;
 
@@ -27,10 +27,10 @@ const ExperimentConsentRemovedPage = () => {
     <>
       <PublicAppBar />
       <ContentWrapper>
-        <ExperimentConsentRemovedCard experiment={experiment} />
+        <ExperimentFinishedCard experiment={experiment} />
       </ContentWrapper>
     </>
   );
 };
 
-export default ExperimentConsentRemovedPage;
+export default ExperimentFinishedPage;

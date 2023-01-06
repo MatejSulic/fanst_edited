@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import Experiment from "../../../../../lib/db/models/Experiment";
-import ExperimentProgress from "../../../../../lib/db/models/ExperimentProgress";
-import dbConnect from "../../../../../lib/db/mongooseDb";
+import Experiment from "../../../../../../lib/db/models/Experiment";
+import ExperimentProgress from "../../../../../../lib/db/models/ExperimentProgress";
+import dbConnect from "../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,14 +10,15 @@ export default async function handler(
 ) {
   await dbConnect();
 
-  const { experimentId } = req.query;
+  const { experimentId, participantId } = req.query;
+  const experimentIdObjectId = new Types.ObjectId(experimentId as string);
+  const participantIdObjectId = new Types.ObjectId(participantId as string);
 
   if (req.method === "POST") {
     try {
-      const experimentIdObjectId = new Types.ObjectId(experimentId as string);
-
       const createdExperimentProgress = new ExperimentProgress({
         experimentId: experimentIdObjectId,
+        participantId: participantIdObjectId,
       });
       await createdExperimentProgress.save();
 
@@ -30,7 +31,8 @@ export default async function handler(
     try {
       // potentionally `null` if ExperimentProgress does not exist yet
       const experimentProgress = await ExperimentProgress.findOne({
-        experimentId: experimentId,
+        experimentId: experimentIdObjectId,
+        participantId: participantIdObjectId,
       });
 
       res.status(200).json({ success: true, data: experimentProgress });
@@ -41,10 +43,11 @@ export default async function handler(
   } else if (req.method === "PATCH") {
     try {
       const experimentProgress = await ExperimentProgress.findOne({
-        experimentId: experimentId,
+        experimentId: experimentIdObjectId,
+        participantId: participantIdObjectId,
       });
       const experiment = await Experiment.findOne({
-        _id: experimentId,
+        _id: experimentIdObjectId,
       });
 
       const { sectionResults, ...experimentProgressData } = req.body;

@@ -12,19 +12,19 @@ import { ExperimentType } from "../../../types/experiment";
 
 type Props = {
   experiment: ExperimentType;
+  participantId: string;
 };
 
-const ExperimentStartCard = ({ experiment }: Props) => {
+const ExperimentStartCard = ({ experiment, participantId }: Props) => {
   const createExperimentProgressMutation = useCreateExperimentProgressMutation(
-    experiment._id.toString()
+    experiment._id.toString(),
+    participantId
   );
 
   const handleExperimentStart = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createExperimentProgressMutation.mutate({
-      experimentId: experiment._id.toString(),
-    });
+    createExperimentProgressMutation.mutate();
   };
 
   return (

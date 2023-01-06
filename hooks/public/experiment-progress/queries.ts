@@ -4,30 +4,40 @@ export const experimentProgressListQueryKey = () => [
   "list",
 ];
 
-export const experimentProgressDetailQueryKey = (experimentId: string) => [
-  "public",
-  "experiment-progress",
-  "detail",
-  experimentId,
-];
+export const experimentProgressDetailQueryKey = (
+  experimentId: string,
+  participantId: string
+) => ["public", "experiment-progress", "detail", experimentId, participantId];
 
-export const experimentProgressCreateMutationKey = (experimentId: string) => [
+export const experimentProgressCreateMutationKey = (
+  experimentId: string,
+  participantId: string
+) => [
   "public",
   "experiment-progress",
   experimentId,
+  participantId,
   "create-mutation",
 ];
 
-export const experimentProgressUpdateMutationKey = (experimentId: string) => [
+export const experimentProgressUpdateMutationKey = (
+  experimentId: string,
+  participantId: string
+) => [
   "public",
   "experiment-progress",
   experimentId,
+  participantId,
   "update-mutation",
 ];
 
-export const withdrawConsentMutationKey = (experimentId: string) => [
+export const withdrawConsentMutationKey = (
+  experimentId: string,
+  participantId: string
+) => [
   "public",
   "experiment-progress",
   experimentId,
+  participantId,
   "withdraw-consent-mutation",
 ];

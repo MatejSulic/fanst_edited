@@ -11,9 +11,10 @@ import { ExperimentType } from "../../../types/experiment";
 
 type Props = {
   experiment: ExperimentType;
+  participantId: string;
 };
 
-const ExperimentConsentRemovedCard = ({ experiment }: Props) => {
+const ExperimentConsentRemovedCard = ({ experiment, participantId }: Props) => {
   return (
     <Card
       variant="outlined"
@@ -38,7 +39,9 @@ const ExperimentConsentRemovedCard = ({ experiment }: Props) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
-        <Link href={`/public/experiment-preview/${experiment._id.toString()}`}>
+        <Link
+          href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}`}
+        >
           <Button variant="contained">Participate again</Button>
         </Link>
       </CardActions>

@@ -11,52 +11,60 @@ import {
   experimentProgressUpdateMutationKey,
 } from "./queries";
 
-export const useUpdateExperimentProgressMutation = (experimentId: string) => {
+export const useUpdateExperimentProgressMutation = (
+  experimentId: string,
+  participantId: string
+) => {
   const queryClient = useQueryClient();
 
-  const updateExperimentProgress = async ({
-    experimentProgressData,
-  }: {
-    experimentProgressData: UpdateExperimentProgressType;
-  }): Promise<ExperimentProgressType> => {
+  const updateExperimentProgress = async (
+    experimentProgressData: UpdateExperimentProgressType
+  ): Promise<ExperimentProgressType> => {
     const { data } = await axios.patch(
-      `/api/public/experiment-progress/${experimentId}`,
+      `/api/public/experiment-progress/${experimentId}/${participantId}`,
       experimentProgressData
     );
     return data.data;
   };
 
-  return useMutation(experimentProgressUpdateMutationKey(experimentId), {
-    mutationFn: updateExperimentProgress,
-    onSuccess: () =>
-      queryClient.invalidateQueries(
-        experimentProgressDetailQueryKey(experimentId)
-      ),
-  });
+  return useMutation(
+    experimentProgressUpdateMutationKey(experimentId, participantId),
+    {
+      mutationFn: updateExperimentProgress,
+      onSuccess: () =>
+        queryClient.invalidateQueries(
+          experimentProgressDetailQueryKey(experimentId, participantId)
+        ),
+    }
+  );
 };
 
-export const useCreateExperimentProgressMutation = (experimentId: string) => {
+export const useCreateExperimentProgressMutation = (
+  experimentId: string,
+  participantId: string
+) => {
   const queryClient = useQueryClient();
 
-  const createExperimentProgress = async ({
-    experimentId,
-  }: {
-    experimentId: string;
-  }): Promise<ExperimentProgressType> => {
-    const { data } = await axios.post(
-      `/api/public/experiment-progress/${experimentId}`,
-      experimentId
-    );
-    return data.data;
-  };
+  const createExperimentProgress =
+    async (): Promise<ExperimentProgressType> => {
+      const { data } = await axios.post(
+        `/api/public/experiment-progress/${experimentId}/${participantId}`
+      );
+      return data.data;
+    };
 
-  return useMutation(experimentProgressCreateMutationKey(experimentId), {
-    mutationFn: createExperimentProgress,
-    onSuccess: () =>
-      queryClient.invalidateQueries(
-        experimentProgressDetailQueryKey(experimentId)
-      ),
-  });
+  return useMutation(
+    experimentProgressCreateMutationKey(experimentId, participantId),
+    {
+      mutationFn: createExperimentProgress,
+      onSuccess: () => {
+        queryClient.invalidateQueries(experimentProgressListQueryKey());
+        queryClient.invalidateQueries(
+          experimentProgressDetailQueryKey(experimentId, participantId)
+        );
+      },
+    }
+  );
 };
 
 export const useExperimentProgresses = () => {
@@ -70,20 +78,30 @@ export const useExperimentProgresses = () => {
   return useQuery(experimentProgressListQueryKey(), getExperimentProgresses);
 };
 
-// TODO: filter by participantId
-export const useExperimentProgress = (experimentId?: string) => {
+export const useExperimentProgress = (
+  experimentId?: string,
+  participantId?: string
+) => {
   const getExperimentProgress = async (
-    experimentId: string
+    experimentId: string,
+    participantId: string
   ): Promise<ExperimentProgressType> => {
     const { data } = await axios.get(
-      `/api/public/experiment-progress/${experimentId}`
+      `/api/public/experiment-progress/${experimentId}/${participantId}`
     );
     return data.data;
   };
 
   return useQuery(
-    experimentProgressDetailQueryKey(experimentId as string),
-    async () => await getExperimentProgress(experimentId as string),
-    { enabled: experimentId !== undefined }
+    experimentProgressDetailQueryKey(
+      experimentId as string,
+      participantId as string
+    ),
+    async () =>
+      await getExperimentProgress(
+        experimentId as string,
+        participantId as string
+      ),
+    { enabled: experimentId !== undefined && participantId !== undefined }
   );
 };
