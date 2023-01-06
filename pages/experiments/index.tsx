@@ -59,10 +59,6 @@ const ExperimentsListPage = () => {
                 {experiments.length > 0 ? (
                   <List
                     sx={{
-                      // width: "100%",
-                      // maxWidth: "100%",
-                      // width: (theme) => theme.breakpoints.values["md"],
-                      // maxWidth: (theme) => theme.breakpoints.values["md"],
                       backgroundColor: "white",
                     }}
                   >

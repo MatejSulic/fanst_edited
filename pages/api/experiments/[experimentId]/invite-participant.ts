@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Experiment, {
-  lockExperiment,
+  inviteParticipant,
 } from "../../../../lib/db/models/Experiment";
 import dbConnect from "../../../../lib/db/mongooseDb";
 
@@ -18,8 +18,10 @@ export default async function handler(
         _id: experimentId,
       });
 
-      await lockExperiment(experimentId as string);
+      const { email } = req.body;
+      await inviteParticipant(experiment._id.toString(), email);
 
+      // fetch updated experiment
       experiment = await Experiment.findOne({
         _id: experimentId,
       });

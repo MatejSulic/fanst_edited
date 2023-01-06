@@ -1,73 +1,52 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
-  ClickAwayListener,
-  Grow,
-  IconButton,
+  Button,
+  Collapse,
+  List,
   ListItem,
-  ListItemSecondaryAction,
+  ListItemButton,
   ListItemText,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
+  Typography,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import TextTruncate from "react-text-truncate";
 import { ExperimentType } from "../../types/experiment";
+import InviteParticipantDialog from "./invite-participant/InviteParticipantDialog";
 
 type Props = {
   experiment: ExperimentType;
 };
 
 const ExperimentListItem = ({ experiment }: Props) => {
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef<HTMLButtonElement>(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === "Escape") {
-      setOpen(false);
-    }
-  }
-
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open);
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
+  const [openNestedListItem, setOpenNestedListItem] = useState(false);
+  const [inviteParticipantDialogOpen, setInviteParticipantDialogOpen] =
+    useState(false);
 
   return (
     <>
-      <ListItem>
+      <ListItemButton
+        onClick={() => setOpenNestedListItem((prev) => !prev)}
+        sx={{
+          backgroundColor: openNestedListItem
+            ? (theme) => theme.palette.action.selected
+            : undefined,
+        }}
+      >
         <ListItemText
           disableTypography
           primary={
-            <Link href={`/experiments/${experiment._id.toString()}`}>
-              {experiment.title}
-            </Link>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span>{experiment.title}</span>
+              {experiment.locked && (
+                <Typography
+                  variant="subtitle2"
+                  color={(theme) => theme.palette.error.main}
+                >
+                  Experiment is already locked
+                </Typography>
+              )}
+            </Box>
           }
           secondary={
             <TextTruncate
@@ -78,60 +57,62 @@ const ExperimentListItem = ({ experiment }: Props) => {
             />
           }
         />
-        <ListItemSecondaryAction>
-          <IconButton
-            ref={anchorRef}
-            aria-controls={open ? "composition-menu" : undefined}
-            aria-expanded={open ? "true" : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-          >
-            <MoreHorizIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+      </ListItemButton>
 
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement="bottom-start"
-        transition
-        disablePortal
-        sx={{ zIndex: 10 }}
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom-start" ? "left top" : "left bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
+      <Collapse in={openNestedListItem} timeout="auto">
+        <List
+          component="div"
+          disablePadding
+          sx={{
+            backgroundColor: (theme) => theme.palette.action.selected,
+          }}
+        >
+          <ListItem>
+            <Box
+              sx={{
+                display: "flex",
+                // justifyContent: "space-between",
+                // alignItems: "center",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              <Button
+                size="small"
+                component={Link}
+                href={`/experiments/${experiment._id.toString()}`}
+              >
+                Edit
+              </Button>
+              <Button size="small">Preview</Button>
+              <Button size="small">View Results</Button>
+              {!experiment.locked && (
+                <Button size="small" color="warning">
+                  Lock experiment
+                </Button>
+              )}
+              {experiment.locked && (
+                <Button
+                  size="small"
+                  onClick={() => setInviteParticipantDialogOpen(true)}
                 >
-                  <MenuItem onClick={handleClose}>Edit</MenuItem>
-                  <MenuItem onClick={handleClose}>Preview experiment</MenuItem>
-                  <MenuItem onClick={handleClose}>View results</MenuItem>
-                  <MenuItem
-                    onClick={handleClose}
-                    className="text-red-700 flex items-center gap-2"
-                  >
-                    <DeleteIcon />
-                    Delete
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+                  Invite participant
+                </Button>
+              )}
+              <Button size="small" color="error">
+                Delete
+              </Button>
+            </Box>
+          </ListItem>
+        </List>
+      </Collapse>
+
+      <InviteParticipantDialog
+        experimentId={experiment._id.toString()}
+        open={inviteParticipantDialogOpen}
+        onClose={() => setInviteParticipantDialogOpen(false)}
+        onSave={() => setInviteParticipantDialogOpen(false)}
+      />
     </>
   );
 };

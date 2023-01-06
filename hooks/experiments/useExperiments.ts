@@ -8,6 +8,7 @@ import {
 import {
   experimentCreateMutationKey,
   experimentDetailQueryKey,
+  experimentInviteParticipantMutationKey,
   experimentListQueryKey,
   experimentUpdateMutationKey,
 } from "./queries";
@@ -48,6 +49,26 @@ export const useLockExperimentMutation = (experimentId: string) => {
 
   return useMutation(experimentUpdateMutationKey(experimentId), {
     mutationFn: lockExperiment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(experimentListQueryKey()),
+        queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+    },
+  });
+};
+
+export const useInviteParticipantMutation = (experimentId: string) => {
+  const queryClient = useQueryClient();
+
+  const inviteParticipant = async (email: string) => {
+    const { data } = await axios.post(
+      `/api/experiments/${experimentId}/invite-participant`,
+      { email }
+    );
+    return data.data;
+  };
+
+  return useMutation(experimentInviteParticipantMutationKey(experimentId), {
+    mutationFn: inviteParticipant,
     onSuccess: () => {
       queryClient.invalidateQueries(experimentListQueryKey()),
         queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));

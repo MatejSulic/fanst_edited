@@ -5,7 +5,10 @@ import {
   ExperimentType,
 } from "../../../types/experiment";
 import dbConnect from "../mongooseDb";
-import { createParticipantGroupsForExperiment } from "./ParticipantGroup";
+import Participant from "./Participant";
+import ParticipantGroupModel, {
+  createParticipantGroupsForExperiment,
+} from "./ParticipantGroup";
 import { generateImagePermutations } from "./Question";
 import Section from "./Section";
 
@@ -34,7 +37,7 @@ export default ExperimentModel;
 
 export const lockExperiment = async (experimentId: string): Promise<void> => {
   await dbConnect();
-  let experiment = await ExperimentModel.findById(new ObjectId(experimentId));
+  const experiment = await ExperimentModel.findById(new ObjectId(experimentId));
 
   experiment.locked = true;
   await experiment.save();
@@ -50,7 +53,7 @@ export const lockExperiment = async (experimentId: string): Promise<void> => {
     twoForcedChoiceQuestionsIds.push(...section.questions)
   );
 
-  experiment = await ExperimentModel.findById(new ObjectId(experimentId));
+  // experiment = await ExperimentModel.findById(new ObjectId(experimentId));
 
   await Promise.all(
     twoForcedChoiceQuestionsIds.map(async (questionId) =>
@@ -61,4 +64,33 @@ export const lockExperiment = async (experimentId: string): Promise<void> => {
       )
     )
   );
+};
+
+export const inviteParticipant = async (
+  experimentId: string,
+  participantEmail: string
+) => {
+  await dbConnect();
+  let experiment = await ExperimentModel.findById(new ObjectId(experimentId));
+
+  let newParticipant = new Participant({ email: participantEmail });
+  newParticipant = await newParticipant.save();
+
+  const experimentParticipantGroups = await ParticipantGroupModel.aggregate()
+    .match({ experimentId: new ObjectId(experimentId) })
+    .project({
+      participantsCount: { $size: "$participants" },
+    })
+    .sort({ participantsCount: "asc" })
+    .limit(1);
+  const smallestParticipantGroupId = experimentParticipantGroups[0]._id;
+  const smallestParticipantGroup = await ParticipantGroupModel.findById(
+    smallestParticipantGroupId
+  );
+
+  smallestParticipantGroup.participants.push(newParticipant._id.toString());
+  await smallestParticipantGroup.save();
+
+  experiment.participants.push(newParticipant._id.toString());
+  await experiment.save();
 };

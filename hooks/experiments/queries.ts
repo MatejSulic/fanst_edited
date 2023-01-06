@@ -22,3 +22,7 @@ export const experimentLockMutationKey = (experimentId: string) => [
   experimentId,
   "experiment-lock-mutation",
 ];
+
+export const experimentInviteParticipantMutationKey = (
+  experimentId: string
+) => ["experiments", experimentId, "invite-participant-mutation"];

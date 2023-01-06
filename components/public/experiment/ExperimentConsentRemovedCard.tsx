@@ -39,7 +39,7 @@ const ExperimentConsentRemovedCard = ({ experiment }: Props) => {
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
         <Link href={`/public/experiment-preview/${experiment._id.toString()}`}>
-          <Button variant="outlined">Participate again</Button>
+          <Button variant="contained">Participate again</Button>
         </Link>
       </CardActions>
     </Card>

@@ -5,3 +5,5 @@ export type ParticipantType = {
   email: string;
   consent: boolean;
 };
+
+export type InviteParticipantType = Pick<ParticipantType, "email">;
