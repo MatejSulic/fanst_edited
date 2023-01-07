@@ -11,6 +11,7 @@ import { Box } from "@mui/system";
 import Link from "next/link";
 import { useState } from "react";
 import TextTruncate from "react-text-truncate";
+import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
 import { ExperimentType } from "../../types/experiment";
 import InviteParticipantDialog from "./invite-participant/InviteParticipantDialog";
 
@@ -22,6 +23,8 @@ const ExperimentListItem = ({ experiment }: Props) => {
   const [openNestedListItem, setOpenNestedListItem] = useState(false);
   const [inviteParticipantDialogOpen, setInviteParticipantDialogOpen] =
     useState(false);
+
+  const lockExperimentContext = useLockExperimentContext();
 
   return (
     <>
@@ -71,8 +74,6 @@ const ExperimentListItem = ({ experiment }: Props) => {
             <Box
               sx={{
                 display: "flex",
-                // justifyContent: "space-between",
-                // alignItems: "center",
                 width: "100%",
                 gap: 4,
               }}
@@ -87,7 +88,11 @@ const ExperimentListItem = ({ experiment }: Props) => {
               <Button size="small">Preview</Button>
               <Button size="small">View Results</Button>
               {!experiment.locked && (
-                <Button size="small" color="warning">
+                <Button
+                  size="small"
+                  color="warning"
+                  onClick={() => lockExperimentContext.lockExperiment()}
+                >
                   Lock experiment
                 </Button>
               )}

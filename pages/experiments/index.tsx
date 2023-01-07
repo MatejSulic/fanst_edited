@@ -15,6 +15,7 @@ import NewExperimentDialog from "../../components/experiments/NewExperimentDialo
 import ExperimentListItem from "../../components/experiments/ExperimentListItem";
 import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
 import { useExperiments } from "../../hooks/experiments/useExperiments";
+import { LockExperimentContextProvider } from "../../contexts/experiments/lockExperimentContext";
 
 const ExperimentsListPage = () => {
   const [newExperimentDialogIsOpen, setNewExperimentDialogIsOpen] =
@@ -65,10 +66,15 @@ const ExperimentsListPage = () => {
                   <List>
                     <>
                       {experiments.map((item) => (
-                        <ExperimentListItem
+                        <LockExperimentContextProvider
                           key={item._id.toString()}
-                          experiment={item}
-                        />
+                          experimentId={item._id.toString()}
+                        >
+                          <ExperimentListItem
+                            key={item._id.toString()}
+                            experiment={item}
+                          />
+                        </LockExperimentContextProvider>
                       ))}
                     </>
                   </List>
