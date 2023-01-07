@@ -55,13 +55,14 @@ const ExperimentsListPage = () => {
 
           <main style={{ width: "100%" }}>
             <Card variant="outlined">
-              <CardContent>
+              <CardContent
+                sx={{
+                  overflow: "auto",
+                  maxHeight: (theme) => theme.breakpoints.values.sm,
+                }}
+              >
                 {experiments.length > 0 ? (
-                  <List
-                    sx={{
-                      backgroundColor: "white",
-                    }}
-                  >
+                  <List>
                     <>
                       {experiments.map((item) => (
                         <ExperimentListItem

@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import Experiment from "../../../../lib/db/models/Experiment";
 import dbConnect from "../../../../lib/db/mongooseDb";
@@ -28,9 +29,9 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      const experiment = await Experiment.findOne({
-        _id: experimentId,
-      });
+      const experiment = await Experiment.findById(
+        new ObjectId(experimentId as string)
+      );
 
       res.status(200).json({ success: true, data: experiment });
     } catch (error) {

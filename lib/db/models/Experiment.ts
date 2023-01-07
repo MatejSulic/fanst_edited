@@ -26,6 +26,7 @@ const ExperimentSchema = new Schema<ExperimentType>({
   sections: { type: [String], default: [] },
   participants: { type: [String], default: [] },
   participantGroups: { type: [String], default: [] },
+  participantsPerGroups: { type: [Map], of: [String], default: () => [] },
 
   locked: { type: Boolean, default: false },
   settings: { type: ExperimentSettingsSchema, default: () => ({}) },
@@ -90,7 +91,22 @@ export const inviteParticipant = async (
 
   smallestParticipantGroup.participants.push(newParticipant._id.toString());
   await smallestParticipantGroup.save();
+  // console.log("group:", smallestParticipantGroup);
 
+  // console.log(experiment);
   experiment.participants.push(newParticipant._id.toString());
+  if (smallestParticipantGroup.participants.length === 1) {
+    // first participant in the group
+    experiment.participantsPerGroups.push({
+      group: smallestParticipantGroupId.toString(),
+      participants: [newParticipant._id.toString()],
+    });
+  } else {
+    experiment.participantsPerGroups
+      .find((obj) => obj.get("group") === smallestParticipantGroupId.toString())
+      .get("participants")
+      .push(newParticipant._id.toString());
+    experiment.markModified("participantsPerGroups");
+  }
   await experiment.save();
 };

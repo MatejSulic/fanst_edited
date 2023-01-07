@@ -12,6 +12,10 @@ export type ExperimentType = {
   sections: string[]; // section ids
   participants: string[]; // participant ids
   participantGroups: string[]; // participantGroup ids
+  participantsPerGroups: {
+    group: string;
+    participants: string[];
+  }[];
 
   locked: boolean; // locked experiment cannot be further edited - create participant groups, question permutations etc. on lock
   settings: ExperimentSettingsType;
