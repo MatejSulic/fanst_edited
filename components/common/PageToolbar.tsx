@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
+import InviteParticipantDialog from "../experiments/invite-participant/InviteParticipantDialog";
 import ExperimentSettingsDialog from "./ExperimentSettingsDialog";
 
 type Props = {
@@ -10,6 +11,8 @@ type Props = {
 
 const PageToolbar = ({ children }: Props) => {
   const [open, setOpen] = useState(false);
+  const [inviteParticipantDialogOpen, setInviteParticipantDialogOpen] =
+    useState(false);
   const lockExperimentContext = useLockExperimentContext();
 
   const handleOpen = () => setOpen(true);
@@ -34,6 +37,11 @@ const PageToolbar = ({ children }: Props) => {
                 Experiment settings
               </Button>
             )}
+            {lockExperimentContext.isExperimentLocked ? (
+              <Button variant="contained" size="small" onClick={handleOpen}>
+                Invite participants
+              </Button>
+            ) : null}
             <Button variant="text" size="small">
               Preview experiment
             </Button>
@@ -76,6 +84,12 @@ const PageToolbar = ({ children }: Props) => {
         open={open}
         onClose={handleClose}
         onSave={handleClose}
+      />
+
+      <InviteParticipantDialog
+        open={inviteParticipantDialogOpen}
+        onClose={() => setInviteParticipantDialogOpen(false)}
+        onSave={() => setInviteParticipantDialogOpen(false)}
       />
     </>
   );

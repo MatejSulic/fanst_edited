@@ -115,7 +115,6 @@ const ExperimentListItem = ({ experiment }: Props) => {
       </Collapse>
 
       <InviteParticipantDialog
-        experimentId={experiment._id.toString()}
         open={inviteParticipantDialogOpen}
         onClose={() => setInviteParticipantDialogOpen(false)}
         onSave={() => setInviteParticipantDialogOpen(false)}

@@ -8,23 +8,22 @@ import {
   TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { useRouter } from "next/router";
 import useInviteParticipantForm from "../../../hooks/experiments/useInviteParticipantForm";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   onSave?: () => void;
-  experimentId: string;
 };
 
-const InviteParticipantDialog = ({
-  open,
-  onClose,
-  onSave,
-  experimentId,
-}: Props) => {
-  const [register, onSubmit, reset, errors] =
-    useInviteParticipantForm(experimentId);
+const InviteParticipantDialog = ({ open, onClose, onSave }: Props) => {
+  const router = useRouter();
+  const { experimentId } = router.query;
+
+  const [register, onSubmit, reset, errors] = useInviteParticipantForm(
+    experimentId as string
+  );
 
   const handleClose = () => {
     reset();
