@@ -23,7 +23,7 @@ export default async function handler(
         email: email,
         _id: { $in: experiment.participants },
       });
-      if (existingParticipantWithThatEmail) {
+      if (existingParticipantWithThatEmail.length > 0) {
         res.status(400).json({
           success: false,
           data: "Participant with that email already exists in the experiment!",

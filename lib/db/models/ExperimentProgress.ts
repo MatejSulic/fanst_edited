@@ -13,7 +13,7 @@ const QuestionResultsSchema = new Schema<QuestionResults>(
       required: true,
     },
     // TODO:
-    // result:
+    result: Schema.Types.Mixed,
   },
   { _id: false }
 );

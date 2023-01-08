@@ -55,52 +55,52 @@ const ExperimentsListPage = () => {
           </aside>
 
           <main style={{ width: "100%" }}>
-            <Card variant="outlined">
+            {/* <Card>
               <CardContent
                 sx={{
                   overflow: "auto",
                   maxHeight: (theme) => theme.breakpoints.values.sm,
                 }}
-              >
-                {experiments.length > 0 ? (
-                  <List>
-                    <>
-                      {experiments.map((item) => (
-                        <LockExperimentContextProvider
-                          key={item._id.toString()}
-                          experimentId={item._id.toString()}
-                        >
-                          <ExperimentListItem
-                            key={item._id.toString()}
-                            experiment={item}
-                          />
-                        </LockExperimentContextProvider>
-                      ))}
-                    </>
-                  </List>
-                ) : (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                      gap: 4,
-                      width: "100%",
-                      maxWidth: (theme) => theme.breakpoints.values["md"],
-                      p: 8,
-                    }}
-                  >
-                    <Typography variant="h4">No Experiments</Typography>
-                    <CardActions>
-                      <CreateNewExperimentButton
-                        onClick={() => setNewExperimentDialogIsOpen(true)}
+              > */}
+            {experiments.length > 0 ? (
+              <List>
+                <>
+                  {experiments.map((item) => (
+                    <LockExperimentContextProvider
+                      key={item._id.toString()}
+                      experimentId={item._id.toString()}
+                    >
+                      <ExperimentListItem
+                        key={item._id.toString()}
+                        experiment={item}
                       />
-                    </CardActions>
-                  </Box>
-                )}
-              </CardContent>
-            </Card>
+                    </LockExperimentContextProvider>
+                  ))}
+                </>
+              </List>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  gap: 4,
+                  width: "100%",
+                  maxWidth: (theme) => theme.breakpoints.values["md"],
+                  p: 8,
+                }}
+              >
+                <Typography variant="h4">No Experiments</Typography>
+                <CardActions>
+                  <CreateNewExperimentButton
+                    onClick={() => setNewExperimentDialogIsOpen(true)}
+                  />
+                </CardActions>
+              </Box>
+            )}
+            {/* </CardContent>
+            </Card> */}
           </main>
         </Box>
       </ContentWrapper>

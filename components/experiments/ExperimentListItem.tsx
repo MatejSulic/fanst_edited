@@ -28,39 +28,41 @@ const ExperimentListItem = ({ experiment }: Props) => {
 
   return (
     <>
-      <ListItemButton
-        onClick={() => setOpenNestedListItem((prev) => !prev)}
-        sx={{
-          backgroundColor: openNestedListItem
-            ? (theme) => theme.palette.action.selected
-            : undefined,
-        }}
-      >
-        <ListItemText
-          disableTypography
-          primary={
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <span>{experiment.title}</span>
-              {experiment.locked && (
-                <Typography
-                  variant="subtitle2"
-                  color={(theme) => theme.palette.error.main}
-                >
-                  Experiment is already locked
-                </Typography>
-              )}
-            </Box>
-          }
-          secondary={
-            <TextTruncate
-              textElement="span"
-              containerClassName="text-gray-500 text-sm pt-2"
-              line={2}
-              text={experiment.description}
-            />
-          }
-        />
-      </ListItemButton>
+      <ListItem disablePadding>
+        <ListItemButton
+          onClick={() => setOpenNestedListItem((prev) => !prev)}
+          sx={{
+            backgroundColor: openNestedListItem
+              ? (theme) => theme.palette.action.selected
+              : undefined,
+          }}
+        >
+          <ListItemText
+            disableTypography
+            primary={
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <span>{experiment.title}</span>
+                {experiment.locked && (
+                  <Typography
+                    variant="subtitle2"
+                    color={(theme) => theme.palette.error.main}
+                  >
+                    Experiment is already locked
+                  </Typography>
+                )}
+              </Box>
+            }
+            secondary={
+              <TextTruncate
+                textElement="span"
+                containerClassName="text-gray-500 text-sm pt-2"
+                line={2}
+                text={experiment.description}
+              />
+            }
+          />
+        </ListItemButton>
+      </ListItem>
 
       <Collapse in={openNestedListItem} timeout="auto">
         <List

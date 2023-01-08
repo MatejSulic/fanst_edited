@@ -38,7 +38,7 @@ export default ExperimentModel;
 
 export const lockExperiment = async (experimentId: string): Promise<void> => {
   await dbConnect();
-  const experiment = await ExperimentModel.findById(new ObjectId(experimentId));
+  let experiment = await ExperimentModel.findById(new ObjectId(experimentId));
 
   experiment.locked = true;
   await experiment.save();
@@ -54,7 +54,7 @@ export const lockExperiment = async (experimentId: string): Promise<void> => {
     twoForcedChoiceQuestionsIds.push(...section.questions)
   );
 
-  // experiment = await ExperimentModel.findById(new ObjectId(experimentId));
+  experiment = await ExperimentModel.findById(new ObjectId(experimentId));
 
   await Promise.all(
     twoForcedChoiceQuestionsIds.map(async (questionId) =>
