@@ -37,43 +37,41 @@ const ExperimentQuestionImageSelect = ({
   };
 
   return (
-    <Stack spacing={4}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 16,
+      }}
+    >
       <Box
+        component="button"
+        onClick={() => handleSubmitQuestion(question.content.leftImage)}
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 16,
+          border: "none",
+          p: 0,
+          height: "min-content",
+          width: "min-content",
+          cursor: "pointer",
         }}
       >
-        <Box
-          component="button"
-          onClick={() => handleSubmitQuestion(question.content.leftImage)}
-          sx={{
-            border: "none",
-            p: 0,
-            height: "min-content",
-            width: "min-content",
-            cursor: "pointer",
-          }}
-        >
-          <CloudinaryImagePreview imagePublicId={question.content.leftImage} />
-        </Box>
-        <Box
-          component="button"
-          onClick={() => handleSubmitQuestion(question.content.rightImage)}
-          sx={{
-            border: "none",
-            p: 0,
-            height: "min-content",
-            width: "min-content",
-            cursor: "pointer",
-          }}
-        >
-          <CloudinaryImagePreview imagePublicId={question.content.rightImage} />
-        </Box>
+        <CloudinaryImagePreview imagePublicId={question.content.leftImage} />
       </Box>
-    </Stack>
+      <Box
+        component="button"
+        onClick={() => handleSubmitQuestion(question.content.rightImage)}
+        sx={{
+          border: "none",
+          p: 0,
+          height: "min-content",
+          width: "min-content",
+          cursor: "pointer",
+        }}
+      >
+        <CloudinaryImagePreview imagePublicId={question.content.rightImage} />
+      </Box>
+    </Box>
   );
 };
 

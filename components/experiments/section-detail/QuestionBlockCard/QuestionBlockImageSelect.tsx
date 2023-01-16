@@ -3,7 +3,10 @@ import { CloudinaryImage } from "@cloudinary/url-gen";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { QuestionBlockCardSharedProps } from ".";
+import {
+  QuestionBlockCardSharedProps,
+  QuestionBlockSpecificCardSharedProps,
+} from ".";
 import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
@@ -65,10 +68,79 @@ const CloudinaryImagePreview = ({
   );
 };
 
-const QuestionBlockImageSelect = ({
+const LockedQuestionBlockImageSelect = ({
   question,
-  index,
-}: QuestionBlockCardSharedProps) => {
+}: QuestionBlockSpecificCardSharedProps) => {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 16,
+      }}
+    >
+      {question.content.leftImage ? (
+        <Box
+          sx={{
+            border: "none",
+            p: 0,
+            height: "min-content",
+            width: "min-content",
+            cursor: "pointer",
+          }}
+        >
+          <CloudinaryImagePreview imagePublicId={question.content.leftImage} />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+            width: 200,
+            border: 1,
+            borderRadius: 1,
+          }}
+        >
+          No image
+        </Box>
+      )}
+      {question.content.rightImage ? (
+        <Box
+          sx={{
+            border: "none",
+            p: 0,
+            height: "min-content",
+            width: "min-content",
+            cursor: "pointer",
+          }}
+        >
+          <CloudinaryImagePreview imagePublicId={question.content.rightImage} />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+            width: 200,
+            border: 1,
+            borderRadius: 1,
+          }}
+        >
+          No image
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+const UnlockedQuestionBlockImageSelect = ({
+  question,
+}: QuestionBlockSpecificCardSharedProps) => {
   const [leftImagePublicId, setLeftImagePublicId] = useState(
     question.content.leftImage || ""
   );
@@ -139,6 +211,18 @@ const QuestionBlockImageSelect = ({
         )}
       </Box>
     </Stack>
+  );
+};
+
+const QuestionBlockImageSelect = ({
+  question,
+  index,
+  locked,
+}: QuestionBlockCardSharedProps) => {
+  return locked ? (
+    <LockedQuestionBlockImageSelect question={question} />
+  ) : (
+    <UnlockedQuestionBlockImageSelect question={question} />
   );
 };
 

@@ -14,6 +14,7 @@ import {
   Paper,
   Popper,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -28,11 +29,18 @@ import QuestionBlockPlainText from "./QuestionBlockPlainText";
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;
   index: number;
+  locked: boolean;
 };
+
+export type QuestionBlockSpecificCardSharedProps = Omit<
+  QuestionBlockCardSharedProps,
+  "locked" | "index"
+>;
 
 const QuestionBlockCard = ({
   question,
   index,
+  locked,
 }: QuestionBlockCardSharedProps) => {
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
@@ -91,11 +99,25 @@ const QuestionBlockCard = ({
 
   const renderQuestionTypeBlock = () => {
     if (question.type === "PLAIN_TEXT") {
-      return <QuestionBlockPlainText question={question} index={index} />;
+      return (
+        <QuestionBlockPlainText
+          question={question}
+          index={index}
+          locked={locked}
+        />
+      );
     } else if (question.type === "IMAGE_SELECT") {
-      return <QuestionBlockImageSelect question={question} index={index} />;
+      return (
+        <QuestionBlockImageSelect
+          question={question}
+          index={index}
+          locked={locked}
+        />
+      );
     } else if (question.type === "2AFC") {
-      return <QuestionBlock2AFC question={question} index={index} />;
+      return (
+        <QuestionBlock2AFC question={question} index={index} locked={locked} />
+      );
     } else {
       return null;
     }
@@ -106,20 +128,36 @@ const QuestionBlockCard = ({
       <Card>
         <CardHeader
           title={
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <TextField
-                label="Question title"
-                defaultValue={question.title}
-                size="small"
-                {...register(`questions.${question._id.toString()}.title`)}
-                sx={{ width: "75%" }}
-              />
-            </Box>
+            locked ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <Typography variant="subtitle1">{question.title}</Typography>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <TextField
+                  label="Question title"
+                  defaultValue={question.title}
+                  size="small"
+                  {...register(`questions.${question._id.toString()}.title`)}
+                  sx={{ width: "75%" }}
+                />
+              </Box>
+            )
           }
           action={
-            isSectionEditable ? (
+            isSectionEditable && !locked ? (
               <IconButton
                 ref={anchorRef}
                 aria-controls={open ? "composition-menu" : undefined}
@@ -134,7 +172,7 @@ const QuestionBlockCard = ({
         />
         <CardContent>{renderQuestionTypeBlock()}</CardContent>
       </Card>
-      {isSectionEditable && (
+      {isSectionEditable && !locked && (
         <Popper
           open={open}
           anchorEl={anchorRef.current}

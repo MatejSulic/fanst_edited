@@ -1,5 +1,6 @@
 import { ListItem, NoSsr } from "@mui/material";
 import { Draggable, resetServerContext } from "react-beautiful-dnd";
+import { useLockExperimentContext } from "../../../contexts/experiments/lockExperimentContext";
 import { QuestionType } from "../../../types/question/question";
 import QuestionBlockCard from "./QuestionBlockCard";
 
@@ -9,12 +10,15 @@ type Props = {
 };
 
 const QuestionBlockListItem = ({ question, index }: Props) => {
+  const lockExperimentContext = useLockExperimentContext();
+
   return (
     <NoSsr>
       <Draggable
         key={question._id.toString()}
         draggableId={`section-detail-list-draggable-${question._id.toString()}`}
         index={index}
+        isDragDisabled={lockExperimentContext.isExperimentLocked}
       >
         {(provided, snapshot) => (
           <ListItem
@@ -25,7 +29,11 @@ const QuestionBlockListItem = ({ question, index }: Props) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <QuestionBlockCard question={question} index={index} />
+            <QuestionBlockCard
+              question={question}
+              index={index}
+              locked={!!lockExperimentContext.isExperimentLocked}
+            />
           </ListItem>
         )}
       </Draggable>

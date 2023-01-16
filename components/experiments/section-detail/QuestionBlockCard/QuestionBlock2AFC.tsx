@@ -3,7 +3,10 @@ import { CloudinaryImage } from "@cloudinary/url-gen";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { QuestionBlockCardSharedProps } from ".";
+import {
+  QuestionBlockCardSharedProps,
+  QuestionBlockSpecificCardSharedProps,
+} from ".";
 import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
@@ -67,10 +70,37 @@ const CloudinaryImagePreview = ({
   );
 };
 
-const QuestionBlock2AFC = ({
+const LockedQuestionBlock2AFC = ({
   question,
-  index,
-}: QuestionBlockCardSharedProps) => {
+}: QuestionBlockSpecificCardSharedProps) => {
+  return question.content.images && question.content.images.length > 0 ? (
+    <Grid container spacing={2} justifyContent="flex-start" alignItems="center">
+      {question.content.images.map((publicId) => (
+        <Grid key={publicId} item xs="auto">
+          <CloudinaryImagePreview imagePublicId={publicId} />
+        </Grid>
+      ))}
+    </Grid>
+  ) : (
+    <Box
+      sx={{
+        width: "100%",
+        height: 200,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        border: 1,
+        borderRadius: 1,
+      }}
+    >
+      No images
+    </Box>
+  );
+};
+
+const UnlockedQuestionBlock2AFC = ({
+  question,
+}: QuestionBlockSpecificCardSharedProps) => {
   const [imagesPublicIds, setImagesPublicIds] = useState<string[]>(
     question.content.images || []
   );
@@ -148,6 +178,18 @@ const QuestionBlock2AFC = ({
         </Box>
       )}
     </Stack>
+  );
+};
+
+const QuestionBlock2AFC = ({
+  question,
+  index,
+  locked,
+}: QuestionBlockCardSharedProps) => {
+  return locked ? (
+    <LockedQuestionBlock2AFC question={question} />
+  ) : (
+    <UnlockedQuestionBlock2AFC question={question} />
   );
 };
 
