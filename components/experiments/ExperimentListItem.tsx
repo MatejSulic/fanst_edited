@@ -24,8 +24,11 @@ type Props = {
 const ExperimentListItem = ({ experiment }: Props) => {
   const router = useRouter();
   const [openNestedListItem, setOpenNestedListItem] = useState(false);
-  const [inviteParticipantDialogOpen, setInviteParticipantDialogOpen] =
-    useState(false);
+  const [inviteParticipantDialogDetails, setInviteParticipantDialogDetails] =
+    useState<{ open: boolean; experimentId: string | null }>({
+      open: false,
+      experimentId: null,
+    });
 
   const lockExperimentContext = useLockExperimentContext();
   const copyExperimentMutation = useCopyExperimentMutation(
@@ -34,6 +37,10 @@ const ExperimentListItem = ({ experiment }: Props) => {
 
   const handleCopyExperiment = async () => {
     copyExperimentMutation.mutate();
+  };
+
+  const handleInviteParticipantOpen = (experimentId: string) => {
+    setInviteParticipantDialogDetails({ open: true, experimentId });
   };
 
   useEffect(() => {
@@ -118,7 +125,9 @@ const ExperimentListItem = ({ experiment }: Props) => {
               {experiment.locked && (
                 <Button
                   size="small"
-                  onClick={() => setInviteParticipantDialogOpen(true)}
+                  onClick={() =>
+                    handleInviteParticipantOpen(experiment._id.toString())
+                  }
                 >
                   Invite participant
                 </Button>
@@ -141,9 +150,14 @@ const ExperimentListItem = ({ experiment }: Props) => {
       </Collapse>
 
       <InviteParticipantDialog
-        open={inviteParticipantDialogOpen}
-        onClose={() => setInviteParticipantDialogOpen(false)}
-        onSave={() => setInviteParticipantDialogOpen(false)}
+        experimentId={inviteParticipantDialogDetails.experimentId!}
+        open={inviteParticipantDialogDetails.open}
+        onClose={() =>
+          setInviteParticipantDialogDetails({ open: false, experimentId: null })
+        }
+        onSave={() =>
+          setInviteParticipantDialogDetails({ open: false, experimentId: null })
+        }
       />
     </>
   );

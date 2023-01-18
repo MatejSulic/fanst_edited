@@ -1,5 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
 import InviteParticipantDialog from "../experiments/invite-participant/InviteParticipantDialog";
@@ -10,10 +11,13 @@ type Props = {
 };
 
 const PageToolbar = ({ children }: Props) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [inviteParticipantDialogOpen, setInviteParticipantDialogOpen] =
     useState(false);
   const lockExperimentContext = useLockExperimentContext();
+
+  const { experimentId } = router.query;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -87,6 +91,7 @@ const PageToolbar = ({ children }: Props) => {
       />
 
       <InviteParticipantDialog
+        experimentId={experimentId as string}
         open={inviteParticipantDialogOpen}
         onClose={() => setInviteParticipantDialogOpen(false)}
         onSave={() => setInviteParticipantDialogOpen(false)}
