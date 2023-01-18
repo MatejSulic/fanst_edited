@@ -9,9 +9,11 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import TextTruncate from "react-text-truncate";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
+import { useCopyExperimentMutation } from "../../hooks/experiments/useExperiments";
 import { ExperimentType } from "../../types/experiment";
 import InviteParticipantDialog from "./invite-participant/InviteParticipantDialog";
 
@@ -20,11 +22,26 @@ type Props = {
 };
 
 const ExperimentListItem = ({ experiment }: Props) => {
+  const router = useRouter();
   const [openNestedListItem, setOpenNestedListItem] = useState(false);
   const [inviteParticipantDialogOpen, setInviteParticipantDialogOpen] =
     useState(false);
 
   const lockExperimentContext = useLockExperimentContext();
+  const copyExperimentMutation = useCopyExperimentMutation(
+    experiment._id.toString()
+  );
+
+  const handleCopyExperiment = async () => {
+    copyExperimentMutation.mutate();
+  };
+
+  useEffect(() => {
+    // redirect to newly copied experiment
+    if (copyExperimentMutation.isSuccess && copyExperimentMutation.data) {
+      router.push(`/experiments/${copyExperimentMutation.data._id.toString()}`);
+    }
+  }, [router, copyExperimentMutation.data, copyExperimentMutation.isSuccess]);
 
   return (
     <>
@@ -104,6 +121,15 @@ const ExperimentListItem = ({ experiment }: Props) => {
                   onClick={() => setInviteParticipantDialogOpen(true)}
                 >
                   Invite participant
+                </Button>
+              )}
+              {experiment.locked && (
+                <Button
+                  size="small"
+                  color="warning"
+                  onClick={() => handleCopyExperiment()}
+                >
+                  Copy experiment
                 </Button>
               )}
               <Button size="small" color="error">

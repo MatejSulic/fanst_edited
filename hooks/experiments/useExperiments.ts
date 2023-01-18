@@ -6,10 +6,12 @@ import {
   UpdateExperimentType,
 } from "../../types/experiment";
 import {
+  experimentCopyMutationKey,
   experimentCreateMutationKey,
   experimentDetailQueryKey,
   experimentInviteParticipantMutationKey,
   experimentListQueryKey,
+  experimentLockMutationKey,
   experimentUpdateMutationKey,
 } from "./queries";
 
@@ -31,8 +33,8 @@ export const useUpdateExperimentMutation = (experimentId: string) => {
   return useMutation(experimentUpdateMutationKey(experimentId), {
     mutationFn: updateExperiment,
     onSuccess: () => {
-      queryClient.invalidateQueries(experimentListQueryKey()),
-        queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      queryClient.invalidateQueries(experimentListQueryKey());
+      queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
     },
   });
 };
@@ -47,11 +49,11 @@ export const useLockExperimentMutation = (experimentId: string) => {
     return data.data;
   };
 
-  return useMutation(experimentUpdateMutationKey(experimentId), {
+  return useMutation(experimentLockMutationKey(experimentId), {
     mutationFn: lockExperiment,
     onSuccess: () => {
-      queryClient.invalidateQueries(experimentListQueryKey()),
-        queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      queryClient.invalidateQueries(experimentListQueryKey());
+      queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
     },
   });
 };
@@ -70,8 +72,25 @@ export const useInviteParticipantMutation = (experimentId: string) => {
   return useMutation(experimentInviteParticipantMutationKey(experimentId), {
     mutationFn: inviteParticipant,
     onSuccess: () => {
-      queryClient.invalidateQueries(experimentListQueryKey()),
-        queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+    },
+  });
+};
+
+export const useCopyExperimentMutation = (experimentId: string) => {
+  const queryClient = useQueryClient();
+
+  const copyExperiment = async () => {
+    const { data } = await axios.post(
+      `/api/experiments/${experimentId}/experiment-copy`
+    );
+    return data.data;
+  };
+
+  return useMutation(experimentCopyMutationKey(experimentId), {
+    mutationFn: copyExperiment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(experimentListQueryKey());
     },
   });
 };

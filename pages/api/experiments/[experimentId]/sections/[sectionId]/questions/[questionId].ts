@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import Question from "../../../../../../../lib/db/models/Question";
+import Section from "../../../../../../../lib/db/models/Section";
 import dbConnect from "../../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
@@ -17,16 +19,21 @@ export default async function handler(
         sectionId: sectionId,
         _id: questionId,
       });
-      question.remove();
+      await question.remove();
+      const section = await Section.findById(new ObjectId(sectionId as string));
+      section.questions = section.questions.filter(
+        (item) => item !== questionId
+      );
+      await section.save();
 
-      res.status(204).json({ success: true });
+      res.status(204);
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });
     }
   } else if (req.method === "POST") {
     try {
-      res.status(200).json({ success: true });
+      res.status(204);
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });

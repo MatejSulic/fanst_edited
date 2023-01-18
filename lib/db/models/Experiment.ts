@@ -9,7 +9,7 @@ import Participant from "./Participant";
 import ParticipantGroupModel, {
   createParticipantGroupsForExperiment,
 } from "./ParticipantGroup";
-import { generateImagePermutations } from "./Question";
+import QuestionModel, { generateImagePermutations } from "./Question";
 import Section from "./Section";
 
 const ExperimentSettingsSchema = new Schema<ExperimentSettingsType>(
@@ -65,6 +65,69 @@ export const lockExperiment = async (experimentId: string): Promise<void> => {
       )
     )
   );
+};
+
+export const copyExperiment = async (
+  experimentId: string
+): Promise<ExperimentType> => {
+  const experimentIdObjectId = new ObjectId(experimentId);
+
+  await dbConnect();
+  let experiment = await ExperimentModel.findById(experimentIdObjectId);
+  console.log("experiment:", experiment);
+  let sections = await Section.find({
+    experimentId: experimentIdObjectId,
+  });
+  console.log("sections:", sections);
+
+  // create new experiment
+  let newExperiment = await new ExperimentModel({
+    title: experiment.title,
+    description: experiment.description,
+  });
+  await newExperiment.save();
+
+  // create new sections
+  let newSections = [];
+  await Promise.all(
+    sections.map(async (section) => {
+      let newSection = await new Section({
+        title: section.title,
+        experimentId: newExperiment._id.toString(),
+        description: section.description,
+        type: section.type,
+        settings: section.settings,
+      });
+      await newSection.save();
+
+      // section questions
+      let newQuestions = [];
+      await Promise.all(
+        section.questions.map(async (questionId) => {
+          let question = await QuestionModel.findById(new ObjectId(questionId));
+          console.log("question:", question);
+
+          let newQuestion = await new QuestionModel({
+            experimentId: newExperiment._id.toString(),
+            sectionId: newSection._id.toString(),
+            title: question.title,
+            type: question.type,
+            content: question.content,
+            settings: question.settings,
+          });
+          return newQuestion
+            .save()
+            .then((res) => newQuestions.push(res._id.toString()));
+        })
+      );
+      return newSection
+        .save()
+        .then((res) => newSections.push(res._id.toString()));
+    })
+  );
+  newExperiment.sections = newSections;
+  await newExperiment.save();
+  return newExperiment;
 };
 
 export const inviteParticipant = async (
