@@ -25,7 +25,7 @@ const ContentWrapper = ({ children }: Props) => {
           p: 1,
           maxHeight: "100%",
           height: "100%",
-          overflowY: "hidden",
+          // overflowY: "hidden",
           maxWidth: "100%",
           width: "100%",
           alignItems: "center",

@@ -1,5 +1,4 @@
 import { Button, Card, CardActions, NoSsr } from "@mui/material";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import {
   DragDropContext,
@@ -21,8 +20,6 @@ type Props = {
 };
 
 const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
-  const router = useRouter();
-  const { experimentId, sectionId } = router.query;
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
 
   const lockExperimentContext = useLockExperimentContext();
@@ -36,8 +33,9 @@ const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
         <Card
           variant="outlined"
           sx={{
-            width: "100%",
-            maxWidth: "100%",
+            width: questions.length > 0 ? "min-content" : 584,
+            // width: "100%",
+            // maxWidth: questions.length > 0 ? "min-content" : 800,
             maxHeight: "100%",
             overflowY: "auto",
           }}
@@ -45,7 +43,7 @@ const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
           <form onSubmit={onSubmit()}>
             <SectionCardHeader
               sectionTitle={section.title}
-              experimentId={experimentId as string}
+              experimentId={section.experimentId.toString()}
             />
             <SectionCardContent
               sectionDescription={section.description}

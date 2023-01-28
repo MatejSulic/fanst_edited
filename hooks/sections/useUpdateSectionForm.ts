@@ -8,6 +8,7 @@ const useUpdateSectionForm = (experimentId: string, sectionId: string) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<UpdateSectionType>({});
   const updateExperimentMutation = useUpdateSectionMutation(
     experimentId,
@@ -24,7 +25,7 @@ const useUpdateSectionForm = (experimentId: string, sectionId: string) => {
       if (onSave) onSave();
     });
 
-  return [register, setValue, onSubmit, errors] as const;
+  return [register, setValue, onSubmit, reset, errors] as const;
 };
 
 export default useUpdateSectionForm;

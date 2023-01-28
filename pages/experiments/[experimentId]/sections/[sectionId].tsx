@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import AppBar from "../../../../components/common/AppBar";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
@@ -15,12 +15,16 @@ import { LockExperimentContextProvider } from "../../../../contexts/experiments/
 import { useSectionQuestions } from "../../../../hooks/questions/useQuestions";
 import { useSections } from "../../../../hooks/sections/useSections";
 import useUpdateSectionForm from "../../../../hooks/sections/useUpdateSectionForm";
+import { SectionType } from "../../../../types/section/section";
 import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {
-  const [items, setItems] = useState(() => [...Array(10).keys()]);
   const router = useRouter();
   const { experimentId, sectionId } = router.query;
+  const [currentSection, setCurrentSection] = useState<SectionType | null>(
+    null
+  );
+  const [items, setItems] = useState(() => [...Array(10).keys()]);
   const {
     data: questions,
     isLoading,
@@ -35,10 +39,19 @@ const SectionDetailPage = () => {
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
 
-  const [register, setValue, onSubmit, errors] = useUpdateSectionForm(
+  const [register, setValue, onSubmit, reset, errors] = useUpdateSectionForm(
     experimentId as string,
     sectionId as string
   );
+
+  useEffect(() => {
+    if (sections) {
+      setCurrentSection(
+        sections.find((item) => item._id.toString() === sectionId)!
+      );
+    }
+    reset();
+  }, [sectionId, sections, reset]);
 
   const handleDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -57,12 +70,9 @@ const SectionDetailPage = () => {
     return <Typography variant="h1">Error</Typography>;
   }
 
-  const currentSection = sections.find(
-    (item) => item._id.toString() === sectionId
-  )!;
-  const isSectionEditable = currentSection.type === "BLANK";
+  const isSectionEditable = currentSection?.type === "BLANK";
   const sectionHasEditableSettings =
-    currentSection.type === "BLANK" || currentSection.type === "2AFC";
+    currentSection?.type === "BLANK" || currentSection?.type === "2AFC";
 
   return currentSection ? (
     <>

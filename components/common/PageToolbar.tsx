@@ -42,7 +42,11 @@ const PageToolbar = ({ children }: Props) => {
               </Button>
             )}
             {lockExperimentContext.isExperimentLocked ? (
-              <Button variant="contained" size="small" onClick={handleOpen}>
+              <Button
+                variant="contained"
+                size="small"
+                onClick={() => setInviteParticipantDialogOpen(true)}
+              >
                 Invite participants
               </Button>
             ) : null}

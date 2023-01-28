@@ -125,7 +125,7 @@ const QuestionBlockCard = ({
 
   return (
     <>
-      <Card>
+      <Card sx={{ width: 550 }}>
         <CardHeader
           title={
             locked ? (
