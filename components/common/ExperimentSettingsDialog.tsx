@@ -25,7 +25,7 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
   const router = useRouter();
   const { experimentId } = router.query;
 
-  const [register, setValue, onSubmit, errors] = useUpdateExperimentForm(
+  const [register, setValue, onSubmit, reset, errors] = useUpdateExperimentForm(
     experimentId as string
   );
 
@@ -41,9 +41,14 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
     )!;
   }
 
+  const handleClose = () => {
+    reset();
+    return onSave();
+  };
+
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth maxWidth="sm">
-      <form onSubmit={onSubmit(onSave)}>
+      <form onSubmit={onSubmit(handleClose)}>
         <DialogTitle>Experiment Settings</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -51,6 +56,18 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
           </DialogContentText>
           <Box sx={{ mt: 1 }}>
             <Stack spacing={1}>
+              <TextField
+                label="Experiment name"
+                fullWidth
+                defaultValue={currentExperiment?.title}
+                {...register("title")}
+              />
+              <TextField
+                label="Experiment description"
+                fullWidth
+                defaultValue={currentExperiment?.description}
+                {...register("description")}
+              />
               <TextField
                 label="Number of participant groups"
                 type="number"

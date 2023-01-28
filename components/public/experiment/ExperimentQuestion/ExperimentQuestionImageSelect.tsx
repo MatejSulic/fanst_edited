@@ -1,15 +1,21 @@
 import { AdvancedImage, lazyload } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import { Box, Stack } from "@mui/material";
+import { Box } from "@mui/material";
+import { useCallback, useEffect } from "react";
 import { ExperimentQuestionSharedProps } from ".";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
+import { convertCmToPx } from "../../../../utils/sizeConversion";
 
 type CloudinaryImagePreviewProps = {
   imagePublicId: string;
+  width?: number;
+  height?: number;
 };
 
 const CloudinaryImagePreview = ({
   imagePublicId,
+  width,
+  height,
 }: CloudinaryImagePreviewProps) => {
   return (
     <AdvancedImage
@@ -19,7 +25,8 @@ const CloudinaryImagePreview = ({
         })
       }
       plugins={[lazyload()]}
-      width={200}
+      width={width || 200}
+      height={height || 200}
       style={{ borderRadius: 4 }}
     />
   );
@@ -27,14 +34,34 @@ const CloudinaryImagePreview = ({
 
 const ExperimentQuestionImageSelect = ({
   question,
+  section,
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
-  const handleSubmitQuestion = (result: any) => {
-    submitQuestion({
-      questionId: question._id.toString(),
-      result: result,
-    });
-  };
+  const handleSubmitQuestion = useCallback(
+    (result: any) => {
+      submitQuestion({
+        questionId: question._id.toString(),
+        result: result,
+      });
+    },
+    [question._id, submitQuestion]
+  );
+
+  useEffect(() => {
+    if (!question.content.leftImage || !question.content.rightImage) {
+      handleSubmitQuestion(null);
+    }
+  }, []);
+
+  const imageWidth = section.settings.imageWidth
+    ? convertCmToPx(section.settings.imageWidth)
+    : undefined;
+  const imageHeight = section.settings.imageHeight
+    ? convertCmToPx(section.settings.imageHeight)
+    : undefined;
+  const gapBetweenImages = section.settings.distanceOfImages
+    ? convertCmToPx(section.settings.distanceOfImages) / 8
+    : undefined;
 
   return (
     <Box
@@ -42,7 +69,7 @@ const ExperimentQuestionImageSelect = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap: 16,
+        gap: gapBetweenImages || 16,
       }}
     >
       <Box
@@ -51,12 +78,16 @@ const ExperimentQuestionImageSelect = ({
         sx={{
           border: "none",
           p: 0,
-          height: "min-content",
-          width: "min-content",
+          height: imageHeight || "min-content",
+          width: imageWidth || "min-content",
           cursor: "pointer",
         }}
       >
-        <CloudinaryImagePreview imagePublicId={question.content.leftImage} />
+        <CloudinaryImagePreview
+          imagePublicId={question.content.leftImage}
+          width={imageWidth}
+          height={imageHeight}
+        />
       </Box>
       <Box
         component="button"
@@ -64,12 +95,16 @@ const ExperimentQuestionImageSelect = ({
         sx={{
           border: "none",
           p: 0,
-          height: "min-content",
-          width: "min-content",
+          height: imageHeight || "min-content",
+          width: imageWidth || "min-content",
           cursor: "pointer",
         }}
       >
-        <CloudinaryImagePreview imagePublicId={question.content.rightImage} />
+        <CloudinaryImagePreview
+          imagePublicId={question.content.rightImage}
+          width={imageWidth}
+          height={imageHeight}
+        />
       </Box>
     </Box>
   );

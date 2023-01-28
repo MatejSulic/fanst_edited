@@ -8,6 +8,7 @@ const useUpdateExperimentForm = (experimentId: string) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<UpdateExperimentType>({});
   const updateExperimentMutation = useUpdateExperimentMutation(experimentId);
 
@@ -21,7 +22,7 @@ const useUpdateExperimentForm = (experimentId: string) => {
       if (onSave) onSave();
     });
 
-  return [register, setValue, onSubmit, errors] as const;
+  return [register, setValue, onSubmit, reset, errors] as const;
 };
 
 export default useUpdateExperimentForm;

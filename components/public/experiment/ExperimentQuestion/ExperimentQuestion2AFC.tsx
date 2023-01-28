@@ -1,15 +1,18 @@
 import { AdvancedImage, lazyload } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import { Box, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ExperimentQuestionSharedProps } from ".";
 import { useExperiment } from "../../../../hooks/experiments/useExperiments";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { QuestionType } from "../../../../types/question/question";
+import { convertCmToPx } from "../../../../utils/sizeConversion";
 
 type CloudinaryImagePreviewProps = {
   imagePublicId: string;
+  width?: number;
+  height?: number;
 };
 
 type ComparisonType = {
@@ -25,6 +28,8 @@ type ComparisonResultType = {
 
 const CloudinaryImagePreview = ({
   imagePublicId,
+  width,
+  height,
 }: CloudinaryImagePreviewProps) => {
   return (
     <AdvancedImage
@@ -34,7 +39,8 @@ const CloudinaryImagePreview = ({
         })
       }
       plugins={[lazyload()]}
-      width={200}
+      width={width || 200}
+      height={height || 200}
       style={{ borderRadius: 4 }}
     />
   );
@@ -42,6 +48,7 @@ const CloudinaryImagePreview = ({
 
 const ExperimentQuestion2AFC = ({
   question,
+  section,
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
   const router = useRouter();
@@ -52,7 +59,6 @@ const ExperimentQuestion2AFC = ({
     participantId as string | undefined,
     question
   );
-  console.log(comparisons);
   const [results, setResults] = useState<ComparisonResultType[]>([]);
   const [currentComparisonIdx, setCurrentComparisonIdx] = useState(0);
 
@@ -88,48 +94,62 @@ const ExperimentQuestion2AFC = ({
 
   if (!currentComparison) return null;
 
+  const imageWidth = section.settings.imageWidth
+    ? convertCmToPx(section.settings.imageWidth)
+    : undefined;
+  const imageHeight = section.settings.imageHeight
+    ? convertCmToPx(section.settings.imageHeight)
+    : undefined;
+  const gapBetweenImages = section.settings.distanceOfImages
+    ? convertCmToPx(section.settings.distanceOfImages) / 8
+    : undefined;
+
   return (
-    <Stack spacing={4}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: gapBetweenImages || 16,
+      }}
+    >
       <Box
+        component="button"
+        onClick={() => handleSubmitComparison(createComparisonResult("left"))}
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 16,
+          border: "none",
+          p: 0,
+          height: imageHeight || "min-content",
+          width: imageWidth || "min-content",
+          cursor: "pointer",
+          bgcolor: (theme) => theme.palette.background.default,
         }}
       >
-        <Box
-          component="button"
-          onClick={() => handleSubmitComparison(createComparisonResult("left"))}
-          sx={{
-            border: "none",
-            p: 0,
-            height: "min-content",
-            width: "min-content",
-            cursor: "pointer",
-          }}
-        >
-          <CloudinaryImagePreview imagePublicId={currentComparison.leftImage} />
-        </Box>
-        <Box
-          component="button"
-          onClick={() =>
-            handleSubmitComparison(createComparisonResult("right"))
-          }
-          sx={{
-            border: "none",
-            p: 0,
-            height: "min-content",
-            width: "min-content",
-            cursor: "pointer",
-          }}
-        >
-          <CloudinaryImagePreview
-            imagePublicId={currentComparison.rightImage}
-          />
-        </Box>
+        <CloudinaryImagePreview
+          imagePublicId={currentComparison.leftImage}
+          width={imageWidth}
+          height={imageHeight}
+        />
       </Box>
-    </Stack>
+      <Box
+        component="button"
+        onClick={() => handleSubmitComparison(createComparisonResult("right"))}
+        sx={{
+          border: "none",
+          p: 0,
+          height: imageHeight || "min-content",
+          width: imageWidth || "min-content",
+          cursor: "pointer",
+          bgcolor: (theme) => theme.palette.background.default,
+        }}
+      >
+        <CloudinaryImagePreview
+          imagePublicId={currentComparison.rightImage}
+          width={imageWidth}
+          height={imageHeight}
+        />
+      </Box>
+    </Box>
   );
 };
 

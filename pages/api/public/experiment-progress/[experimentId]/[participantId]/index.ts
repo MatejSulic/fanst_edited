@@ -53,7 +53,7 @@ export default async function handler(
       const { sectionResults, ...experimentProgressData } = req.body;
 
       // if the submitted data contains section results, increase currentSectionIdx
-      if (sectionResults) {
+      if (sectionResults || sectionResults === null) {
         experimentProgress.sectionResults.push(sectionResults);
         if (
           experiment.sections.length === 0 ||

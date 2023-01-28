@@ -1,15 +1,7 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSectionQuestions } from "../../../hooks/questions/useQuestions";
 import {
-  QuestionResults,
   UpdateQuestionResultsType,
   UpdateSectionResultsType,
 } from "../../../types/experimentProgress";
@@ -36,7 +28,11 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     section._id.toString()
   );
 
-  useEffect(() => {}, [questionResults]);
+  useEffect(() => {
+    if (questions?.length === 0) {
+      submitSection({ sectionId: section._id.toString(), results: [] });
+    }
+  }, [isLoading, isError]);
 
   if (isLoading) {
     return <Typography variant="h1">Loading...</Typography>;
@@ -48,7 +44,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
 
   const handleSubmitQuestion = (results?: UpdateQuestionResultsType) => {
     // submit whole section on last question
-    if (currentQuestionIdx === questions.length - 1) {
+    if (currentQuestionIdx === questions.length - 1 || questions.length === 0) {
       console.log("submit section");
       submitSection({
         sectionId: section._id.toString(),
@@ -61,7 +57,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     }
   };
 
-  return (
+  return questions.length > 0 ? (
     <Card variant="outlined" sx={{ width: "100%" }}>
       <CardHeader
         title={<Typography variant="h6">{section.title}</Typography>}
@@ -70,6 +66,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       <CardContent>
         <ExperimentQuestion
           key={questions[currentQuestionIdx]._id.toString()}
+          section={section}
           question={questions[currentQuestionIdx]}
           submitQuestion={handleSubmitQuestion}
         />
@@ -87,7 +84,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
         </CardActions>
       )} */}
     </Card>
-  );
+  ) : null;
 };
 
 export default ExperimentSectionCard;

@@ -1,14 +1,26 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
+import dynamic from "next/dynamic";
 import { ExperimentQuestionSharedProps } from ".";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const ExperimentQuestionPlainText = ({
   question,
+  section,
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
   return (
     <>
-      <Typography variant="body2">{question.content.text}</Typography>
+      <Box id="react-quill-container">
+        <ReactQuill
+          theme={null}
+          value={question.content.text}
+          // style={{ height: 200 }}
+          bounds="#react-quill-container"
+          preserveWhitespace
+          readOnly
+        />
+      </Box>
       <Box
         sx={{
           display: "flex",
