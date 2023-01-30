@@ -17,6 +17,7 @@ const ContentWrapper = ({ children }: Props) => {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
+        pb: 4,
       }}
     >
       <Stack

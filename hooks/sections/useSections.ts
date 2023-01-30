@@ -6,7 +6,12 @@ import {
   UpdateSectionType,
 } from "../../types/section/section";
 import {
+  experimentListQueryKey,
+  experimentDetailQueryKey,
+} from "../experiments/queries";
+import {
   sectionCreateMutationKey,
+  sectionDeleteMutationKey,
   sectionListQueryKey,
   sectionUpdateMutationKey,
 } from "./queries";
@@ -55,6 +60,28 @@ export const useCreateSectionMutation = (experimentId: string) => {
     mutationFn: createSection,
     onSuccess: () =>
       queryClient.invalidateQueries(sectionListQueryKey(experimentId)),
+  });
+};
+
+export const useDeleteSectionMutation = (
+  experimentId: string,
+  sectionId: string
+) => {
+  const queryClient = useQueryClient();
+
+  const deleteSection = async () => {
+    await axios.delete(
+      `/api/experiments/${experimentId}/sections/${sectionId}`
+    );
+  };
+
+  return useMutation(sectionDeleteMutationKey(experimentId, sectionId), {
+    mutationFn: deleteSection,
+    onSuccess: () => {
+      queryClient.invalidateQueries(sectionListQueryKey(experimentId));
+      queryClient.invalidateQueries(experimentListQueryKey());
+      queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+    },
   });
 };
 

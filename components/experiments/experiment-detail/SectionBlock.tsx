@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { useDeleteSectionMutation } from "../../../hooks/sections/useSections";
 import { SectionType } from "../../../types/section/section";
 
 type Props = {
@@ -26,11 +27,16 @@ type Props = {
 };
 
 const SectionBlock = ({ section }: Props) => {
+  const router = useRouter();
+  const { experimentId } = router.query;
+
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
-  const router = useRouter();
-  const { experimentId } = router.query;
+  const deleteSectionMutation = useDeleteSectionMutation(
+    experimentId as string,
+    section._id.toString()
+  );
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -45,6 +51,10 @@ const SectionBlock = ({ section }: Props) => {
     }
 
     setOpen(false);
+  };
+
+  const handleSectionDelete = () => {
+    deleteSectionMutation.mutate();
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
@@ -121,7 +131,7 @@ const SectionBlock = ({ section }: Props) => {
                   onKeyDown={handleListKeyDown}
                 >
                   <MenuItem
-                    onClick={handleClose}
+                    onClick={() => handleSectionDelete()}
                     sx={{ color: (theme) => theme.palette.warning.main }}
                   >
                     <ListItemIcon>

@@ -26,14 +26,14 @@ export default async function handler(
       );
       await section.save();
 
-      res.status(204);
+      res.status(204).end();
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });
     }
   } else if (req.method === "POST") {
     try {
-      res.status(204);
+      res.status(204).end();
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });

@@ -18,7 +18,7 @@ export default async function handler(
       });
       await experimentProgress.remove();
 
-      res.status(204).json({ success: true });
+      res.status(204).end();
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });

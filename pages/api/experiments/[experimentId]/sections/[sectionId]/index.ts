@@ -1,4 +1,6 @@
+import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import ExperimentModel from "../../../../../../lib/db/models/Experiment";
 import Question from "../../../../../../lib/db/models/Question";
 import Section from "../../../../../../lib/db/models/Section";
 import dbConnect from "../../../../../../lib/db/mongooseDb";
@@ -50,6 +52,30 @@ export default async function handler(
       }
 
       res.status(200).json({ success: true, data: section });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false });
+    }
+  } else if (req.method === "DELETE") {
+    try {
+      const section = await Section.findOne({
+        experimentId: experimentId,
+        _id: sectionId,
+      });
+      const deletedQuestionsCount = await Question.deleteMany({
+        _id: { $in: section.questions },
+      });
+      await section.remove();
+
+      const experiment = await ExperimentModel.findById(
+        new ObjectId(experimentId as string)
+      );
+      experiment.sections = experiment.sections.filter(
+        (item) => item !== sectionId
+      );
+      await experiment.save();
+
+      res.status(204).end();
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });

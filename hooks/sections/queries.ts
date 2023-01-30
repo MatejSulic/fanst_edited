@@ -21,3 +21,8 @@ export const sectionCreateMutationKey = (experimentId: string) => [
   "sections",
   "create-mutation",
 ];
+
+export const sectionDeleteMutationKey = (
+  experimentId: string,
+  sectionId: string
+) => ["experiments", experimentId, "sections", sectionId, "delete-mutation"];
