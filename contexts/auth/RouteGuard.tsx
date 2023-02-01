@@ -29,6 +29,12 @@ const RouteGuard = ({ Component, pageProps }: AppProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!isRouteAllowed()) {
+      router.push("/login");
+    }
+  }, [router.pathname]);
+
   if (!isRouteAllowed()) {
     return null;
   } else {
