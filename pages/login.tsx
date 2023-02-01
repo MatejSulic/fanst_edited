@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import ContentWrapper from "../components/common/layout/ContentWrapper";
 import useLoginForm from "../hooks/auth/useLoginForm";
@@ -65,14 +66,21 @@ const Login = () => {
             </CardContent>
             <CardActions
               sx={{
-                maxWidth: "33%",
-                mx: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
                 pb: 4,
+                gap: 2,
               }}
             >
-              <Button variant="contained" type="submit" fullWidth size="large">
+              <Button variant="contained" type="submit" size="large">
                 Login
               </Button>
+              <Link href="/register">
+                <Button variant="text" size="large">
+                  Register
+                </Button>
+              </Link>
             </CardActions>
           </Card>
         </form>

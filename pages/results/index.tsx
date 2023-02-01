@@ -25,7 +25,8 @@ const ResultsPage = () => {
                     <ListItemButton component={Link} href={link[idx]}>
                       <ListItemText>
                         Experiment: {item.participantExperiments[idx].title},
-                        Participant: {item.participant}
+                        Participant: {item.participant} ({item.participantEmail}
+                        )
                       </ListItemText>
                     </ListItemButton>
                   </ListItem>

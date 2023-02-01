@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useState } from "react";
 import ContentWrapper from "../components/common/layout/ContentWrapper";
@@ -89,14 +90,21 @@ const Register = () => {
             </CardContent>
             <CardActions
               sx={{
-                maxWidth: "33%",
-                mx: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
                 pb: 4,
+                gap: 2,
               }}
             >
-              <Button variant="contained" type="submit" fullWidth size="large">
+              <Button variant="contained" type="submit" size="large">
                 Register
               </Button>
+              <Link href="/login">
+                <Button variant="text" size="large">
+                  Log in instead
+                </Button>
+              </Link>
             </CardActions>
           </Card>
         </form>

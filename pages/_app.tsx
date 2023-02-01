@@ -4,6 +4,7 @@ import { StyledEngineProvider } from "@mui/material";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Script from "next/script";
 import { AuthContextProvider } from "../contexts/auth/authContext";
+import RouteGuard from "../contexts/auth/RouteGuard";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity } },
@@ -18,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       ></Script>
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
-          <Component {...pageProps} />
+          <RouteGuard Component={Component} {...pageProps} />
         </AuthContextProvider>
       </QueryClientProvider>
     </StyledEngineProvider>

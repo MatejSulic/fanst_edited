@@ -20,6 +20,7 @@ export default async function handler(
           });
           result.push({
             participant: participant._id.toString(),
+            participantEmail: participant.email,
             participantExperiments,
             links: [
               participantExperiments.map(

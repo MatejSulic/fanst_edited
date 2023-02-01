@@ -15,9 +15,9 @@ export const AuthContextProvider = ({
 }) => {
   const [user, setUser] = useState(() => {
     if (typeof window !== "undefined") {
-      let userProfle = localStorage.getItem("userProfile");
-      if (userProfle) {
-        return JSON.parse(userProfle);
+      let userProfile = localStorage.getItem("userProfile");
+      if (userProfile) {
+        return JSON.parse(userProfile);
       }
     }
     return null;

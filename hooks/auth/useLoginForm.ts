@@ -5,7 +5,7 @@ import { useAuthContext } from "../../contexts/auth/authContext";
 import { LoggedInUserDataType, LoginUserType } from "../../types/user";
 import { loginMutationKey } from "./queries";
 
-export const useLoginMutation = () => {
+const useLoginMutation = () => {
   const authContext = useAuthContext();
 
   const login = async ({ loginData }: { loginData: LoginUserType }) => {

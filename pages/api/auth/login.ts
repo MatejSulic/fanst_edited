@@ -1,10 +1,9 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
-import { jwtSecret } from "../../../lib/cloudinary";
 import User from "../../../lib/db/models/User";
 import dbConnect from "../../../lib/db/mongooseDb";
+import { generateAccessToken, generateRefreshToken } from "../../../utils/auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,26 +24,27 @@ export default async function handler(
           res.status(400).json({ success: false, data: "Wrong password" });
         }
 
-        const token = jwt.sign(
-          {
-            userId: user._id,
-            userEmail: user.email,
-          },
-          jwtSecret as string
+        const token = generateAccessToken(user._id.toString(), user.email);
+        const refreshToken = generateRefreshToken(
+          user._id.toString(),
+          user.email
         );
 
         res
           .status(200)
           .setHeader(
             "Set-Cookie",
-            cookie.serialize("accessToken", token, { httpOnly: true })
+            cookie.serialize("accessToken", token, {
+              httpOnly: true,
+              path: "/",
+            })
           )
           .json({
             success: true,
             data: { user: { email: user.email }, token: token },
           });
       } else {
-        res.status(400).json({ success: false, data: "Email not found" });
+        res.status(401).json({ success: false, data: "Email not found" });
       }
     } catch (e) {
       res.status(500).json({ success: false, data: "Error logging user" });
