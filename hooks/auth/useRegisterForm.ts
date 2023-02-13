@@ -1,10 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { RegisterUserType } from "../../types/user";
+import { useAuthContext } from "../../contexts/auth/authContext";
+import { LoggedInUserDataType, RegisterUserType } from "../../types/user";
 import { registerMutationKey } from "./queries";
 
 const useRegisterMutation = () => {
+  const authContext = useAuthContext();
+
   const register = async ({
     registerData,
   }: {
@@ -16,6 +19,8 @@ const useRegisterMutation = () => {
 
   return useMutation(registerMutationKey(), {
     mutationFn: register,
+    onSuccess: (data: { data: LoggedInUserDataType; success: boolean }) =>
+      authContext?.login(data.data),
   });
 };
 
@@ -29,11 +34,13 @@ const useRegisterForm = () => {
   const loginMutation = useRegisterMutation();
 
   const handleRegister = async (data: RegisterUserType) => {
+    console.log(data);
     loginMutation.mutate({ registerData: data });
   };
 
   const onSubmit = (onSave?: () => void) =>
     handleSubmit((data: RegisterUserType) => {
+      console.log("handleSubmit");
       handleRegister(data);
       if (onSave) onSave();
     });

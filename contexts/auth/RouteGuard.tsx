@@ -13,15 +13,10 @@ const RouteGuard = ({ Component, pageProps }: AppProps) => {
   const isRoutePublic = () =>
     router.pathname.startsWith(UNPROTECTED_ROUTES_BASE_PATH);
 
-  // console.log(isRoutePublic());
-  // console.log(!!(authContext?.user !== null && !isRoutePublic()));
-  // console.log(isAuthRoute());
-
   const isRouteAllowed = () =>
     isRoutePublic() ||
     !!(authContext?.user !== null && !isRoutePublic()) ||
     isAuthRoute();
-  // console.log(isRouteAllowed());
 
   useEffect(() => {
     if (!isRouteAllowed()) {
@@ -29,17 +24,18 @@ const RouteGuard = ({ Component, pageProps }: AppProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!isRouteAllowed()) {
-      router.push("/login");
-    }
-  }, [router.pathname]);
+  // useEffect(() => {
+  //   if (!isRouteAllowed()) {
+  //     router.push("/login");
+  //   }
+  // }, [router.pathname]);
 
   if (!isRouteAllowed()) {
-    return null;
+    return <div className="ROUTE-GUARD-EMPTY"></div>;
   } else {
     return <Component {...pageProps} />;
   }
+  // return <Component {...pageProps} />;
 };
 
 export default RouteGuard;

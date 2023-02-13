@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/db/mongooseDb";
 import bcrypt from "bcrypt";
+import cookie from "cookie";
 import User from "../../../lib/db/models/User";
+import { generateAccessToken, generateRefreshToken } from "../../../utils/auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +22,28 @@ export default async function handler(
       });
       await createdUser.save();
 
-      res.status(201).json({ success: true, data: createdUser });
+      const token = generateAccessToken(
+        createdUser._id.toString(),
+        createdUser.email
+      );
+      const refreshToken = generateRefreshToken(
+        createdUser._id.toString(),
+        createdUser.email
+      );
+
+      res
+        .status(201)
+        .setHeader(
+          "Set-Cookie",
+          cookie.serialize("accessToken", token, {
+            httpOnly: true,
+            path: "/",
+          })
+        )
+        .json({
+          success: true,
+          data: { user: { email: createdUser.email }, token: token },
+        });
     } catch (e) {
       res.status(500).json({ success: false, data: "Error creating user" });
     }

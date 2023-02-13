@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { LoggedInUserDataType } from "../../types/user";
 
 type AuthContextType = {
@@ -13,15 +13,16 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, setUser] = useState(() => {
-    if (typeof window !== "undefined") {
-      let userProfile = localStorage.getItem("userProfile");
-      if (userProfile) {
-        return JSON.parse(userProfile);
-      }
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    let userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    } else {
+      setUser(null);
     }
-    return null;
-  });
+  }, []);
 
   const login = (userData: LoggedInUserDataType) => {
     localStorage.setItem("user", JSON.stringify(userData));
@@ -29,6 +30,7 @@ export const AuthContextProvider = ({
   };
 
   const logout = () => {
+    console.log("logout");
     localStorage.removeItem("user");
     setUser(null);
   };

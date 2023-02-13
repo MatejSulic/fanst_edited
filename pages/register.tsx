@@ -29,7 +29,7 @@ const Register = () => {
     e.preventDefault();
 
     if (passConfirm === getValues().password) {
-      onSubmit(handleRegister);
+      onSubmit(handleRegister)();
     } else {
       setPassConfirmError("Passwords do not match");
     }
