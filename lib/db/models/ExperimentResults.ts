@@ -1,13 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 import {
-  ExperimentProgressType,
-  QuestionResults,
-  SectionResults,
-} from "../../../types/experimentProgress";
+  ExperimentQuestionResults,
+  ExperimentResults,
+  ExperimentSectionResults,
+} from "../../../types/experimentResults";
 import { questionTypeTypes } from "../../../types/question/questionTypes";
 import { sectionTypeTypes } from "../../../types/section/sectionTypes";
 
-const QuestionResultsSchema = new Schema<QuestionResults>(
+const ExperimentQuestionResultsSchema = new Schema<ExperimentQuestionResults>(
   {
     questionId: {
       type: Schema.Types.ObjectId,
@@ -21,16 +21,16 @@ const QuestionResultsSchema = new Schema<QuestionResults>(
   { _id: false }
 );
 
-const SectionResultsSchema = new Schema<SectionResults>(
+const ExperimentSectionResultsSchema = new Schema<ExperimentSectionResults>(
   {
     sectionId: { type: Schema.Types.ObjectId, ref: "Section", required: true },
     sectionType: { type: String, enum: sectionTypeTypes, required: true },
-    results: { type: [QuestionResultsSchema], default: () => [] },
+    results: { type: [ExperimentQuestionResultsSchema], default: () => [] },
   },
   { _id: false }
 );
 
-const ExperimentProgressSchema = new Schema<ExperimentProgressType>({
+const ExperimentResultsSchema = new Schema<ExperimentResults>({
   experimentId: {
     type: Schema.Types.ObjectId,
     ref: "Experiment",
@@ -41,10 +41,15 @@ const ExperimentProgressSchema = new Schema<ExperimentProgressType>({
     ref: "Participant",
     required: true,
   },
-  currentSectionIdx: { type: Number, default: 0 },
-  finished: { type: Boolean, default: false },
-  sectionResults: { type: [SectionResultsSchema], default: () => [] },
+  experimentProgressId: {
+    type: Schema.Types.ObjectId,
+    ref: "ExperimentProgress",
+    required: true,
+  },
+  sectionResults: { type: [ExperimentSectionResultsSchema], default: () => [] },
 });
 
-export default mongoose.models.ExperimentProgress ||
-  mongoose.model("ExperimentProgress", ExperimentProgressSchema);
+const ExperimentResultsModel =
+  mongoose.models.ExperimentResults ||
+  mongoose.model("ExperimentResults", ExperimentResultsSchema);
+export default ExperimentResultsModel;

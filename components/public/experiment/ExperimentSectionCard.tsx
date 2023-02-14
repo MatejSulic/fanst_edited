@@ -30,7 +30,11 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
 
   useEffect(() => {
     if (questions?.length === 0) {
-      submitSection({ sectionId: section._id.toString(), results: [] });
+      submitSection({
+        sectionId: section._id.toString(),
+        sectionType: section.type,
+        results: [],
+      });
     }
   }, [isLoading, isError]);
 
@@ -45,13 +49,12 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
   const handleSubmitQuestion = (results?: UpdateQuestionResultsType) => {
     // submit whole section on last question
     if (currentQuestionIdx === questions.length - 1 || questions.length === 0) {
-      console.log("submit section");
       submitSection({
         sectionId: section._id.toString(),
+        sectionType: section.type,
         results: results ? [...questionResults, results] : [...questionResults],
       });
     } else {
-      console.log("handleSubmitQuestion");
       if (results) setQuestionResults((prev) => [...prev, results]);
       setCurrentQuestionIdx((prev) => prev + 1);
     }

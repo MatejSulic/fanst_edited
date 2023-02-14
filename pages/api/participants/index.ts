@@ -22,12 +22,10 @@ export default async function handler(
             participant: participant._id.toString(),
             participantEmail: participant.email,
             participantExperiments,
-            links: [
-              participantExperiments.map(
-                (participantExperiment) =>
-                  `/public/experiment-preview/${participantExperiment._id.toString()}/${participant._id.toString()}`
-              ),
-            ],
+            links: participantExperiments.map(
+              (participantExperiment) =>
+                `/public/experiment-preview/${participantExperiment._id.toString()}/${participant._id.toString()}`
+            ),
           });
         })
       );

@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import Experiment from "../../../../../../lib/db/models/Experiment";
 import ExperimentProgress from "../../../../../../lib/db/models/ExperimentProgress";
+import ExperimentResultsModel from "../../../../../../lib/db/models/ExperimentResults";
 import dbConnect from "../../../../../../lib/db/mongooseDb";
 
 export default async function handler(
@@ -61,6 +62,13 @@ export default async function handler(
             experiment.sections.length - 1
         ) {
           experimentProgress.finished = true;
+          const experimentResults = new ExperimentResultsModel({
+            experimentId: experimentProgress.experimentId,
+            participantId: experimentProgress.participantId,
+            experimentProgressId: experimentProgress._id,
+            sectionResults: [...experimentProgress.sectionResults],
+          });
+          await experimentResults.save();
         } else {
           experimentProgress.currentSectionIdx += 1;
         }

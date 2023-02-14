@@ -7,7 +7,10 @@ import { AuthContextProvider } from "../contexts/auth/authContext";
 import RouteGuard from "../contexts/auth/RouteGuard";
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: Infinity } },
+  defaultOptions: {
+    queries: { staleTime: Infinity, networkMode: "always" },
+    mutations: { networkMode: "always" },
+  },
 });
 
 function MyApp({ Component, pageProps }: AppProps) {

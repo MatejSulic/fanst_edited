@@ -34,6 +34,7 @@ const ExperimentQuestionPlainText = ({
           onClick={() =>
             submitQuestion({
               questionId: question._id.toString(),
+              questionType: "PLAIN_TEXT",
               result: "SUBMITTED",
             })
           }

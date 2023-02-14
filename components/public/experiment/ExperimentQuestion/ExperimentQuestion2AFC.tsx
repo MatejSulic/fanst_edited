@@ -77,6 +77,7 @@ const ExperimentQuestion2AFC = ({
   const handleSubmitQuestion = (result: any) => {
     submitQuestion({
       questionId: question._id.toString(),
+      questionType: "2AFC",
       result,
     });
   };
