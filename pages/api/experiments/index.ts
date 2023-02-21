@@ -9,8 +9,12 @@ export default async function handler(
   await dbConnect();
 
   if (req.method === "GET") {
+    const searchQuery = req.query;
+
     try {
-      const experiments = await Experiment.find({});
+      const experiments = await Experiment.find({
+        archived: searchQuery.category === "archive",
+      });
       res.status(200).json({ success: true, data: experiments });
     } catch (error) {
       res.status(400).json({ success: false });

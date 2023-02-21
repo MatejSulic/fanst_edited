@@ -8,8 +8,11 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 const CategoriesList = () => {
+  const router = useRouter();
+
   return (
     <Box>
       <List
@@ -21,13 +24,26 @@ const CategoriesList = () => {
         }
         className="w-full h-full max-w-sm bg-white"
       >
-        <ListItemButton selected>
+        <ListItemButton
+          selected={
+            router.query.category === undefined ||
+            router.query.category === "active"
+          }
+          onClick={() => {
+            router.push({ query: { category: "active" } });
+          }}
+        >
           <ListItemIcon>
             <WhatshotIcon />
           </ListItemIcon>
           <ListItemText primary="Active" />
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton
+          selected={router.query.category === "archive"}
+          onClick={() => {
+            router.push({ query: { category: "archive" } });
+          }}
+        >
           <ListItemIcon>
             <ArchiveIcon />
           </ListItemIcon>

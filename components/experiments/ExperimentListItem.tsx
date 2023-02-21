@@ -13,7 +13,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import TextTruncate from "react-text-truncate";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
-import { useCopyExperimentMutation } from "../../hooks/experiments/useExperiments";
+import {
+  useCopyExperimentMutation,
+  useUpdateExperimentMutation,
+} from "../../hooks/experiments/useExperiments";
 import { ExperimentType } from "../../types/experiment";
 import InviteParticipantDialog from "./invite-participant/InviteParticipantDialog";
 
@@ -34,6 +37,9 @@ const ExperimentListItem = ({ experiment }: Props) => {
   const copyExperimentMutation = useCopyExperimentMutation(
     experiment._id.toString()
   );
+  const updateExperimentMutation = useUpdateExperimentMutation(
+    experiment._id.toString()
+  );
 
   const handleCopyExperiment = async () => {
     copyExperimentMutation.mutate();
@@ -41,6 +47,10 @@ const ExperimentListItem = ({ experiment }: Props) => {
 
   const handleInviteParticipantOpen = (experimentId: string) => {
     setInviteParticipantDialogDetails({ open: true, experimentId });
+  };
+
+  const handleArchiveExperiment = () => {
+    updateExperimentMutation.mutate({ experimentData: { archived: true } });
   };
 
   useEffect(() => {
@@ -133,14 +143,17 @@ const ExperimentListItem = ({ experiment }: Props) => {
                 </Button>
               )}
               {experiment.locked && (
-                <Button
-                  size="small"
-                  color="warning"
-                  onClick={() => handleCopyExperiment()}
-                >
+                <Button size="small" onClick={() => handleCopyExperiment()}>
                   Copy experiment
                 </Button>
               )}
+              <Button
+                size="small"
+                color="warning"
+                onClick={() => handleArchiveExperiment()}
+              >
+                Archive
+              </Button>
               <Button size="small" color="error">
                 Delete
               </Button>

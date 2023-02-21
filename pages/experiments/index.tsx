@@ -55,14 +55,7 @@ const ExperimentsListPage = () => {
           </aside>
 
           <main style={{ width: "100%" }}>
-            {/* <Card>
-              <CardContent
-                sx={{
-                  overflow: "auto",
-                  maxHeight: (theme) => theme.breakpoints.values.sm,
-                }}
-              > */}
-            {experiments.length > 0 ? (
+            {experiments && experiments.length > 0 ? (
               <List>
                 <>
                   {experiments.map((item) => (
@@ -99,8 +92,6 @@ const ExperimentsListPage = () => {
                 </CardActions>
               </Box>
             )}
-            {/* </CardContent>
-            </Card> */}
           </main>
         </Box>
       </ContentWrapper>

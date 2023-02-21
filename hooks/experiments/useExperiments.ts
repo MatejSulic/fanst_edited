@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import {
   CreateNewExperimentType,
   ExperimentType,
@@ -114,12 +116,23 @@ export const useCreateExperimentMutation = () => {
 };
 
 export const useExperiments = () => {
+  const router = useRouter();
+  const [searchParams, setSearchParams] = useState("");
+
   const getExperiments = async (): Promise<ExperimentType[]> => {
-    const { data } = await axios.get("/api/experiments");
+    const { data } = await axios.get("/api/experiments?" + searchParams);
     return data.data;
   };
 
-  return useQuery(experimentListQueryKey(), getExperiments);
+  useEffect(() => {
+    const searchParams = new URLSearchParams();
+    for (let key in router.query) {
+      searchParams.append(key, router.query[key] as string);
+    }
+    setSearchParams(searchParams.toString());
+  }, [router.query]);
+
+  return useQuery([...experimentListQueryKey(), searchParams], getExperiments);
 };
 
 export const useExperimentsSafe = () => {

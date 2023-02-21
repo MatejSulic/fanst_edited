@@ -18,6 +18,7 @@ export type ExperimentType = {
   }[];
 
   locked: boolean; // locked experiment cannot be further edited - create participant groups, question permutations etc. on lock
+  archived: boolean;
   settings: ExperimentSettingsType;
 };
 
@@ -27,5 +28,5 @@ export type CreateNewExperimentType = Pick<
 >;
 
 export type UpdateExperimentType = Partial<
-  Pick<ExperimentType, "title" | "description" | "settings">
+  Pick<ExperimentType, "title" | "description" | "settings" | "archived">
 >;

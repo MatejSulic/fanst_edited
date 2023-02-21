@@ -29,6 +29,7 @@ const ExperimentSchema = new Schema<ExperimentType>({
   participantsPerGroups: { type: [Map], of: [String], default: () => [] },
 
   locked: { type: Boolean, default: false },
+  archived: { type: Boolean, default: false },
   settings: { type: ExperimentSettingsSchema, default: () => ({}) },
 });
 
