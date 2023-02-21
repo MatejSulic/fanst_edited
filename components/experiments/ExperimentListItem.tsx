@@ -155,20 +155,24 @@ const ExperimentListItem = ({ experiment }: Props) => {
                   Copy experiment
                 </Button>
               )}
-              <Button
-                size="small"
-                color="warning"
-                onClick={() => handleArchiveExperiment()}
-              >
-                Archive
-              </Button>
-              <Button
-                size="small"
-                color="error"
-                onClick={() => handleDeleteExperiment()}
-              >
-                Delete
-              </Button>
+              {experiment.locked && (
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => handleArchiveExperiment()}
+                >
+                  Archive
+                </Button>
+              )}
+              {!experiment.locked && (
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => handleDeleteExperiment()}
+                >
+                  Delete
+                </Button>
+              )}
             </Box>
           </ListItem>
         </List>
