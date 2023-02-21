@@ -13,6 +13,12 @@ export const experimentUpdateMutationKey = (experimentId: string) => [
   "update-mutation",
 ];
 
+export const experimentDeleteMutationKey = (experimentId: string) => [
+  "experiments",
+  experimentId,
+  "delete-mutation",
+];
+
 export const experimentCreateMutationKey = () => [
   "experiments",
   "create-mutation",

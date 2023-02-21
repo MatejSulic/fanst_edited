@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import Experiment from "../../../../lib/db/models/Experiment";
+import Experiment, {
+  deleteExperiment,
+} from "../../../../lib/db/models/Experiment";
 import dbConnect from "../../../../lib/db/mongooseDb";
 
 export default async function handler(
@@ -34,6 +36,15 @@ export default async function handler(
       );
 
       res.status(200).json({ success: true, data: experiment });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false });
+    }
+  } else if (req.method === "DELETE") {
+    try {
+      deleteExperiment(experimentId as string);
+
+      res.status(204).end();
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false });

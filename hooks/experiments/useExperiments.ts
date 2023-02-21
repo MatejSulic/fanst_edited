@@ -10,6 +10,7 @@ import {
 import {
   experimentCopyMutationKey,
   experimentCreateMutationKey,
+  experimentDeleteMutationKey,
   experimentDetailQueryKey,
   experimentInviteParticipantMutationKey,
   experimentListQueryKey,
@@ -158,4 +159,19 @@ export const useExperiment = (experimentId?: string) => {
     async () => await getExperiment(experimentId as string),
     { enabled: experimentId !== undefined }
   );
+};
+
+export const useDeleteExperimentMutation = (experimentId: string) => {
+  const queryClient = useQueryClient();
+
+  const deleteExperiment = async () => {
+    await axios.delete(`/api/experiments/${experimentId}`);
+  };
+
+  return useMutation(experimentDeleteMutationKey(experimentId), {
+    mutationFn: deleteExperiment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(experimentListQueryKey());
+    },
+  });
 };

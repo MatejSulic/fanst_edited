@@ -37,6 +37,18 @@ const ExperimentModel =
   mongoose.models.Experiment || mongoose.model("Experiment", ExperimentSchema);
 export default ExperimentModel;
 
+export const deleteExperiment = async (experimentId: string): Promise<void> => {
+  await dbConnect();
+
+  const experimentObjectId = new ObjectId(experimentId);
+
+  await ExperimentModel.findByIdAndDelete(experimentObjectId);
+  await Section.deleteMany({ experimentId: experimentObjectId });
+  await QuestionModel.deleteMany({
+    experimentId: experimentObjectId,
+  });
+};
+
 export const lockExperiment = async (experimentId: string): Promise<void> => {
   await dbConnect();
   let experiment = await ExperimentModel.findById(new ObjectId(experimentId));

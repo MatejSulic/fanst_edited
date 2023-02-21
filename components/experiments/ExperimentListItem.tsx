@@ -15,6 +15,7 @@ import TextTruncate from "react-text-truncate";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
 import {
   useCopyExperimentMutation,
+  useDeleteExperimentMutation,
   useUpdateExperimentMutation,
 } from "../../hooks/experiments/useExperiments";
 import { ExperimentType } from "../../types/experiment";
@@ -40,6 +41,9 @@ const ExperimentListItem = ({ experiment }: Props) => {
   const updateExperimentMutation = useUpdateExperimentMutation(
     experiment._id.toString()
   );
+  const deleteExperimentMutation = useDeleteExperimentMutation(
+    experiment._id.toString()
+  );
 
   const handleCopyExperiment = async () => {
     copyExperimentMutation.mutate();
@@ -51,6 +55,10 @@ const ExperimentListItem = ({ experiment }: Props) => {
 
   const handleArchiveExperiment = () => {
     updateExperimentMutation.mutate({ experimentData: { archived: true } });
+  };
+
+  const handleDeleteExperiment = () => {
+    deleteExperimentMutation.mutate();
   };
 
   useEffect(() => {
@@ -154,7 +162,11 @@ const ExperimentListItem = ({ experiment }: Props) => {
               >
                 Archive
               </Button>
-              <Button size="small" color="error">
+              <Button
+                size="small"
+                color="error"
+                onClick={() => handleDeleteExperiment()}
+              >
                 Delete
               </Button>
             </Box>
