@@ -130,7 +130,16 @@ const ExperimentListItem = ({ experiment }: Props) => {
                 Edit
               </Button>
               <Button size="small">Preview</Button>
-              <Button size="small">View Results</Button>
+              <Button size="small">
+                <Link
+                  href={{
+                    pathname: "/results",
+                    query: { experimentId: experiment._id.toString() },
+                  }}
+                >
+                  View Results
+                </Link>
+              </Button>
               {!experiment.locked && (
                 <Button
                   size="small"

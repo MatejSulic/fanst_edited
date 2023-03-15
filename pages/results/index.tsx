@@ -8,6 +8,7 @@ import {
   useResults,
 } from "../../hooks/results/useResults";
 import { CSVLink } from "react-csv";
+import { useRouter } from "next/router";
 
 const ExportCsvButton = ({ id }: { id: string }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,13 +21,12 @@ const ExportCsvButton = ({ id }: { id: string }) => {
       onSuccess: (data) => {
         console.log("on Success: ", data);
         setData(data);
-        setIsLoading(false);
       },
     });
   };
 
   useEffect(() => {
-    if (data !== "") {
+    if (data !== null) {
       setIsLoading(false);
     }
   }, [data]);
@@ -43,17 +43,19 @@ const ExportCsvButton = ({ id }: { id: string }) => {
 };
 
 const ResultsPage = () => {
+  const router = useRouter();
   const { data, isLoading, isError } = useResults();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   if (isLoading || isError) {
     return null;
   }
 
   const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 0.3,
+    },
     {
       field: "experimentName",
       headerName: "Experiment Name",
@@ -86,7 +88,6 @@ const ResultsPage = () => {
     experimentName: item.title,
     responsesCount: item.results.length,
     participantGroupsCount: item.settings.numberOfParticipantGroups,
-    // exportToCsv: <Button variant="outlined">To CSV</Button>,
   }));
 
   return (
@@ -96,12 +97,22 @@ const ResultsPage = () => {
         <Box sx={{ display: "flex", height: 400, width: "66%" }}>
           <Box sx={{ flexGrow: 1 }}>
             <DataGrid
+              initialState={{
+                // columns: { columnVisibilityModel: { id: false } },
+                filter: {
+                  filterModel: {
+                    items: [
+                      {
+                        columnField: "id",
+                        value: router.query.experimentId,
+                      },
+                    ],
+                  },
+                },
+              }}
               rows={rows}
               columns={columns}
               isRowSelectable={() => false}
-
-              // pageSize={5}
-              // rowsPerPageOptions={[5]}
             />
           </Box>
         </Box>

@@ -30,7 +30,9 @@ const CategoriesList = () => {
             router.query.category === "active"
           }
           onClick={() => {
-            router.push({ query: { category: "active" } });
+            router.push({ query: { category: "active" } }, undefined, {
+              shallow: true,
+            });
           }}
         >
           <ListItemIcon>
@@ -41,7 +43,9 @@ const CategoriesList = () => {
         <ListItemButton
           selected={router.query.category === "archive"}
           onClick={() => {
-            router.push({ query: { category: "archive" } });
+            router.push({ query: { category: "archive" } }, undefined, {
+              shallow: true,
+            });
           }}
         >
           <ListItemIcon>
