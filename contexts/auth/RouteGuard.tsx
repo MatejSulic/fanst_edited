@@ -15,14 +15,14 @@ const RouteGuard = ({ Component, pageProps }: AppProps) => {
 
   const isRouteAllowed = () =>
     isRoutePublic() ||
-    !!(authContext?.user !== null && !isRoutePublic()) ||
+    (authContext?.user !== null && !isRoutePublic()) ||
     isAuthRoute();
 
   useEffect(() => {
     if (!isRouteAllowed()) {
       router.push("/login");
     }
-  }, []);
+  }, [authContext?.user]);
 
   // useEffect(() => {
   //   if (!isRouteAllowed()) {

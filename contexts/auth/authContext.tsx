@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { LoggedInUserDataType } from "../../types/user";
 
@@ -13,6 +14,7 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const router = useRouter();
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
@@ -33,6 +35,7 @@ export const AuthContextProvider = ({
     console.log("logout");
     localStorage.removeItem("user");
     setUser(null);
+    router.push("/login");
   };
 
   return (
