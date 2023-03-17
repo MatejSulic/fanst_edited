@@ -7,6 +7,7 @@ type ExperimentSettingsType = {
 
 export type ExperimentType = {
   _id: Types.ObjectId;
+  userId: Types.ObjectId;
   title: string;
   description: string;
   sections: string[]; // section ids

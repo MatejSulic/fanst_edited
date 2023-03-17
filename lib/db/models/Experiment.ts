@@ -21,6 +21,7 @@ const ExperimentSettingsSchema = new Schema<ExperimentSettingsType>(
 );
 
 const ExperimentSchema = new Schema<ExperimentType>({
+  userId: { type: Schema.Types.ObjectId },
   title: { type: String, required: true },
   description: String,
   sections: { type: [String], default: [] },
