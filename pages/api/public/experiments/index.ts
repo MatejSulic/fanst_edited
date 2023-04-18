@@ -1,0 +1,19 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import dbConnect from "../../../../lib/db/mongooseDb";
+import ExperimentModel from "../../../../lib/db/models/Experiment";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  await dbConnect();
+
+  if (req.method === "GET") {
+    try {
+      const experiments = await ExperimentModel.find();
+      res.status(200).json({ success: true, data: experiments });
+    } catch (error) {
+      res.status(400).json({ success: false });
+    }
+  }
+}

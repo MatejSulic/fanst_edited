@@ -174,15 +174,6 @@ const useComparisons = (
         (obj) => obj.participantGroup === participantGroup
       )?.permutation
     : null;
-  console.log("exp id:", experimentId);
-  console.log("part id:", participantId);
-  console.log("participantGroup:", participantGroup);
-  console.log(
-    "imagesPermutationForParticipant:",
-    imagesPermutationForParticipant
-  );
-  console.log("experiment:", experiment);
-  console.log("question:", question);
   const [comparisons, setComparisons] = useState<ComparisonType[]>([]);
 
   useEffect(() => {

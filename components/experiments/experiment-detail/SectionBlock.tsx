@@ -1,24 +1,14 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
-  ClickAwayListener,
-  Grow,
-  IconButton,
-  ListItemIcon,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useLockExperimentContext } from "../../../contexts/experiments/lockExperimentContext";
 import { useDeleteSectionMutation } from "../../../hooks/sections/useSections";
 import { SectionType } from "../../../types/section/section";
 
@@ -30,87 +20,60 @@ const SectionBlock = ({ section }: Props) => {
   const router = useRouter();
   const { experimentId } = router.query;
 
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef<HTMLButtonElement>(null);
-
   const deleteSectionMutation = useDeleteSectionMutation(
     experimentId as string,
     section._id.toString()
   );
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-
-    setOpen(false);
-  };
+  const lockExperimentContext = useLockExperimentContext();
 
   const handleSectionDelete = () => {
     deleteSectionMutation.mutate();
   };
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === "Escape") {
-      setOpen(false);
-    }
-  }
-
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open);
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
+  const handleNavigateToSectionDetail = () => {
+    router.push(
+      `/experiments/${experimentId}/sections/${section._id.toString()}`
+    );
+  };
 
   return (
     <>
-      <Card>
+      <Card
+        sx={{
+          cursor: lockExperimentContext.isExperimentLocked
+            ? "pointer"
+            : undefined,
+        }}
+        onClick={
+          lockExperimentContext.isExperimentLocked
+            ? handleNavigateToSectionDetail
+            : undefined
+        }
+      >
         <CardHeader
           title={<Typography variant="subtitle1">{section.title}</Typography>}
-          action={
-            <IconButton
-              ref={anchorRef}
-              aria-controls={open ? "composition-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleToggle}
-            >
-              <MoreHorizIcon />
-            </IconButton>
-          }
           className="pb-0"
         />
         <CardContent>
           <Typography variant="body1">{section.description}</Typography>
         </CardContent>
-        <CardActions sx={{ display: "flex", gap: 4 }}>
-          <Link
-            href={`/experiments/${experimentId}/sections/${section._id.toString()}`}
-          >
-            <Button size="small">Edit Section</Button>
-          </Link>
-          <Button
-            color="warning"
-            size="small"
-            onClick={() => handleSectionDelete()}
-          >
-            Delete Section
-          </Button>
-        </CardActions>
+        {!lockExperimentContext.isExperimentLocked && (
+          <CardActions sx={{ display: "flex", gap: 4 }}>
+            <Link
+              href={`/experiments/${experimentId}/sections/${section._id.toString()}`}
+            >
+              <Button size="small">Edit Section</Button>
+            </Link>
+            <Button
+              color="warning"
+              size="small"
+              onClick={() => handleSectionDelete()}
+            >
+              Delete Section
+            </Button>
+          </CardActions>
+        )}
       </Card>
     </>
   );

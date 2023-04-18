@@ -164,7 +164,7 @@ const ExperimentListItem = ({ experiment }: Props) => {
                   Copy experiment
                 </Button>
               )}
-              {experiment.locked && (
+              {experiment.locked && !experiment.archived && (
                 <Button
                   size="small"
                   color="error"

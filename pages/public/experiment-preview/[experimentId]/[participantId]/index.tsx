@@ -5,11 +5,11 @@ import PublicAppBar from "../../../../../components/public/common/PublicAppBar";
 import ExperimentSectionCard from "../../../../../components/public/experiment/ExperimentSectionCard";
 import ExperimentStartCard from "../../../../../components/public/experiment/ExperimentStartCard";
 import ExperimentWithdrawConsentCard from "../../../../../components/public/experiment/ExperimentWithdrawConsentCard";
-import { useExperiment } from "../../../../../hooks/experiments/useExperiments";
 import {
-  useExperimentProgress,
+  usePublicExperimentProgress,
   useUpdateExperimentProgressMutation,
 } from "../../../../../hooks/public/experiment-progress/useExperimentProgresses";
+import { usePublicExperiment } from "../../../../../hooks/public/experiments/useExperiments";
 import { useSections } from "../../../../../hooks/sections/useSections";
 import { UpdateSectionResultsType } from "../../../../../types/experimentProgress";
 
@@ -20,13 +20,13 @@ const ExperimentPreviewPage = () => {
     data: experiment,
     isLoading: experimentIsLoading,
     isError: experimentIsError,
-  } = useExperiment(experimentId as string | undefined);
+  } = usePublicExperiment(experimentId as string | undefined);
 
   const {
     data: experimentProgress,
     isLoading: experimentProgressIsLoading,
     isError: experimentProgressIsError,
-  } = useExperimentProgress(
+  } = usePublicExperimentProgress(
     experimentId as string | undefined,
     participantId as string | undefined
   );

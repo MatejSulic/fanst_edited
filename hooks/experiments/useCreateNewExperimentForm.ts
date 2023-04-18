@@ -19,6 +19,7 @@ const useCreateNewExperimentForm = () => {
     handleSubmit((data: CreateNewExperimentType) => {
       handleCreateExperiment(data);
       onSave();
+      reset();
     });
 
   return { register, onSubmit, errors, reset };

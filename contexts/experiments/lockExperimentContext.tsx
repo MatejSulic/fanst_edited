@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import {
-  useExperimentsSafe,
+  useAllExperimentsSafe,
   useLockExperimentMutation,
 } from "../../hooks/experiments/useExperiments";
 
@@ -19,10 +19,10 @@ export const LockExperimentContextProvider = ({
   experimentId: string;
   children: React.ReactNode;
 }) => {
-  const experiments = useExperimentsSafe();
-
   const lockExperimentMutation = useLockExperimentMutation(experimentId);
-  const currentExperiment = experiments?.find(
+
+  const experiments = useAllExperimentsSafe();
+  const experiment = experiments?.find(
     (item) => item._id.toString() === experimentId
   );
 
@@ -33,7 +33,7 @@ export const LockExperimentContextProvider = ({
   return (
     <LockExperimentContext.Provider
       value={{
-        isExperimentLocked: currentExperiment?.locked,
+        isExperimentLocked: experiment?.locked,
         lockExperiment: handleLockExperiment,
       }}
     >

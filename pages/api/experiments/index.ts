@@ -23,10 +23,17 @@ export default async function handler(
       res.status(401).end();
     } else {
       try {
-        const experiments = await Experiment.find({
-          userId: decodedToken.userId,
-          archived: searchQuery.category === "archive",
-        });
+        let experiments;
+        if (searchQuery.category === "all") {
+          experiments = await Experiment.find({
+            userId: decodedToken.userId,
+          });
+        } else {
+          experiments = await Experiment.find({
+            userId: decodedToken.userId,
+            archived: searchQuery.category === "archive",
+          });
+        }
         res.status(200).json({ success: true, data: experiments });
       } catch (error) {
         res.status(400).json({ success: false });

@@ -1,15 +1,15 @@
-import { Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
+import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
 import AppBar from "../../../components/common/AppBar";
 import ContentWrapper from "../../../components/common/layout/ContentWrapper";
 import ExperimentDetailList from "../../../components/experiments/experiment-detail/ExperimentDetailList";
 import ExperimentDetailPageToolbar from "../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
 import SectionList from "../../../components/experiments/section-list-aside/SectionList";
-import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
-import { useSections } from "../../../hooks/sections/useSections";
-import { useExperiments } from "../../../hooks/experiments/useExperiments";
 import { LockExperimentContextProvider } from "../../../contexts/experiments/lockExperimentContext";
+import { useExperiment } from "../../../hooks/experiments/useExperiments";
+import { useSections } from "../../../hooks/sections/useSections";
 
 const ExperimentDetailPage = () => {
   const router = useRouter();
@@ -21,30 +21,24 @@ const ExperimentDetailPage = () => {
   } = useSections(experimentId as string | undefined);
 
   const {
-    data: experiments,
-    isLoading: experimentsIsLoading,
-    isError: experimentsIsError,
-  } = useExperiments();
+    data: experiment,
+    isLoading: experimentIsLoading,
+    isError: experimentIsError,
+  } = useExperiment(experimentId as string | undefined);
 
-  if (isLoading || experimentsIsLoading) {
+  if (isLoading || experimentIsLoading) {
     return <Typography variant="h1">Loading...</Typography>;
   }
 
-  if (isError || experimentsIsError) {
+  if (isError || experimentIsError) {
     return <Typography variant="h1">Error</Typography>;
   }
 
-  const currentExperiment = experiments.find(
-    (item) => item._id.toString() === experimentId
-  )!;
-
-  return currentExperiment ? (
+  return experiment ? (
     <>
       <AppBar />
       <ContentWrapper>
-        <LockExperimentContextProvider
-          experimentId={currentExperiment._id.toString()}
-        >
+        <LockExperimentContextProvider experimentId={experiment._id.toString()}>
           <Box sx={{ width: "100%" }}>
             <Breadcrumbs />
           </Box>
@@ -56,16 +50,10 @@ const ExperimentDetailPage = () => {
             </aside>
 
             <main>
-              {experiments.length > 0 && (
-                <ExperimentDetailList
-                  experiment={
-                    experiments.find(
-                      (item) => item._id.toString() === experimentId
-                    )!
-                  }
-                  sections={sections}
-                />
-              )}
+              <ExperimentDetailList
+                experiment={experiment}
+                sections={sections}
+              />
             </main>
           </Box>
         </LockExperimentContextProvider>

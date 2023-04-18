@@ -67,7 +67,7 @@ export const useCreateExperimentProgressMutation = (
   );
 };
 
-export const useExperimentProgresses = () => {
+export const usePublicExperimentProgresses = () => {
   const getExperimentProgresses = async (): Promise<
     ExperimentProgressType[]
   > => {
@@ -78,7 +78,7 @@ export const useExperimentProgresses = () => {
   return useQuery(experimentProgressListQueryKey(), getExperimentProgresses);
 };
 
-export const useExperimentProgress = (
+export const usePublicExperimentProgress = (
   experimentId?: string,
   participantId?: string
 ) => {

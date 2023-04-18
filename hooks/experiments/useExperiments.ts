@@ -129,7 +129,7 @@ export const useCreateExperimentMutation = () => {
   });
 };
 
-export const useExperiments = () => {
+export const useExperiments = (options?: { all?: boolean }) => {
   const router = useRouter();
   const [searchParams, setSearchParams] = useState("");
 
@@ -139,18 +139,27 @@ export const useExperiments = () => {
   };
 
   useEffect(() => {
-    const searchParams = new URLSearchParams();
-    for (let key in router.query) {
-      searchParams.append(key, router.query[key] as string);
+    const search = new URLSearchParams();
+    if (!options?.all) {
+      for (let key in router.query) {
+        search.append(key, router.query[key] as string);
+      }
+      setSearchParams(search.toString());
+    } else {
+      search.append("category", "all");
+      setSearchParams(search.toString());
     }
-    setSearchParams(searchParams.toString());
   }, [router.query]);
 
   return useQuery([...experimentListQueryKey(), searchParams], getExperiments);
 };
 
-export const useExperimentsSafe = () => {
-  const { data: experiments, isLoading, isError } = useExperiments();
+export const useAllExperimentsSafe = () => {
+  const {
+    data: experiments,
+    isLoading,
+    isError,
+  } = useExperiments({ all: true });
 
   if (isLoading || isError) {
     return null;

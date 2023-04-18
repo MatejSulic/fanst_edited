@@ -63,7 +63,11 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
   return questions.length > 0 ? (
     <Card variant="outlined" sx={{ width: "100%" }}>
       <CardHeader
-        title={<Typography variant="h6">{section.title}</Typography>}
+        title={
+          <Typography variant="h6">
+            {questions[currentQuestionIdx].title}
+          </Typography>
+        }
         sx={{ textAlign: "center" }}
       />
       <CardContent>
