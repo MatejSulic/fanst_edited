@@ -3,6 +3,7 @@ import {
   CardActions,
   CardContent,
   List,
+  ListSubheader,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -16,8 +17,10 @@ import ExperimentListItem from "../../components/experiments/ExperimentListItem"
 import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
 import { useExperiments } from "../../hooks/experiments/useExperiments";
 import { LockExperimentContextProvider } from "../../contexts/experiments/lockExperimentContext";
+import { useRouter } from "next/router";
 
 const ExperimentsListPage = () => {
+  const router = useRouter();
   const [newExperimentDialogIsOpen, setNewExperimentDialogIsOpen] =
     useState(false);
   const { data: experiments, isLoading, isError } = useExperiments();
@@ -29,6 +32,9 @@ const ExperimentsListPage = () => {
   if (isError) {
     return <Typography variant="h1">Error</Typography>;
   }
+
+  const unlockedExperiments = experiments.filter((item) => !item.locked);
+  const lockedExperiments = experiments.filter((item) => item.locked);
 
   return (
     <>
@@ -56,21 +62,72 @@ const ExperimentsListPage = () => {
 
           <main style={{ width: "100%" }}>
             {experiments && experiments.length > 0 ? (
-              <List>
-                <>
-                  {experiments.map((item) => (
-                    <LockExperimentContextProvider
-                      key={item._id.toString()}
-                      experimentId={item._id.toString()}
-                    >
-                      <ExperimentListItem
-                        key={item._id.toString()}
-                        experiment={item}
-                      />
-                    </LockExperimentContextProvider>
-                  ))}
-                </>
-              </List>
+              <Card variant="outlined">
+                {router.query.category === undefined ||
+                router.query.category === "active" ? (
+                  <>
+                    {unlockedExperiments.length > 0 && (
+                      <List
+                        subheader={
+                          <ListSubheader>Unlocked Experiments</ListSubheader>
+                        }
+                      >
+                        <>
+                          {unlockedExperiments.map((item) => (
+                            <LockExperimentContextProvider
+                              key={item._id.toString()}
+                              experimentId={item._id.toString()}
+                            >
+                              <ExperimentListItem
+                                key={item._id.toString()}
+                                experiment={item}
+                              />
+                            </LockExperimentContextProvider>
+                          ))}
+                        </>
+                      </List>
+                    )}
+
+                    {lockedExperiments.length > 0 && (
+                      <List
+                        subheader={
+                          <ListSubheader>Locked Experiments</ListSubheader>
+                        }
+                      >
+                        <>
+                          {lockedExperiments.map((item) => (
+                            <LockExperimentContextProvider
+                              key={item._id.toString()}
+                              experimentId={item._id.toString()}
+                            >
+                              <ExperimentListItem
+                                key={item._id.toString()}
+                                experiment={item}
+                              />
+                            </LockExperimentContextProvider>
+                          ))}
+                        </>
+                      </List>
+                    )}
+                  </>
+                ) : (
+                  <List>
+                    <>
+                      {experiments.map((item) => (
+                        <LockExperimentContextProvider
+                          key={item._id.toString()}
+                          experimentId={item._id.toString()}
+                        >
+                          <ExperimentListItem
+                            key={item._id.toString()}
+                            experiment={item}
+                          />
+                        </LockExperimentContextProvider>
+                      ))}
+                    </>
+                  </List>
+                )}
+              </Card>
             ) : (
               <Box
                 sx={{

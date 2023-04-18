@@ -141,14 +141,20 @@ const LockedQuestionBlockImageSelect = ({
 const UnlockedQuestionBlockImageSelect = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  const [leftImagePublicId, setLeftImagePublicId] = useState(
-    question.content.leftImage || ""
-  );
-  const [rightImagePublicId, setRightImagePublicId] = useState(
-    question.content.rightImage || ""
-  );
+  const [leftImagePublicId, setLeftImagePublicId] = useState("");
+  const [rightImagePublicId, setRightImagePublicId] = useState("");
   const { register, setValue, onSubmit, errors } =
     useUpdateSectionFormContext();
+
+  useEffect(
+    () => setLeftImagePublicId(question.content.leftImage || ""),
+    [question.content.leftImage]
+  );
+
+  useEffect(
+    () => setRightImagePublicId(question.content.rightImage || ""),
+    [question.content.rightImage]
+  );
 
   useEffect(() => {
     setValue(

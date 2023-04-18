@@ -42,7 +42,7 @@ const ExperimentQuestionImageSelect = ({
       submitQuestion({
         questionId: question._id.toString(),
         questionType: "IMAGE_SELECT",
-        result: result,
+        result: [result],
       });
     },
     [question._id, submitQuestion]

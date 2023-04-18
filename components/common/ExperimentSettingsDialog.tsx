@@ -65,6 +65,8 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
               <TextField
                 label="Experiment description"
                 fullWidth
+                multiline
+                rows={4}
                 defaultValue={currentExperiment?.description}
                 {...register("description")}
               />

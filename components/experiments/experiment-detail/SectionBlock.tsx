@@ -97,54 +97,21 @@ const SectionBlock = ({ section }: Props) => {
         <CardContent>
           <Typography variant="body1">{section.description}</Typography>
         </CardContent>
-        <CardActions>
+        <CardActions sx={{ display: "flex", gap: 4 }}>
           <Link
             href={`/experiments/${experimentId}/sections/${section._id.toString()}`}
           >
             <Button size="small">Edit Section</Button>
           </Link>
+          <Button
+            color="warning"
+            size="small"
+            onClick={() => handleSectionDelete()}
+          >
+            Delete Section
+          </Button>
         </CardActions>
       </Card>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement="bottom-start"
-        transition
-        disablePortal
-        className="z-10"
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom-start" ? "left top" : "left bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
-                >
-                  <MenuItem
-                    onClick={() => handleSectionDelete()}
-                    sx={{ color: (theme) => theme.palette.warning.main }}
-                  >
-                    <ListItemIcon>
-                      <DeleteIcon color="warning" />
-                    </ListItemIcon>
-                    Delete section
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
     </>
   );
 };

@@ -39,10 +39,8 @@ const SectionDetailPage = () => {
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
 
-  const [register, setValue, onSubmit, reset, errors] = useUpdateSectionForm(
-    experimentId as string,
-    sectionId as string
-  );
+  const [register, setValue, onSubmit, reset, errors, data] =
+    useUpdateSectionForm(experimentId as string, sectionId as string);
 
   useEffect(() => {
     if (sections) {
@@ -51,7 +49,7 @@ const SectionDetailPage = () => {
       );
     }
     reset();
-  }, [sectionId, sections, reset]);
+  }, [sectionId, sections, questions, reset]);
 
   const handleDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -80,7 +78,7 @@ const SectionDetailPage = () => {
       <ContentWrapper>
         <LockExperimentContextProvider experimentId={experimentId as string}>
           <UpdateSectionFormContextProvider
-            value={{ register, setValue, onSubmit, errors }}
+            value={{ register, setValue, onSubmit, error, data }}
           >
             <IsSectionEditableContextProvider value={{ isSectionEditable }}>
               <Box sx={{ width: "100%" }}>

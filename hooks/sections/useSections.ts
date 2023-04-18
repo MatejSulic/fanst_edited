@@ -9,6 +9,7 @@ import {
   experimentListQueryKey,
   experimentDetailQueryKey,
 } from "../experiments/queries";
+import { questionListQueryKey } from "../questions/queries";
 import {
   sectionCreateMutationKey,
   sectionDeleteMutationKey,
@@ -36,8 +37,12 @@ export const useUpdateSectionMutation = (
 
   return useMutation(sectionUpdateMutationKey(experimentId, sectionId), {
     mutationFn: updateSection,
-    onSuccess: () =>
-      queryClient.invalidateQueries(sectionListQueryKey(experimentId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries(sectionListQueryKey(experimentId));
+      queryClient.invalidateQueries(
+        questionListQueryKey(experimentId, sectionId)
+      );
+    },
   });
 };
 

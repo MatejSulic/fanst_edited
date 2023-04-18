@@ -16,13 +16,12 @@ const CategoriesList = () => {
   return (
     <Box>
       <List
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Categories
-          </ListSubheader>
-        }
-        className="w-full h-full max-w-sm bg-white"
+        subheader={<ListSubheader>Categories</ListSubheader>}
+        sx={{
+          width: "100%",
+          maxWidth: (theme) => theme.breakpoints.values.sm,
+          backgroundColor: "white",
+        }}
       >
         <ListItemButton
           selected={

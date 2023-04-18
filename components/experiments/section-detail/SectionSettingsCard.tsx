@@ -1,5 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
+import { useEffect } from "react";
 import { useUpdateSectionFormContext } from "../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { SectionType } from "../../../types/section/section";
 
@@ -10,6 +11,22 @@ type Props = {
 const SectionSettingsCard = ({ section }: Props) => {
   const { register, setValue, onSubmit, errors } =
     useUpdateSectionFormContext();
+
+  useEffect(() => {
+    setValue(
+      "settings.questionDisplayTime",
+      section.settings.questionDisplayTime
+    );
+    setValue("settings.imageWidth", section.settings.imageWidth);
+    setValue("settings.imageHeight", section.settings.imageHeight);
+    setValue("settings.distanceOfImages", section.settings.distanceOfImages);
+  }, [
+    section.settings.distanceOfImages,
+    section.settings.imageHeight,
+    section.settings.imageWidth,
+    section.settings.questionDisplayTime,
+    setValue,
+  ]);
 
   return (
     <Box

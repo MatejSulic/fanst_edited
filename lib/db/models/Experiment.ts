@@ -96,6 +96,7 @@ export const copyExperiment = async (
 
   // create new experiment
   let newExperiment = await new ExperimentModel({
+    userId: experiment.userId,
     title: experiment.title,
     description: experiment.description,
   });

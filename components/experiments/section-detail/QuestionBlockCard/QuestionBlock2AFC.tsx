@@ -101,12 +101,15 @@ const LockedQuestionBlock2AFC = ({
 const UnlockedQuestionBlock2AFC = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  const [imagesPublicIds, setImagesPublicIds] = useState<string[]>(
-    question.content.images || []
-  );
+  const [imagesPublicIds, setImagesPublicIds] = useState<string[]>([]);
 
   const { register, setValue, onSubmit, errors } =
     useUpdateSectionFormContext();
+
+  useEffect(
+    () => setImagesPublicIds(question.content.images || []),
+    [question.content.images]
+  );
 
   useEffect(() => {
     setValue(
