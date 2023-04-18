@@ -134,53 +134,67 @@ const UnlockedQuestionBlock2AFC = ({
   };
 
   return (
-    <Stack spacing={4}>
-      {imagesPublicIds.length > 0 && (
-        <Grid
-          container
-          spacing={2}
-          justifyContent="flex-start"
-          alignItems="center"
-        >
-          {imagesPublicIds.map((publicId) => (
-            <Grid key={publicId} item xs="auto">
-              <CloudinaryImagePreview imagePublicId={publicId} />
-            </Grid>
-          ))}
-        </Grid>
-      )}
-
-      {imagesPublicIds.length > 0 ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <Button
-            size="small"
-            variant="outlined"
-            color="warning"
-            onClick={() => resetUploadedImages()}
+    <>
+      {JSON.stringify(imagesPublicIds) !==
+        JSON.stringify(question.content.images) && (
+        <Box sx={{ mb: 2 }}>
+          <Typography
+            variant="subtitle1"
+            color={(theme) => theme.palette.warning.main}
+            align="center"
           >
-            Reset images
-          </Button>
-          <UploadFileButtonSimple onClick={() => handleUploadFileOnClick()} />
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <UploadFileButtonCard onClick={() => handleUploadFileOnClick()} />
+            Changes are not saved yet! Please save the section.
+          </Typography>
         </Box>
       )}
-    </Stack>
+      <Stack spacing={4}>
+        {imagesPublicIds.length > 0 && (
+          <Grid
+            container
+            spacing={2}
+            justifyContent="flex-start"
+            alignItems="center"
+          >
+            {imagesPublicIds.map((publicId) => (
+              <Grid key={publicId} item xs="auto">
+                <CloudinaryImagePreview imagePublicId={publicId} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+
+        {imagesPublicIds.length > 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            <Button
+              size="small"
+              variant="outlined"
+              color="warning"
+              onClick={() => resetUploadedImages()}
+            >
+              Reset images
+            </Button>
+            <UploadFileButtonSimple onClick={() => handleUploadFileOnClick()} />
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <UploadFileButtonCard onClick={() => handleUploadFileOnClick()} />
+          </Box>
+        )}
+      </Stack>
+    </>
   );
 };
 

@@ -15,16 +15,16 @@ const SectionSettingsCard = ({ section }: Props) => {
   useEffect(() => {
     setValue(
       "settings.questionDisplayTime",
-      section.settings.questionDisplayTime
+      section.settings?.questionDisplayTime
     );
-    setValue("settings.imageWidth", section.settings.imageWidth);
-    setValue("settings.imageHeight", section.settings.imageHeight);
-    setValue("settings.distanceOfImages", section.settings.distanceOfImages);
+    setValue("settings.imageWidth", section.settings?.imageWidth);
+    setValue("settings.imageHeight", section.settings?.imageHeight);
+    setValue("settings.distanceOfImages", section.settings?.distanceOfImages);
   }, [
-    section.settings.distanceOfImages,
-    section.settings.imageHeight,
-    section.settings.imageWidth,
-    section.settings.questionDisplayTime,
+    section.settings?.distanceOfImages,
+    section.settings?.imageHeight,
+    section.settings?.imageWidth,
+    section.settings?.questionDisplayTime,
     setValue,
   ]);
 

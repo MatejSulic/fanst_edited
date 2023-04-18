@@ -25,14 +25,14 @@ const useUpdateSectionForm = (experimentId: string, sectionId: string) => {
       if (onSave) onSave();
     });
 
-  return [
+  return {
     register,
     setValue,
     onSubmit,
     reset,
     errors,
-    updateSectionMutation.data,
-  ] as const;
+    data: updateSectionMutation.data,
+  };
 };
 
 export default useUpdateSectionForm;

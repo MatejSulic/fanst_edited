@@ -188,35 +188,53 @@ const UnlockedQuestionBlockImageSelect = ({
   };
 
   return (
-    <Stack spacing={4}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 16,
-        }}
-      >
-        {leftImagePublicId ? (
-          <Stack spacing={2}>
-            <CloudinaryImagePreview imagePublicId={leftImagePublicId} />
-            <UploadFileButtonSimple onClick={handleUploadFileOnClick("left")} />
-          </Stack>
-        ) : (
-          <UploadFileButtonCard onClick={handleUploadFileOnClick("left")} />
-        )}
-        {rightImagePublicId ? (
-          <Stack spacing={2}>
-            <CloudinaryImagePreview imagePublicId={rightImagePublicId} />
-            <UploadFileButtonSimple
-              onClick={handleUploadFileOnClick("right")}
-            />
-          </Stack>
-        ) : (
-          <UploadFileButtonCard onClick={handleUploadFileOnClick("right")} />
-        )}
-      </Box>
-    </Stack>
+    <>
+      {((leftImagePublicId &&
+        leftImagePublicId !== question.content.leftImage) ||
+        (rightImagePublicId &&
+          rightImagePublicId !== question.content.rightImage)) && (
+        <Box sx={{ mb: 2 }}>
+          <Typography
+            variant="subtitle1"
+            color={(theme) => theme.palette.warning.main}
+            align="center"
+          >
+            Changes are not saved yet! Please save the section.
+          </Typography>
+        </Box>
+      )}
+      <Stack spacing={4}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 16,
+          }}
+        >
+          {leftImagePublicId ? (
+            <Stack spacing={2}>
+              <CloudinaryImagePreview imagePublicId={leftImagePublicId} />
+              <UploadFileButtonSimple
+                onClick={handleUploadFileOnClick("left")}
+              />
+            </Stack>
+          ) : (
+            <UploadFileButtonCard onClick={handleUploadFileOnClick("left")} />
+          )}
+          {rightImagePublicId ? (
+            <Stack spacing={2}>
+              <CloudinaryImagePreview imagePublicId={rightImagePublicId} />
+              <UploadFileButtonSimple
+                onClick={handleUploadFileOnClick("right")}
+              />
+            </Stack>
+          ) : (
+            <UploadFileButtonCard onClick={handleUploadFileOnClick("right")} />
+          )}
+        </Box>
+      </Stack>
+    </>
   );
 };
 

@@ -39,7 +39,7 @@ const SectionDetailPage = () => {
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
 
-  const [register, setValue, onSubmit, reset, errors, data] =
+  const { register, setValue, onSubmit, reset, errors, data } =
     useUpdateSectionForm(experimentId as string, sectionId as string);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const SectionDetailPage = () => {
       <ContentWrapper>
         <LockExperimentContextProvider experimentId={experimentId as string}>
           <UpdateSectionFormContextProvider
-            value={{ register, setValue, onSubmit, error, data }}
+            value={{ register, setValue, onSubmit, data }}
           >
             <IsSectionEditableContextProvider value={{ isSectionEditable }}>
               <Box sx={{ width: "100%" }}>
