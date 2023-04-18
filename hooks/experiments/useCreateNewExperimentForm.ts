@@ -7,6 +7,7 @@ const useCreateNewExperimentForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CreateNewExperimentType>();
   const createExperimentMutation = useCreateExperimentMutation();
 
@@ -20,7 +21,7 @@ const useCreateNewExperimentForm = () => {
       onSave();
     });
 
-  return [register, onSubmit, errors] as const;
+  return { register, onSubmit, errors, reset };
 };
 
 export default useCreateNewExperimentForm;

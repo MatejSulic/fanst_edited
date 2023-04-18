@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useExperiments } from "../../hooks/experiments/useExperiments";
 import useUpdateExperimentForm from "../../hooks/experiments/useUpdateExperimentForm";
 import { ExperimentType } from "../../types/experiment";
@@ -25,7 +26,7 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
   const router = useRouter();
   const { experimentId } = router.query;
 
-  const [register, setValue, onSubmit, reset, errors] = useUpdateExperimentForm(
+  const { register, onSubmit, reset } = useUpdateExperimentForm(
     experimentId as string
   );
 
@@ -40,6 +41,10 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
       (item) => item._id.toString() === experimentId
     )!;
   }
+
+  useEffect(() => {
+    reset();
+  }, [open]);
 
   const handleClose = () => {
     reset();

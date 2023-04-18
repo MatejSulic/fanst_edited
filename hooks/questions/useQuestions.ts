@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useSnackbar } from "notistack";
 import {
   CreateNewQuestionType,
   QuestionType,
@@ -30,10 +31,11 @@ export const useCreateQuestionMutation = (
 
   return useMutation(questionCreateMutationKey(experimentId, sectionId), {
     mutationFn: createQuestion,
-    onSuccess: () =>
+    onSuccess: () => {
       queryClient.invalidateQueries(
         questionListQueryKey(experimentId, sectionId)
-      ),
+      );
+    },
   });
 };
 
@@ -43,6 +45,7 @@ export const useDeleteQuestionMutation = (
   questionId: string
 ) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const deleteQuestion = async () => {
     await axios.delete(
@@ -54,10 +57,12 @@ export const useDeleteQuestionMutation = (
     questionDeleteMutationKey(experimentId, sectionId, questionId),
     {
       mutationFn: deleteQuestion,
-      onSuccess: () =>
+      onSuccess: () => {
         queryClient.invalidateQueries(
           questionListQueryKey(experimentId, sectionId)
-        ),
+        );
+        enqueueSnackbar("Question deleted");
+      },
     }
   );
 };

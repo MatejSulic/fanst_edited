@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useSnackbar } from "notistack";
 import {
   CreateNewSectionType,
   SectionType,
@@ -22,6 +23,7 @@ export const useUpdateSectionMutation = (
   sectionId: string
 ) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const updateSection = async ({
     sectionData,
@@ -42,6 +44,7 @@ export const useUpdateSectionMutation = (
       queryClient.invalidateQueries(
         questionListQueryKey(experimentId, sectionId)
       );
+      enqueueSnackbar("Section saved");
     },
   });
 };
@@ -73,6 +76,7 @@ export const useDeleteSectionMutation = (
   sectionId: string
 ) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const deleteSection = async () => {
     await axios.delete(
@@ -86,6 +90,7 @@ export const useDeleteSectionMutation = (
       queryClient.invalidateQueries(sectionListQueryKey(experimentId));
       queryClient.invalidateQueries(experimentListQueryKey());
       queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      enqueueSnackbar("Section deleted");
     },
   });
 };

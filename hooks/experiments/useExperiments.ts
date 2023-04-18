@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import {
   CreateNewExperimentType,
@@ -20,6 +21,7 @@ import {
 
 export const useUpdateExperimentMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const updateExperiment = async ({
     experimentData,
@@ -38,12 +40,14 @@ export const useUpdateExperimentMutation = (experimentId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries(experimentListQueryKey());
       queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      enqueueSnackbar("Experiment saved");
     },
   });
 };
 
 export const useLockExperimentMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const lockExperiment = async () => {
     const { data } = await axios.post(
@@ -57,12 +61,14 @@ export const useLockExperimentMutation = (experimentId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries(experimentListQueryKey());
       queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      enqueueSnackbar("Experiment locked");
     },
   });
 };
 
 export const useInviteParticipantMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const inviteParticipant = async (email: string) => {
     const { data } = await axios.post(
@@ -76,12 +82,14 @@ export const useInviteParticipantMutation = (experimentId: string) => {
     mutationFn: inviteParticipant,
     onSuccess: () => {
       queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+      enqueueSnackbar("Participant has been invited");
     },
   });
 };
 
 export const useCopyExperimentMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const copyExperiment = async () => {
     const { data } = await axios.post(
@@ -94,12 +102,14 @@ export const useCopyExperimentMutation = (experimentId: string) => {
     mutationFn: copyExperiment,
     onSuccess: () => {
       queryClient.invalidateQueries(experimentListQueryKey());
+      enqueueSnackbar("Experiment copied");
     },
   });
 };
 
 export const useCreateExperimentMutation = () => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const createExperiment = async ({
     newExperimentData,
@@ -112,7 +122,10 @@ export const useCreateExperimentMutation = () => {
 
   return useMutation(experimentCreateMutationKey(), {
     mutationFn: createExperiment,
-    onSuccess: () => queryClient.invalidateQueries(experimentListQueryKey()),
+    onSuccess: () => {
+      queryClient.invalidateQueries(experimentListQueryKey());
+      enqueueSnackbar("Experiment created");
+    },
   });
 };
 
@@ -163,6 +176,7 @@ export const useExperiment = (experimentId?: string) => {
 
 export const useDeleteExperimentMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const deleteExperiment = async () => {
     await axios.delete(`/api/experiments/${experimentId}`);
@@ -172,6 +186,7 @@ export const useDeleteExperimentMutation = (experimentId: string) => {
     mutationFn: deleteExperiment,
     onSuccess: () => {
       queryClient.invalidateQueries(experimentListQueryKey());
+      enqueueSnackbar("Experiment deleted");
     },
   });
 };

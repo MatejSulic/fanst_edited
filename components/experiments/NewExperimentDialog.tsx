@@ -17,10 +17,15 @@ type Props = {
 };
 
 const NewExperimentDialog = ({ open, onClose, onSave }: Props) => {
-  const [register, onSubmit, errors] = useCreateNewExperimentForm();
+  const { register, onSubmit, errors, reset } = useCreateNewExperimentForm();
+
+  const handleOnClose = () => {
+    reset();
+    return onClose();
+  };
 
   return (
-    <Dialog open={open} onClose={() => onClose()} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={() => handleOnClose()} fullWidth maxWidth="sm">
       <form onSubmit={onSubmit(onSave)}>
         <DialogTitle>Create New Experiment</DialogTitle>
         <DialogContent>
@@ -35,9 +40,7 @@ const NewExperimentDialog = ({ open, onClose, onSave }: Props) => {
                 helperText={errors.title?.message}
               />
               <TextField
-                {...register("description", {
-                  required: "Experiment description is required.",
-                })}
+                {...register("description")}
                 label="Experiment description (invisible for participants)"
                 error={Boolean(errors.description)}
                 helperText={errors.description?.message}

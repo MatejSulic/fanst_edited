@@ -22,7 +22,7 @@ const useUpdateExperimentForm = (experimentId: string) => {
       if (onSave) onSave();
     });
 
-  return [register, setValue, onSubmit, reset, errors] as const;
+  return { register, setValue, onSubmit, reset, errors };
 };
 
 export default useUpdateExperimentForm;
