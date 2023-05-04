@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../../../components/MuiOverrides/Breadcrumbs";
 import AppBar from "../../../components/common/AppBar";
 import ContentWrapper from "../../../components/common/layout/ContentWrapper";
 import ExperimentDetailList from "../../../components/experiments/experiment-detail/ExperimentDetailList";
@@ -39,9 +38,9 @@ const ExperimentDetailPage = () => {
       <AppBar />
       <ContentWrapper>
         <LockExperimentContextProvider experimentId={experiment._id.toString()}>
-          <Box sx={{ width: "100%" }}>
+          {/* <Box sx={{ width: "100%" }}>
             <Breadcrumbs />
-          </Box>
+          </Box> */}
           <ExperimentDetailPageToolbar />
 
           <Box sx={{ display: "flex", gap: 4, height: "83.3%", mt: 2 }}>

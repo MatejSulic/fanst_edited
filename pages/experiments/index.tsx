@@ -1,23 +1,21 @@
 import {
   Card,
   CardActions,
-  CardContent,
   List,
   ListSubheader,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import AppBar from "../../components/common/AppBar";
 import ContentWrapper from "../../components/common/layout/ContentWrapper";
 import CategoriesList from "../../components/experiments/CategoriesList";
 import CreateNewExperimentButton from "../../components/experiments/CreateNewExperimentButton";
-import NewExperimentDialog from "../../components/experiments/NewExperimentDialog";
 import ExperimentListItem from "../../components/experiments/ExperimentListItem";
-import Breadcrumbs from "../../components/MuiOverrides/Breadcrumbs";
-import { useExperiments } from "../../hooks/experiments/useExperiments";
+import NewExperimentDialog from "../../components/experiments/NewExperimentDialog";
 import { LockExperimentContextProvider } from "../../contexts/experiments/lockExperimentContext";
-import { useRouter } from "next/router";
+import { useExperiments } from "../../hooks/experiments/useExperiments";
 
 const ExperimentsListPage = () => {
   const router = useRouter();
@@ -49,7 +47,7 @@ const ExperimentsListPage = () => {
             height: "min-content",
           }}
         >
-          <Breadcrumbs />
+          {/* <Breadcrumbs /> */}
           <CreateNewExperimentButton
             onClick={() => setNewExperimentDialogIsOpen(true)}
           />

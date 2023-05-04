@@ -8,7 +8,6 @@ import ExperimentDetailPageToolbar from "../../../../components/experiments/expe
 import SectionDetailCard from "../../../../components/experiments/section-detail/SectionDetailCard";
 import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
 import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
-import Breadcrumbs from "../../../../components/MuiOverrides/Breadcrumbs";
 import { IsSectionEditableContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { LockExperimentContextProvider } from "../../../../contexts/experiments/lockExperimentContext";
@@ -81,9 +80,9 @@ const SectionDetailPage = () => {
             value={{ register, setValue, onSubmit, data }}
           >
             <IsSectionEditableContextProvider value={{ isSectionEditable }}>
-              <Box sx={{ width: "100%" }}>
+              {/* <Box sx={{ width: "100%" }}>
                 <Breadcrumbs />
-              </Box>
+              </Box> */}
               <ExperimentDetailPageToolbar />
 
               <Box

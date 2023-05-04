@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { LoggedInUserDataType } from "../../types/user";
+import { useQueryClient } from "@tanstack/react-query";
 
 type AuthContextType = {
   user: LoggedInUserDataType;
@@ -15,6 +16,7 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
@@ -27,6 +29,7 @@ export const AuthContextProvider = ({
   }, []);
 
   const login = (userData: LoggedInUserDataType) => {
+    queryClient.clear();
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
   };
@@ -34,6 +37,7 @@ export const AuthContextProvider = ({
   const logout = () => {
     console.log("logout");
     localStorage.removeItem("user");
+    queryClient.clear();
     setUser(null);
     router.push("/login");
   };

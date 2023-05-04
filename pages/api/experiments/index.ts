@@ -1,4 +1,3 @@
-import { JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import Experiment from "../../../lib/db/models/Experiment";
