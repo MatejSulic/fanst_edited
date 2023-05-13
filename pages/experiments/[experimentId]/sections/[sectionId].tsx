@@ -6,7 +6,7 @@ import AppBar from "../../../../components/common/AppBar";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import ExperimentDetailPageToolbar from "../../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
 import SectionDetailCard from "../../../../components/experiments/section-detail/SectionDetailCard";
-import SectionSettingsCard from "../../../../components/experiments/section-detail/SectionSettingsCard";
+import SectionSettingsCardAside from "../../../../components/experiments/section-detail/SectionSettingsCardAside";
 import SectionList from "../../../../components/experiments/section-list-aside/SectionList";
 import { IsSectionEditableContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 import { UpdateSectionFormContextProvider } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
@@ -104,12 +104,10 @@ const SectionDetailPage = () => {
                 </main>
 
                 {sectionHasEditableSettings && (
-                  <aside>
-                    <SectionSettingsCard
-                      key={currentSection._id.toString()}
-                      section={currentSection}
-                    />
-                  </aside>
+                  <SectionSettingsCardAside
+                    key={currentSection._id.toString()}
+                    section={currentSection}
+                  />
                 )}
               </Box>
             </IsSectionEditableContextProvider>
