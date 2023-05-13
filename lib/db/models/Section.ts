@@ -9,8 +9,8 @@ const SectionSettingsSchema = new Schema<SectionSettingsType>(
   {
     questionDisplayTime: Number,
     distanceOfImages: Number,
-    imageWidth: Number,
-    imageHeight: Number,
+    imageWidth: { type: Number, default: 10 },
+    imageHeight: { type: Number, default: 10 },
   },
   { _id: false }
 );

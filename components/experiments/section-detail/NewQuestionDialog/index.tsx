@@ -10,11 +10,9 @@ import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useCreateNewQuestionForm from "../../../../hooks/questions/useCreateNewQuestionForm";
-import { questionTypeTypes } from "../../../../types/question/questionTypes";
 import { QuestionType } from "../../../../types/question/question";
+import { questionTypeTypes } from "../../../../types/question/questionTypes";
 import Dialog from "../../../MuiOverrides/Dialog";
-import QuestionTypePlainText from "./QuestionTypePlainText";
-import QuestionTypeSelectImage from "./QuestionTypeSelectImage";
 import QuestionTypeDisplayedCard from "./SectionTypeDisplayedCard";
 
 type Props = {

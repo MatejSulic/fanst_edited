@@ -33,6 +33,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.39.1",
+    "react-konva": "^18.2.8",
     "react-quill": "^2.0.0",
     "react-text-truncate": "^0.19.0"
   },

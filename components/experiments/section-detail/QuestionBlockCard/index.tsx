@@ -25,6 +25,7 @@ import { QuestionType } from "../../../../types/question/question";
 import QuestionBlock2AFC from "./QuestionBlock2AFC";
 import QuestionBlockImageSelect from "./QuestionBlockImageSelect";
 import QuestionBlockPlainText from "./QuestionBlockPlainText";
+import QuestionBlockDrawImage from "./QuestionBlockDrawLine";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;
@@ -117,6 +118,14 @@ const QuestionBlockCard = ({
     } else if (question.type === "2AFC") {
       return (
         <QuestionBlock2AFC question={question} index={index} locked={locked} />
+      );
+    } else if (question.type === "DRAW_LINE") {
+      return (
+        <QuestionBlockDrawImage
+          question={question}
+          index={index}
+          locked={locked}
+        />
       );
     } else {
       return null;

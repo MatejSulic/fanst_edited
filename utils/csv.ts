@@ -9,18 +9,20 @@ export const exportExperimentResultsDetailToCsv = async (
   );
 
   const headerRowValues = [
-    "experimentId",
-    "experimentName",
-    "experimentDescription",
-    "numberOfParticipantGroups",
-    "numberOfResponses",
-    "sectionId",
-    "sectionType",
-    "questionId",
-    "questionType",
-    "leftImage",
-    "rightImage",
-    "chosenImage",
+    "Experiment Id",
+    "Experiment Name",
+    "Experiment Description",
+    "Number of Participant Groups",
+    "Number of Responses",
+    "Section Id",
+    "Section Type",
+    "Question Id",
+    "Question Type",
+    "Left Image",
+    "Right Image",
+    "Chosen Image",
+    "Center Image",
+    "Drawn Points ('x1 y1 x2 y2' as factors of image dimensions)",
   ];
   csv += headerRowValues.join(",") + "\n";
 
@@ -61,8 +63,27 @@ export const exportExperimentResultsDetailToCsv = async (
                 ...sectionDetailValues,
                 ...questionDetailValues,
                 ...comparisonDetailValues,
-              ].join(",") + "\n";
+              ].join(",") +
+              ",," +
+              "\n";
           });
+        } else if (
+          questionResult.questionType === "DRAW_LINE" &&
+          questionResult.result
+        ) {
+          const questionDetailValues = [
+            questionResult.questionId,
+            questionResult.questionType,
+          ];
+          csv += [
+            ...experimentDetailValues,
+            ...sectionDetailValues,
+            ...questionDetailValues,
+          ];
+          csv += ",,,,";
+          csv += questionResult.result.centerImage + ",";
+          csv += questionResult.result.drawnPoints.join(" ");
+          csv += "\n";
         }
       });
     });

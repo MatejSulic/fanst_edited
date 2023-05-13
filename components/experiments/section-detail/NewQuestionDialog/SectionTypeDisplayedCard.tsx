@@ -2,6 +2,7 @@ import React from "react";
 import { QuestionType } from "../../../../types/question/question";
 import QuestionTypePlainText from "./QuestionTypePlainText";
 import QuestionTypeSelectImage from "./QuestionTypeSelectImage";
+import QuestionTypeDrawLine from "./QuestionTypeDrawLine";
 
 type Props = {
   type: QuestionType["type"];
@@ -17,6 +18,9 @@ const QuestionTypeDisplayedCard = ({ type, ...props }: Props) => {
       break;
     case "IMAGE_SELECT":
       Component = QuestionTypeSelectImage;
+      break;
+    case "DRAW_LINE":
+      Component = QuestionTypeDrawLine;
       break;
     default:
       return null;

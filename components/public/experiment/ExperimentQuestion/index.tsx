@@ -2,6 +2,7 @@ import { UpdateQuestionResultsType } from "../../../../types/experimentProgress"
 import { QuestionType } from "../../../../types/question/question";
 import { SectionType } from "../../../../types/section/section";
 import ExperimentQuestion2AFC from "./ExperimentQuestion2AFC";
+import ExperimentQuestionDrawLine from "./ExperimentQuestionDrawLine";
 import ExperimentQuestionImageSelect from "./ExperimentQuestionImageSelect";
 import ExperimentQuestionPlainText from "./ExperimentQuestionPlainText";
 
@@ -36,6 +37,14 @@ const ExperimentQuestion = ({
     } else if (question.type === "2AFC") {
       return (
         <ExperimentQuestion2AFC
+          question={question}
+          section={section}
+          submitQuestion={submitQuestion}
+        />
+      );
+    } else if (question.type === "DRAW_LINE") {
+      return (
+        <ExperimentQuestionDrawLine
           question={question}
           section={section}
           submitQuestion={submitQuestion}

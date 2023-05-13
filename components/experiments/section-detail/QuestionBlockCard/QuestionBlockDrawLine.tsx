@@ -1,7 +1,7 @@
-import { AdvancedImage, lazyload, responsive } from "@cloudinary/react";
+import { AdvancedImage, lazyload } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
-import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   QuestionBlockCardSharedProps,
@@ -18,7 +18,8 @@ const UploadFileButtonCard = ({ onClick }: UploadFileButtonProps) => {
     <Paper
       variant="outlined"
       sx={{
-        height: 80,
+        height: 140,
+        width: 200,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -29,7 +30,7 @@ const UploadFileButtonCard = ({ onClick }: UploadFileButtonProps) => {
       onClick={() => onClick()}
     >
       <UploadFileOutlinedIcon />
-      <Typography variant="subtitle2">Upload Images</Typography>
+      <Typography variant="subtitle2">Upload Image</Typography>
     </Paper>
   );
 };
@@ -37,13 +38,11 @@ const UploadFileButtonCard = ({ onClick }: UploadFileButtonProps) => {
 const UploadFileButtonSimple = ({ onClick }: UploadFileButtonProps) => {
   return (
     <Button
-      size="small"
       variant="outlined"
-      color="primary"
       onClick={() => onClick()}
       startIcon={<UploadFileOutlinedIcon />}
     >
-      Add images
+      Change image
     </Button>
   );
 };
@@ -62,70 +61,83 @@ const CloudinaryImagePreview = ({
           cloudName: cloudinaryCloudName,
         })
       }
-      plugins={[lazyload(), responsive({ steps: 100 })]}
-      width={120}
-      // maxWidth={120}
+      plugins={[lazyload()]}
+      // width={200}
       style={{ borderRadius: 4 }}
     />
   );
 };
 
-const LockedQuestionBlock2AFC = ({
+const LockedQuestionBlockDrawImage = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  return question.content.images && question.content.images.length > 0 ? (
-    <Grid container spacing={2} justifyContent="flex-start" alignItems="center">
-      {question.content.images.map((publicId) => (
-        <Grid key={publicId} item xs="auto">
-          <CloudinaryImagePreview imagePublicId={publicId} />
-        </Grid>
-      ))}
-    </Grid>
-  ) : (
+  return (
     <Box
       sx={{
-        width: "100%",
-        height: 200,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        border: 1,
-        borderRadius: 1,
       }}
     >
-      No images
+      {question.content.images &&
+      Array.isArray(question.content.images) &&
+      question.content.images.length > 0 &&
+      question.content.images[0] ? (
+        <Box
+          sx={{
+            border: "none",
+            p: 0,
+            height: "min-content",
+            width: "min-content",
+            cursor: "pointer",
+          }}
+        >
+          <CloudinaryImagePreview imagePublicId={question.content.images[0]} />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+            width: 200,
+            border: 1,
+            borderRadius: 1,
+          }}
+        >
+          No image
+        </Box>
+      )}
     </Box>
   );
 };
 
-const UnlockedQuestionBlock2AFC = ({
+const UnlockedQuestionBlockDrawImage = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  const [imagesPublicIds, setImagesPublicIds] = useState<string[]>([]);
-
+  const [imagePublicId, setImagePublicId] = useState<string[]>([]);
+  // const [leftImagePublicId, setLeftImagePublicId] = useState("");
+  // const [rightImagePublicId, setRightImagePublicId] = useState("");
   const { register, setValue, onSubmit, errors } =
     useUpdateSectionFormContext();
 
   useEffect(
-    () => setImagesPublicIds(question.content.images || []),
+    () => setImagePublicId(question.content.images || []),
     [question.content.images]
   );
 
   useEffect(() => {
     setValue(
       `questions.${question._id.toString()}.content.images`,
-      imagesPublicIds
+      imagePublicId
     );
-  }, [imagesPublicIds, setValue, question._id]);
-
-  const resetUploadedImages = () => {
-    setImagesPublicIds([]);
-  };
+  }, [imagePublicId, setValue, question._id]);
 
   const handleUploadFileOnClick = () => {
     openUploadWidget({
       onSuccess: (result) => {
-        setImagesPublicIds((prev) => [...prev, result.info.public_id]);
+        setImagePublicId(() => [result.info.public_id]);
       },
       onError: (error) => {
         console.log(error);
@@ -133,9 +145,13 @@ const UnlockedQuestionBlock2AFC = ({
     });
   };
 
+  const resetUploadedImages = () => {
+    setImagePublicId([]);
+  };
+
   return (
     <>
-      {JSON.stringify(imagesPublicIds) !==
+      {JSON.stringify(imagePublicId) !==
         JSON.stringify(question.content.images) && (
         <Box sx={{ mb: 2 }}>
           <Typography
@@ -149,22 +165,19 @@ const UnlockedQuestionBlock2AFC = ({
       )}
 
       <Stack spacing={4}>
-        {imagesPublicIds.length > 0 && (
-          <Grid
-            container
-            spacing={2}
-            justifyContent="flex-start"
-            alignItems="center"
+        {imagePublicId.length > 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            {imagesPublicIds.map((publicId) => (
-              <Grid key={publicId} item xs="auto">
-                <CloudinaryImagePreview imagePublicId={publicId} />
-              </Grid>
-            ))}
-          </Grid>
+            <CloudinaryImagePreview imagePublicId={imagePublicId[0]} />
+          </Box>
         )}
 
-        {imagesPublicIds.length > 0 ? (
+        {imagePublicId.length > 0 ? (
           <Box
             sx={{
               display: "flex",
@@ -199,16 +212,16 @@ const UnlockedQuestionBlock2AFC = ({
   );
 };
 
-const QuestionBlock2AFC = ({
+const QuestionBlockDrawImage = ({
   question,
   index,
   locked,
 }: QuestionBlockCardSharedProps) => {
   return locked ? (
-    <LockedQuestionBlock2AFC question={question} />
+    <LockedQuestionBlockDrawImage question={question} />
   ) : (
-    <UnlockedQuestionBlock2AFC question={question} />
+    <UnlockedQuestionBlockDrawImage question={question} />
   );
 };
 
-export default QuestionBlock2AFC;
+export default QuestionBlockDrawImage;
