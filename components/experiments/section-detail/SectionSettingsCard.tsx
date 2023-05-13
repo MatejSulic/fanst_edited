@@ -68,7 +68,7 @@ const SectionSettingsCard = ({ section }: Props) => {
             />
             <TextField
               fullWidth
-              label="Gap between images"
+              label="Gap between images in cm"
               defaultValue={section.settings?.distanceOfImages}
               {...register("settings.distanceOfImages")}
             />
