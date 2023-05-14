@@ -57,6 +57,10 @@ const ExperimentListItem = ({ experiment }: Props) => {
     updateExperimentMutation.mutate({ experimentData: { archived: true } });
   };
 
+  const handleRemoveFromArchiveExperiment = () => {
+    updateExperimentMutation.mutate({ experimentData: { archived: false } });
+  };
+
   const handleDeleteExperiment = () => {
     deleteExperimentMutation.mutate();
   };
@@ -167,10 +171,19 @@ const ExperimentListItem = ({ experiment }: Props) => {
               {experiment.locked && !experiment.archived && (
                 <Button
                   size="small"
-                  color="error"
+                  color="warning"
                   onClick={() => handleArchiveExperiment()}
                 >
                   Archive
+                </Button>
+              )}
+              {experiment.locked && experiment.archived && (
+                <Button
+                  size="small"
+                  color="warning"
+                  onClick={() => handleRemoveFromArchiveExperiment()}
+                >
+                  Remove from archive
                 </Button>
               )}
               {!experiment.locked && (
