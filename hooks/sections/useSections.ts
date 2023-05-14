@@ -20,18 +20,24 @@ import {
 
 export const useUpdateSectionMutation = (
   experimentId: string,
-  sectionId: string
+  sectionId?: string
 ) => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
 
   const updateSection = async ({
+    secId = sectionId,
     sectionData,
   }: {
+    secId?: string;
     sectionData: UpdateSectionType;
   }) => {
+    if (secId === undefined) {
+      return null;
+    }
+
     const { data } = await axios.patch(
-      `/api/experiments/${experimentId}/sections/${sectionId}`,
+      `/api/experiments/${experimentId}/sections/${secId}`,
       sectionData
     );
     return data.data;
@@ -42,7 +48,7 @@ export const useUpdateSectionMutation = (
     onSuccess: () => {
       queryClient.invalidateQueries(sectionListQueryKey(experimentId));
       queryClient.invalidateQueries(
-        questionListQueryKey(experimentId, sectionId)
+        questionListQueryKey(experimentId, sectionId!)
       );
       enqueueSnackbar("Section saved");
     },
@@ -100,7 +106,7 @@ export const useSections = (experimentId?: string) => {
     const { data } = await axios.get(
       `/api/experiments/${experimentId}/sections`
     );
-    return data.data;
+    return data.data.sort((secA, secB) => secA.position - secB.position);
   };
 
   return useQuery(

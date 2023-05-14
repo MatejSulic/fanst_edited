@@ -11,16 +11,16 @@ import {
 
 const createBlankSection = async (sectionDetails: CreateNewSectionType) => {
   const experimentIdObjectId = new Types.ObjectId(sectionDetails.experimentId);
+  const experiment = await Experiment.findById(experimentIdObjectId);
 
   const createdSection = new Section({
     ...sectionDetails,
     experimentId: experimentIdObjectId,
+    position: experiment.sections.length + 1,
+    title: "Blank Section",
   });
   await createdSection.save();
 
-  const experiment = await Experiment.findOne({
-    _id: sectionDetails.experimentId,
-  });
   experiment.sections.push(createdSection._id.toString());
   await experiment.save();
 
@@ -35,8 +35,8 @@ const create2AFCSection = async (sectionDetails: CreateNewSectionType) => {
     type: "2AFC",
     title: "New 2AFC Question containing multiple images",
   });
-  createdSection.title = "New 2AFC Section";
-  createdSection.description = "The best 2AFC section yet!";
+  createdSection.title = "2-AFC Section";
+  // createdSection.description = "The best 2AFC section yet!";
   createdSection.questions.push(created2AFCQuestion._id.toString());
 
   await createdSection.save();
@@ -59,8 +59,8 @@ const createIntroductionSection = async (
       Ut diam arcu, faucibus id sollicitudin vitae, auctor id lacus. Integer ornare tincidunt viverra. Sed eget tristique ante, sit amet gravida mi. Aliquam massa tortor, gravida tempor commodo quis, molestie non justo. Nam consectetur ante eget risus accumsan, id malesuada enim bibendum. Praesent pulvinar urna id vulputate iaculis. Pellentesque posuere nunc mauris, et ornare nisl pharetra eu. Phasellus ac ipsum facilisis, gravida ante eu, feugiat odio. Nulla mattis placerat ligula, ac viverra metus pulvinar ac.`,
     },
   });
-  createdSection.title = "New Introduction Section";
-  createdSection.description = "The best Introduction section yet!";
+  createdSection.title = "Introduction Section";
+  // createdSection.description = "The best Introduction section yet!";
   createdSection.questions.push(created2AFCQuestion._id.toString());
 
   await createdSection.save();
@@ -83,8 +83,8 @@ const createAcknowledgementSection = async (
       Ut diam arcu, faucibus id sollicitudin vitae, auctor id lacus. Integer ornare tincidunt viverra. Sed eget tristique ante, sit amet gravida mi. Aliquam massa tortor, gravida tempor commodo quis, molestie non justo. Nam consectetur ante eget risus accumsan, id malesuada enim bibendum. Praesent pulvinar urna id vulputate iaculis. Pellentesque posuere nunc mauris, et ornare nisl pharetra eu. Phasellus ac ipsum facilisis, gravida ante eu, feugiat odio. Nulla mattis placerat ligula, ac viverra metus pulvinar ac.`,
     },
   });
-  createdSection.title = "New Acknowledgement Section";
-  createdSection.description = "The best Acknowledgement section yet!";
+  createdSection.title = "Acknowledgement Section";
+  // createdSection.description = "The best Acknowledgement section yet!";
   createdSection.questions.push(created2AFCQuestion._id.toString());
 
   await createdSection.save();

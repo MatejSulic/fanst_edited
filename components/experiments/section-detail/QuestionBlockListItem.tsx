@@ -21,20 +21,23 @@ const QuestionBlockListItem = ({ question, index }: Props) => {
         isDragDisabled={lockExperimentContext.isExperimentLocked}
       >
         {(provided, snapshot) => (
-          <ListItem
+          <div
             key={question._id.toString()}
             ref={provided.innerRef}
-            className={snapshot.isDragging ? "bg-gray-50" : ""}
-            sx={{ display: "list-item", padding: 0 }}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <QuestionBlockCard
-              question={question}
-              index={index}
-              locked={!!lockExperimentContext.isExperimentLocked}
-            />
-          </ListItem>
+            <ListItem
+              className={snapshot.isDragging ? "bg-gray-50" : ""}
+              sx={{ display: "list-item", padding: 0 }}
+            >
+              <QuestionBlockCard
+                question={question}
+                index={index}
+                locked={!!lockExperimentContext.isExperimentLocked}
+              />
+            </ListItem>
+          </div>
         )}
       </Draggable>
     </NoSsr>

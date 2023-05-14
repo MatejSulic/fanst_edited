@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { sectionTypeTypes } from "./sectionTypes";
 import { QuestionType, UpdateQuestionType } from "../question/question";
 
-type SectionTypeType = typeof sectionTypeTypes[number];
+type SectionTypeType = (typeof sectionTypeTypes)[number];
 
 type SectionSettingsType = {
   questionDisplayTime?: number; // time in seconds (indifinitely when undefined)
@@ -16,6 +16,7 @@ export type SectionType = {
   experimentId: Types.ObjectId;
   title: string;
   description: string;
+  position: number;
   type: SectionTypeType;
   questions: string[]; // question ids
 

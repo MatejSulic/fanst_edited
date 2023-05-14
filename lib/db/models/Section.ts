@@ -16,13 +16,18 @@ const SectionSettingsSchema = new Schema<SectionSettingsType>(
 );
 
 const SectionSchema = new Schema<SectionType>({
-  title: { type: String, default: "New Section" },
   experimentId: {
     type: Schema.Types.ObjectId,
     ref: "Experiment",
     required: true,
   },
-  description: { type: String, default: "The most amazing section of all!" },
+  title: { type: String, default: "Section Title" },
+  description: {
+    type: String,
+    default: "Here goes your section description...",
+  },
+  // position of the section between experiment sections
+  position: { type: Number },
   type: { type: String, enum: sectionTypeTypes, required: true },
   questions: { type: [String], default: [] },
 

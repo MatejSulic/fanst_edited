@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Draggable } from "react-beautiful-dnd";
 import { useLockExperimentContext } from "../../../contexts/experiments/lockExperimentContext";
 import { useDeleteSectionMutation } from "../../../hooks/sections/useSections";
 import { SectionType } from "../../../types/section/section";
@@ -39,42 +40,60 @@ const SectionBlock = ({ section }: Props) => {
 
   return (
     <>
-      <Card
-        sx={{
-          cursor: lockExperimentContext.isExperimentLocked
-            ? "pointer"
-            : undefined,
-        }}
-        onClick={
-          lockExperimentContext.isExperimentLocked
-            ? handleNavigateToSectionDetail
-            : undefined
-        }
+      <Draggable
+        key={section._id.toString()}
+        draggableId={`experiment-detail-list-draggable-${section._id.toString()}`}
+        index={section.position}
+        isDragDisabled={lockExperimentContext.isExperimentLocked}
       >
-        <CardHeader
-          title={<Typography variant="subtitle1">{section.title}</Typography>}
-          className="pb-0"
-        />
-        <CardContent>
-          <Typography variant="body1">{section.description}</Typography>
-        </CardContent>
-        {!lockExperimentContext.isExperimentLocked && (
-          <CardActions sx={{ display: "flex", gap: 4 }}>
-            <Link
-              href={`/experiments/${experimentId}/sections/${section._id.toString()}`}
+        {(provided, snapshot) => (
+          <div
+            key={section._id.toString()}
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <Card
+              sx={{
+                cursor: lockExperimentContext.isExperimentLocked
+                  ? "pointer"
+                  : undefined,
+              }}
+              onClick={
+                lockExperimentContext.isExperimentLocked
+                  ? handleNavigateToSectionDetail
+                  : undefined
+              }
             >
-              <Button size="small">Edit Section</Button>
-            </Link>
-            <Button
-              color="warning"
-              size="small"
-              onClick={() => handleSectionDelete()}
-            >
-              Delete Section
-            </Button>
-          </CardActions>
+              <CardHeader
+                title={
+                  <Typography variant="subtitle1">{section.title}</Typography>
+                }
+                className="pb-0"
+              />
+              <CardContent>
+                <Typography variant="body1">{section.description}</Typography>
+              </CardContent>
+              {!lockExperimentContext.isExperimentLocked && (
+                <CardActions sx={{ display: "flex", gap: 4 }}>
+                  <Link
+                    href={`/experiments/${experimentId}/sections/${section._id.toString()}`}
+                  >
+                    <Button size="small">Edit Section</Button>
+                  </Link>
+                  <Button
+                    color="warning"
+                    size="small"
+                    onClick={() => handleSectionDelete()}
+                  >
+                    Delete Section
+                  </Button>
+                </CardActions>
+              )}
+            </Card>
+          </div>
         )}
-      </Card>
+      </Draggable>
     </>
   );
 };

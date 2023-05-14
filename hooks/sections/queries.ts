@@ -12,7 +12,7 @@ export const sectionListQueryKey = (experimentId: string) => [
 
 export const sectionUpdateMutationKey = (
   experimentId: string,
-  sectionId: string
+  sectionId?: string
 ) => ["experiments", experimentId, "sections", sectionId, "update-mutation"];
 
 export const sectionCreateMutationKey = (experimentId: string) => [

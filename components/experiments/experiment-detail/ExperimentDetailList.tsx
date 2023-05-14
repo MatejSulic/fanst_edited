@@ -3,6 +3,7 @@ import { Stack } from "@mui/system";
 import { ExperimentType } from "../../../types/experiment";
 import { SectionType } from "../../../types/section/section";
 import SectionBlock from "./SectionBlock";
+import { Droppable } from "react-beautiful-dnd";
 
 type Props = {
   experiment: ExperimentType;
@@ -28,11 +29,18 @@ const ExperimentDetailList = ({ experiment, sections }: Props) => {
         <Stack spacing={2}>
           <Typography variant="body2">{experiment.description}</Typography>
 
-          <Stack spacing={1}>
-            {sections.map((item) => (
-              <SectionBlock key={item._id.toString()} section={item} />
-            ))}
-          </Stack>
+          <Droppable droppableId="experiment-detail-list-droppable">
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <Stack spacing={1}>
+                  {sections.map((item) => (
+                    <SectionBlock key={item._id.toString()} section={item} />
+                  ))}
+                </Stack>
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </Stack>
       </CardContent>
     </Card>

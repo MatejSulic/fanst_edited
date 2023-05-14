@@ -30,7 +30,39 @@ export default async function handler(
         experimentId: experimentId,
         _id: sectionId,
       });
-      const { questions, ...sectionDetails } = req.body;
+      const { questions, position, ...sectionDetails } = req.body;
+
+      // update position of this section and other experiment sections
+      if (position) {
+        const allExperimentSections = await Section.find({
+          experimentId: experimentId,
+        });
+
+        if (position > section.position) {
+          // new position is greater than the old one
+          allExperimentSections
+            .filter(
+              (sec) =>
+                sec.position <= position && sec.position > section.position
+            )
+            .forEach(async (sec) => {
+              sec.position = sec.position - 1;
+              await sec.save();
+            });
+        } else {
+          // new position is lower than the old one
+          allExperimentSections
+            .filter(
+              (sec) =>
+                sec.position >= position && sec.position < section.position
+            )
+            .forEach(async (sec) => {
+              sec.position = sec.position + 1;
+              await sec.save();
+            });
+        }
+        section.position = position;
+      }
 
       // update section title and description values from the request
       Object.entries(sectionDetails).forEach(
@@ -62,6 +94,17 @@ export default async function handler(
         experimentId: experimentId,
         _id: sectionId,
       });
+      const allExperimentSections = await Section.find({
+        experimentId: experimentId,
+      });
+      await Promise.all(
+        allExperimentSections.map(async (sec) => {
+          if (sec.position > section.position) {
+            sec.position = sec.position - 1;
+            await sec.save();
+          }
+        })
+      );
       const deletedQuestionsCount = await Question.deleteMany({
         _id: { $in: section.questions },
       });

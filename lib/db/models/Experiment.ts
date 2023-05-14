@@ -88,11 +88,9 @@ export const copyExperiment = async (
 
   await dbConnect();
   let experiment = await ExperimentModel.findById(experimentIdObjectId);
-  console.log("experiment:", experiment);
   let sections = await Section.find({
     experimentId: experimentIdObjectId,
   });
-  console.log("sections:", sections);
 
   // create new experiment
   let newExperiment = await new ExperimentModel({
@@ -120,7 +118,6 @@ export const copyExperiment = async (
       await Promise.all(
         section.questions.map(async (questionId) => {
           let question = await QuestionModel.findById(new ObjectId(questionId));
-          console.log("question:", question);
 
           let newQuestion = await new QuestionModel({
             experimentId: newExperiment._id.toString(),
