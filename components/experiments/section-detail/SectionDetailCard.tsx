@@ -13,21 +13,45 @@ import { SectionType } from "../../../types/section/section";
 import NewQuestionDialog from "./NewQuestionDialog";
 import SectionCardContent from "./SectionCardContent";
 import SectionCardHeader from "./SectionCardHeader";
+import { useUpdateQuestionMutation } from "../../../hooks/questions/useQuestions";
+import { useIsSectionEditableContext } from "../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
 
 type Props = {
   section: SectionType;
   questions: QuestionType[];
-  onDragEnd: (res: DropResult) => void;
 };
 
-const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
+const SectionDetailCard = ({ section, questions }: Props) => {
   const router = useRouter();
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
 
   const lockExperimentContext = useLockExperimentContext();
+  const { isSectionEditable } = useIsSectionEditableContext();
+  const undefinedQuestionUpdateMutation = useUpdateQuestionMutation(
+    section.experimentId.toString(),
+    section._id.toString()
+  );
 
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
+
+  const handleOnDragEnd = (result: DropResult) => {
+    if (
+      !result.destination ||
+      result.source.droppableId !== result.destination!.droppableId ||
+      result.source.index === result.destination.index
+    ) {
+      return;
+    }
+
+    const movedQuestion = questions?.find(
+      (sec) => result.source.index === sec.position
+    );
+
+    undefinedQuestionUpdateMutation.mutate({
+      questId: movedQuestion?._id.toString(),
+      questionData: { position: result.destination?.index },
+    });
+  };
 
   const onSave = () => {
     const { experimentId } = router.query;
@@ -35,67 +59,60 @@ const SectionDetailCard = ({ section, questions, onDragEnd }: Props) => {
   };
 
   return (
-    <NoSsr>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Card
-          variant="outlined"
-          sx={{
-            width: questions.length > 0 ? "min-content" : 584,
-            // width: "100%",
-            // maxWidth: questions.length > 0 ? "min-content" : 800,
-            maxHeight: "100%",
-            overflowY: "auto",
-          }}
-        >
-          <form onSubmit={onSubmit(onSave)}>
-            <SectionCardHeader
-              sectionTitle={section.title}
-              experimentId={section.experimentId.toString()}
-            />
+    <>
+      <Card
+        variant="outlined"
+        sx={{
+          width: questions.length > 0 ? "min-content" : 584,
+          maxHeight: "100%",
+          overflowY: "auto",
+        }}
+      >
+        <form onSubmit={onSubmit(onSave)}>
+          <SectionCardHeader
+            sectionTitle={section.title}
+            experimentId={section.experimentId.toString()}
+          />
+          <DragDropContext onDragEnd={handleOnDragEnd}>
             <SectionCardContent
               sectionDescription={section.description}
               questions={questions}
             />
-            {!lockExperimentContext.isExperimentLocked && (
-              <CardActions
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  p: 2,
-                }}
-              >
-                {section.type === "BLANK" && (
-                  <Button
-                    variant="outlined"
-                    onClick={() => setNewQuestionDialogOpen(true)}
-                  >
-                    Add New Question
-                  </Button>
-                )}
-                <Button type="submit" variant="contained">
-                  Save section
+          </DragDropContext>
+          {!lockExperimentContext.isExperimentLocked && (
+            <CardActions
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                p: 2,
+              }}
+            >
+              {isSectionEditable && (
+                <Button
+                  variant="outlined"
+                  onClick={() => setNewQuestionDialogOpen(true)}
+                >
+                  Add New Question
                 </Button>
-              </CardActions>
-            )}
-          </form>
-        </Card>
-      </DragDropContext>
-      {section.type === "BLANK" &&
-        !lockExperimentContext.isExperimentLocked && (
-          <NewQuestionDialog
-            open={newQuestionDialogOpen}
-            onClose={() => setNewQuestionDialogOpen(false)}
-            onSave={() => setNewQuestionDialogOpen(false)}
-          />
-        )}
-    </NoSsr>
-  );
-};
+              )}
+              <Button type="submit" variant="contained">
+                Save section
+              </Button>
+            </CardActions>
+          )}
+        </form>
+      </Card>
 
-SectionDetailCard.getInitialProps = async (context) => {
-  resetServerContext();
-  return {};
+      {isSectionEditable && !lockExperimentContext.isExperimentLocked && (
+        <NewQuestionDialog
+          open={newQuestionDialogOpen}
+          onClose={() => setNewQuestionDialogOpen(false)}
+          onSave={() => setNewQuestionDialogOpen(false)}
+        />
+      )}
+    </>
+  );
 };
 
 export default SectionDetailCard;

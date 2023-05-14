@@ -29,18 +29,16 @@ import QuestionBlockDrawImage from "./QuestionBlockDrawLine";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;
-  index: number;
   locked: boolean;
 };
 
 export type QuestionBlockSpecificCardSharedProps = Omit<
   QuestionBlockCardSharedProps,
-  "locked" | "index"
+  "locked"
 >;
 
 const QuestionBlockCard = ({
   question,
-  index,
   locked,
 }: QuestionBlockCardSharedProps) => {
   const router = useRouter();
@@ -55,8 +53,7 @@ const QuestionBlockCard = ({
     question._id.toString()
   );
 
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
   const { isSectionEditable } = useIsSectionEditableContext();
 
@@ -100,33 +97,13 @@ const QuestionBlockCard = ({
 
   const renderQuestionTypeBlock = () => {
     if (question.type === "PLAIN_TEXT") {
-      return (
-        <QuestionBlockPlainText
-          question={question}
-          index={index}
-          locked={locked}
-        />
-      );
+      return <QuestionBlockPlainText question={question} locked={locked} />;
     } else if (question.type === "IMAGE_SELECT") {
-      return (
-        <QuestionBlockImageSelect
-          question={question}
-          index={index}
-          locked={locked}
-        />
-      );
+      return <QuestionBlockImageSelect question={question} locked={locked} />;
     } else if (question.type === "2AFC") {
-      return (
-        <QuestionBlock2AFC question={question} index={index} locked={locked} />
-      );
+      return <QuestionBlock2AFC question={question} locked={locked} />;
     } else if (question.type === "DRAW_LINE") {
-      return (
-        <QuestionBlockDrawImage
-          question={question}
-          index={index}
-          locked={locked}
-        />
-      );
+      return <QuestionBlockDrawImage question={question} locked={locked} />;
     } else {
       return null;
     }

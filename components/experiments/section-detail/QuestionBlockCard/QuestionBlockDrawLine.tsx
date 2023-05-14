@@ -117,10 +117,7 @@ const UnlockedQuestionBlockDrawImage = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
   const [imagePublicId, setImagePublicId] = useState<string[]>([]);
-  // const [leftImagePublicId, setLeftImagePublicId] = useState("");
-  // const [rightImagePublicId, setRightImagePublicId] = useState("");
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
   useEffect(
     () => setImagePublicId(question.content.images || []),
@@ -214,7 +211,6 @@ const UnlockedQuestionBlockDrawImage = ({
 
 const QuestionBlockDrawImage = ({
   question,
-  index,
   locked,
 }: QuestionBlockCardSharedProps) => {
   return locked ? (

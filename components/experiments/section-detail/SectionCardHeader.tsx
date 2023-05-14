@@ -16,8 +16,7 @@ type Props = {
 };
 
 const SectionCardHeader = ({ sectionTitle, experimentId }: Props) => {
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
   const lockExperimentContext = useLockExperimentContext();
 

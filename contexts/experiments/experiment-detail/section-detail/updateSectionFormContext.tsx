@@ -1,6 +1,16 @@
-import { createContext, useContext } from "react";
+import { BaseSyntheticEvent, createContext, useContext } from "react";
+import { UseFormReturn } from "react-hook-form";
 
-const UpdateSectionFormContext = createContext(null);
+const UpdateSectionFormContext = createContext<
+  | Pick<UseFormReturn, "register" | "setValue"> & {
+      onSubmit: (
+        onSave?: () => void
+      ) => (
+        e?: BaseSyntheticEvent<object, any, any> | undefined
+      ) => Promise<void>;
+      data: any;
+    }
+>(null);
 export const UpdateSectionFormContextProvider =
   UpdateSectionFormContext.Provider;
 

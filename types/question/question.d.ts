@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { questionTypeTypes } from "./questionTypes";
 
-type QuestionTypeType = typeof questionTypeTypes[number];
+type QuestionTypeType = (typeof questionTypeTypes)[number];
 
 type QuestionSettingsType = {};
 
@@ -21,6 +21,7 @@ export type QuestionType = {
   experimentId: Types.ObjectId;
   sectionId: Types.ObjectId;
   title: string;
+  position: number;
   type: QuestionTypeType;
   content: QuestionContentType;
   settings: QuestionSettingsType;

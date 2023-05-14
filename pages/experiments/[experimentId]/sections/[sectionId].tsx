@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { DropResult } from "react-beautiful-dnd";
 import AppBar from "../../../../components/common/AppBar";
 import ContentWrapper from "../../../../components/common/layout/ContentWrapper";
 import ExperimentDetailPageToolbar from "../../../../components/experiments/experiment-detail/ExperimentDetailPageToolbar";
@@ -15,7 +14,6 @@ import { useSectionQuestions } from "../../../../hooks/questions/useQuestions";
 import { useSections } from "../../../../hooks/sections/useSections";
 import useUpdateSectionForm from "../../../../hooks/sections/useUpdateSectionForm";
 import { SectionType } from "../../../../types/section/section";
-import { reorderList } from "../../../../utils/list";
 
 const SectionDetailPage = () => {
   const router = useRouter();
@@ -23,7 +21,6 @@ const SectionDetailPage = () => {
   const [currentSection, setCurrentSection] = useState<SectionType | null>(
     null
   );
-  const [items, setItems] = useState(() => [...Array(10).keys()]);
   const {
     data: questions,
     isLoading,
@@ -49,15 +46,6 @@ const SectionDetailPage = () => {
     }
     reset();
   }, [sectionId, sections, questions, reset]);
-
-  const handleDragEnd = ({ destination, source }: DropResult) => {
-    // dropped outside the list
-    if (!destination) return;
-
-    const newItems = reorderList(items, source.index, destination.index);
-
-    setItems(newItems);
-  };
 
   if (isLoading || sectionsIsLoading || !router.isReady) {
     return <Typography variant="h1">Loading...</Typography>;
@@ -99,7 +87,6 @@ const SectionDetailPage = () => {
                     key={currentSection._id.toString()}
                     section={currentSection}
                     questions={questions}
-                    onDragEnd={handleDragEnd}
                   />
                 </main>
 

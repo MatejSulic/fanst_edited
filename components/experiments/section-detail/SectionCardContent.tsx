@@ -13,8 +13,7 @@ type Props = {
 };
 
 const SectionCardContent = ({ sectionDescription, questions }: Props) => {
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
   const lockExperimentContext = useLockExperimentContext();
 
@@ -42,7 +41,6 @@ const SectionCardContent = ({ sectionDescription, questions }: Props) => {
                     <QuestionBlockListItem
                       key={item._id.toString()}
                       question={item}
-                      index={idx}
                     />
                   ))}
                 </Stack>

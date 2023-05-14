@@ -28,3 +28,17 @@ export const questionDeleteMutationKey = (
   questionId,
   "delete-mutation",
 ];
+
+export const questionUpdateMutationKey = (
+  experimentId: string,
+  sectionId: string,
+  questionId?: string
+) => [
+  "experiments",
+  experimentId,
+  "sections",
+  sectionId,
+  "questions",
+  questionId,
+  "update-mutation",
+];

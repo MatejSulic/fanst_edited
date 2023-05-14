@@ -4,11 +4,13 @@ import { useSnackbar } from "notistack";
 import {
   CreateNewQuestionType,
   QuestionType,
+  UpdateQuestionType,
 } from "../../types/question/question";
 import {
   questionCreateMutationKey,
   questionDeleteMutationKey,
   questionListQueryKey,
+  questionUpdateMutationKey,
 } from "./queries";
 
 export const useCreateQuestionMutation = (
@@ -67,6 +69,43 @@ export const useDeleteQuestionMutation = (
   );
 };
 
+export const useUpdateQuestionMutation = (
+  experimentId: string,
+  sectionId: string,
+  questionId?: string
+) => {
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const updateQuestion = async ({
+    questId = questionId,
+    questionData,
+  }: {
+    questId?: string;
+    questionData: UpdateQuestionType;
+  }) => {
+    if (questId === undefined) {
+      return null;
+    }
+
+    const { data } = await axios.patch(
+      `/api/experiments/${experimentId}/sections/${sectionId}/questions/${questId}`,
+      questionData
+    );
+    return data.data;
+  };
+
+  return useMutation(questionUpdateMutationKey(experimentId, sectionId), {
+    mutationFn: updateQuestion,
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        questionListQueryKey(experimentId, sectionId)
+      );
+      enqueueSnackbar("Question saved");
+    },
+  });
+};
+
 export const useSectionQuestions = (
   experimentId?: string,
   sectionId?: string
@@ -78,7 +117,9 @@ export const useSectionQuestions = (
     const { data } = await axios.get(
       `/api/experiments/${experimentId}/sections/${sectionId}/questions`
     );
-    return data.data;
+    return data.data.sort(
+      (questA, questB) => questA.position - questB.position
+    );
   };
 
   return useQuery(

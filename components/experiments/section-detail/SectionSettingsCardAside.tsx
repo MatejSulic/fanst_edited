@@ -10,8 +10,7 @@ type Props = {
 };
 
 const SectionSettingsCardAside = ({ section }: Props) => {
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
   const lockExperimentContext = useLockExperimentContext();
 
   useEffect(() => {

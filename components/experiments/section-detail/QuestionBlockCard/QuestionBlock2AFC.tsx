@@ -103,8 +103,7 @@ const UnlockedQuestionBlock2AFC = ({
 }: QuestionBlockSpecificCardSharedProps) => {
   const [imagesPublicIds, setImagesPublicIds] = useState<string[]>([]);
 
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
   useEffect(
     () => setImagesPublicIds(question.content.images || []),
@@ -201,7 +200,6 @@ const UnlockedQuestionBlock2AFC = ({
 
 const QuestionBlock2AFC = ({
   question,
-  index,
   locked,
 }: QuestionBlockCardSharedProps) => {
   return locked ? (

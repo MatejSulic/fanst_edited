@@ -45,8 +45,7 @@ const UnlockedQuestionBlockPlainText = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
   const [quillValue, setQuillValue] = useState(question?.content?.text || "");
-  const { register, setValue, onSubmit, errors } =
-    useUpdateSectionFormContext();
+  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
   useEffect(() => {
     setValue(`questions.${question._id.toString()}.content.text`, quillValue);
@@ -68,7 +67,6 @@ const UnlockedQuestionBlockPlainText = ({
 
 const QuestionBlockPlainText = ({
   question,
-  index,
   locked,
 }: QuestionBlockCardSharedProps) => {
   return locked ? (

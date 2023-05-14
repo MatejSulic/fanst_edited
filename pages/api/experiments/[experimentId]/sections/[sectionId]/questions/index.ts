@@ -28,18 +28,16 @@ export default async function handler(
     try {
       const experimentIdObjectId = new Types.ObjectId(experimentId as string);
       const sectionIdObjectId = new Types.ObjectId(sectionId as string);
+      const section = await Section.findById(sectionIdObjectId);
 
       const createdQuestion = new Question({
         ...req.body,
         experimentId: experimentIdObjectId,
         sectionId: sectionIdObjectId,
+        position: section.questions.length + 1,
       });
       await createdQuestion.save();
 
-      const section = await Section.findOne({
-        experimentId: experimentId,
-        _id: sectionId,
-      });
       section.questions.push(createdQuestion._id.toString());
       await section.save();
 

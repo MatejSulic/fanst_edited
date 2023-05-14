@@ -29,7 +29,7 @@ const ExperimentDetailPage = () => {
     isError: experimentIsError,
   } = useExperiment(experimentId as string | undefined);
 
-  const undefinedSectionMutation = useUpdateSectionMutation(
+  const undefinedSectionUpdateMutation = useUpdateSectionMutation(
     experimentId as string
   );
 
@@ -46,7 +46,7 @@ const ExperimentDetailPage = () => {
       (sec) => result.source.index === sec.position
     );
 
-    undefinedSectionMutation.mutate({
+    undefinedSectionUpdateMutation.mutate({
       secId: movedSection?._id.toString(),
       sectionData: { position: result.destination?.index },
     });
