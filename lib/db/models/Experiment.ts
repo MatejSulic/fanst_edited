@@ -104,12 +104,10 @@ export const copyExperiment = async (
   let newSections = [];
   await Promise.all(
     sections.map(async (section) => {
+      const { _id, __v, ...sectionObject } = section.toObject();
       let newSection = await new Section({
-        title: section.title,
+        ...sectionObject,
         experimentId: newExperiment._id.toString(),
-        description: section.description,
-        type: section.type,
-        settings: section.settings,
       });
       await newSection.save();
 
