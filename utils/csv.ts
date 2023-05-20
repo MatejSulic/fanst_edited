@@ -41,49 +41,50 @@ export const exportExperimentResultsDetailToCsv = async (
         sectionResult.sectionType,
       ];
       sectionResult.results.forEach((questionResult) => {
-        if (
-          (questionResult.questionType === "2AFC" ||
-            questionResult.questionType === "IMAGE_SELECT") &&
-          questionResult.result &&
-          Array.isArray(questionResult.result)
-        ) {
-          const questionDetailValues = [
-            questionResult.questionId,
-            questionResult.questionType,
-          ];
-          questionResult.result.forEach((comparisonResult) => {
-            const comparisonDetailValues = [
-              comparisonResult.leftImage,
-              comparisonResult.rightImage,
-              comparisonResult.chosenImage,
+        if (questionResult.result) {
+          if (
+            (questionResult.questionType === "2AFC" ||
+              questionResult.questionType === "IMAGE_SELECT") &&
+            Array.isArray(questionResult.result)
+          ) {
+            const questionDetailValues = [
+              questionResult.questionId,
+              questionResult.questionType,
             ];
-            csv +=
-              [
-                ...experimentDetailValues,
-                ...sectionDetailValues,
-                ...questionDetailValues,
-                ...comparisonDetailValues,
-              ].join(",") +
-              ",," +
-              "\n";
-          });
-        } else if (
-          questionResult.questionType === "DRAW_LINE" &&
-          questionResult.result
-        ) {
-          const questionDetailValues = [
-            questionResult.questionId,
-            questionResult.questionType,
-          ];
-          csv += [
-            ...experimentDetailValues,
-            ...sectionDetailValues,
-            ...questionDetailValues,
-          ];
-          csv += ",,,,";
-          csv += questionResult.result.centerImage + ",";
-          csv += questionResult.result.drawnPoints.join(" ");
-          csv += "\n";
+            questionResult.result.forEach((comparisonResult) => {
+              const comparisonDetailValues = [
+                comparisonResult.leftImage,
+                comparisonResult.rightImage,
+                comparisonResult.chosenImage,
+              ];
+              csv +=
+                [
+                  ...experimentDetailValues,
+                  ...sectionDetailValues,
+                  ...questionDetailValues,
+                  ...comparisonDetailValues,
+                ].join(",") +
+                ",," +
+                "\n";
+            });
+          } else if (
+            questionResult.questionType === "DRAW_LINE" &&
+            questionResult.result
+          ) {
+            const questionDetailValues = [
+              questionResult.questionId,
+              questionResult.questionType,
+            ];
+            csv += [
+              ...experimentDetailValues,
+              ...sectionDetailValues,
+              ...questionDetailValues,
+            ];
+            csv += ",,,,";
+            csv += questionResult.result.centerImage + ",";
+            csv += questionResult.result.drawnPoints.join(" ");
+            csv += "\n";
+          }
         }
       });
     });

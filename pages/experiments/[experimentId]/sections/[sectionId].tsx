@@ -14,6 +14,7 @@ import { useSectionQuestions } from "../../../../hooks/questions/useQuestions";
 import { useSections } from "../../../../hooks/sections/useSections";
 import useUpdateSectionForm from "../../../../hooks/sections/useUpdateSectionForm";
 import { SectionType } from "../../../../types/section/section";
+import { QuestionType } from "../../../../types/question/question";
 
 const SectionDetailPage = () => {
   const router = useRouter();
@@ -56,8 +57,16 @@ const SectionDetailPage = () => {
   }
 
   const isSectionEditable = currentSection?.type === "BLANK";
+  const editableQuestionTypes: QuestionType["type"][] = [
+    "2AFC",
+    "IMAGE_SELECT",
+    "DRAW_LINE",
+  ];
+  const sectionHasEditableQuestion = Boolean(
+    questions.find((question) => editableQuestionTypes.includes(question.type))
+  );
   const sectionHasEditableSettings =
-    currentSection?.type === "BLANK" || currentSection?.type === "2AFC";
+    currentSection?.type === "2AFC" || sectionHasEditableQuestion;
 
   return currentSection ? (
     <>
