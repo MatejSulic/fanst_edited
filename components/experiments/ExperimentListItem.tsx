@@ -131,8 +131,8 @@ const ExperimentListItem = ({ experiment }: Props) => {
                 <Button
                   size="small"
                   onClick={() => {
-                    console.log("Setting");
-                    console.log("current Id:", participantsDialogExperimentId);
+                    // console.log("Setting");
+                    // console.log("current Id:", participantsDialogExperimentId);
                     setParticipantsDialogExperimentId(
                       experiment._id.toString()
                     );

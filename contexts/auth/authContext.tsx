@@ -35,7 +35,7 @@ export const AuthContextProvider = ({
   };
 
   const logout = () => {
-    console.log("logout");
+    // console.log("logout");
     localStorage.removeItem("user");
     queryClient.clear();
     setUser(null);

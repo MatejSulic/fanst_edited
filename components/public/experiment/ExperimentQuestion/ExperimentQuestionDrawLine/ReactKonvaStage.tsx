@@ -19,7 +19,7 @@ const ReactKonvaStage = ({ width, height, setResult }: Props) => {
       points.length === 4 &&
       isDrawing.current === false
     ) {
-      console.log("setting result", points);
+      // console.log("setting result", points);
       setResult([
         points[0] / width,
         points[1] / height,

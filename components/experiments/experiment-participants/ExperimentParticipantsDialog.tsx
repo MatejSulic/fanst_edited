@@ -69,7 +69,7 @@ const ExperimentParticipantsDialog = ({
       deleteParticipantMutation.mutate({ experimentId, participantId });
   };
 
-  console.log("experimentId:", experimentId);
+  // console.log("experimentId:", experimentId);
   if (!experimentId) return null;
 
   return (
