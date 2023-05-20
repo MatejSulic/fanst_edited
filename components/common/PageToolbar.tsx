@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useLockExperimentContext } from "../../contexts/experiments/lockExperimentContext";
-import InviteParticipantDialog from "../experiments/invite-participant/InviteParticipantDialog";
+import ExperimentParticipantsDialog from "../experiments/experiment-participants/ExperimentParticipantsDialog";
 import ExperimentSettingsDialog from "./ExperimentSettingsDialog";
 
 type Props = {
@@ -94,11 +94,11 @@ const PageToolbar = ({ children }: Props) => {
         onSave={handleClose}
       />
 
-      <InviteParticipantDialog
+      <ExperimentParticipantsDialog
         experimentId={experimentId as string}
         open={inviteParticipantDialogOpen}
         onClose={() => setInviteParticipantDialogOpen(false)}
-        onSave={() => setInviteParticipantDialogOpen(false)}
+        onSave={() => {}}
       />
     </>
   );
