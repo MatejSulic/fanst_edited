@@ -50,19 +50,9 @@ const ExperimentWithdrawConsentCard = ({
       />
       <CardContent>
         <Typography variant="body1">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-          eget gravida enim. Aenean sem nibh, iaculis sed eros in, iaculis
-          finibus libero. Nulla facilisi. Maecenas enim erat, blandit a mattis
-          sed, bibendum vel turpis. Suspendisse vitae tellus eget nulla eleifend
-          iaculis sed eget ligula. Ut a tortor mauris. Donec consequat velit ac
-          aliquet malesuada. Phasellus libero leo, vestibulum vitae orci vel,
-          vehicula cursus enim. Aliquam dapibus eget mi a laoreet. Vestibulum
-          ultricies arcu a lacus ultricies, pulvinar cursus nulla tempus. Nulla
-          sollicitudin est ante, at euismod ipsum rhoncus et. Nullam blandit
-          vehicula nisl, vel dignissim eros hendrerit eu. Duis vel turpis
-          laoreet, eleifend justo at, dictum nibh. Aliquam euismod risus a
-          ligula viverra aliquam. Nam dictum odio neque, a sodales lectus
-          venenatis et.
+          To withdraw your consent with collection of your data, please click
+          the button below. All data regarding your answers will be permanently
+          deleted. You will not be able to participate in the experiment again.
         </Typography>
       </CardContent>
       <CardActions

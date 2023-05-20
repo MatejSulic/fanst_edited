@@ -38,6 +38,7 @@ const SectionCardHeader = ({ sectionTitle, experimentId }: Props) => {
           <TextField
             label="Section title"
             defaultValue={sectionTitle}
+            sx={{ width: "66%" }}
             {...register("title")}
           />
         )

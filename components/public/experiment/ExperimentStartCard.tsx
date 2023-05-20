@@ -42,7 +42,7 @@ const ExperimentStartCard = ({ experiment, participantId }: Props) => {
             </Typography>
           }
         />
-        <CardContent>
+        {/* <CardContent>
           <Typography variant="body1">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
             eget gravida enim. Aenean sem nibh, iaculis sed eros in, iaculis
@@ -58,7 +58,7 @@ const ExperimentStartCard = ({ experiment, participantId }: Props) => {
             at, dictum nibh. Aliquam euismod risus a ligula viverra aliquam. Nam
             dictum odio neque, a sodales lectus venenatis et.
           </Typography>
-        </CardContent>
+        </CardContent> */}
         <CardActions sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
           <Button variant="contained" type="submit">
             Start the experiment

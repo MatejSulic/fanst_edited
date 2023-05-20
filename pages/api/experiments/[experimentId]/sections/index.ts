@@ -1,13 +1,28 @@
+import { ObjectId } from "mongodb";
 import { Types } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import Experiment from "../../../../../lib/db/models/Experiment";
+import {
+  default as Experiment,
+  default as ExperimentModel,
+} from "../../../../../lib/db/models/Experiment";
 import Question from "../../../../../lib/db/models/Question";
 import Section from "../../../../../lib/db/models/Section";
 import dbConnect from "../../../../../lib/db/mongooseDb";
-import {
-  CreateNewSectionType,
-  SectionType,
-} from "../../../../../types/section/section";
+import { CreateNewSectionType } from "../../../../../types/section/section";
+
+const createSection = async (sectionDetails: CreateNewSectionType) => {
+  let createdSection;
+  if (sectionDetails.type === "INTRODUCTION") {
+    createdSection = await createIntroductionSection(sectionDetails);
+  } else if (sectionDetails.type === "2AFC") {
+    createdSection = await create2AFCSection(sectionDetails);
+  } else if (sectionDetails.type === "ACKNOWLEDGEMENT") {
+    createdSection = await createAcknowledgementSection(sectionDetails);
+  } else {
+    createdSection = await createBlankSection(sectionDetails);
+  }
+  return createdSection;
+};
 
 const createBlankSection = async (sectionDetails: CreateNewSectionType) => {
   const experimentIdObjectId = new Types.ObjectId(sectionDetails.experimentId);
@@ -33,7 +48,7 @@ const create2AFCSection = async (sectionDetails: CreateNewSectionType) => {
     experimentId: createdSection.experimentId,
     sectionId: createdSection._id,
     type: "2AFC",
-    title: "New 2AFC Question containing multiple images",
+    title: "Which one do you like better?",
   });
   createdSection.title = "2-AFC Section";
   // createdSection.description = "The best 2AFC section yet!";
@@ -49,22 +64,23 @@ const createIntroductionSection = async (
   sectionDetails: CreateNewSectionType
 ) => {
   const createdSection = await createBlankSection(sectionDetails);
-  const created2AFCQuestion = new Question({
+  const createdIntroductionQuestion = new Question({
     experimentId: createdSection.experimentId,
     sectionId: createdSection._id,
     type: "PLAIN_TEXT",
-    title: "Experiment Introduction",
+    title: `Introduction to experiment ${sectionDetails.experimentTitle}`,
     content: {
-      text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porta leo et elit lobortis accumsan. Quisque condimentum gravida urna, sed tempus purus facilisis sed. Duis et dapibus nunc. Aliquam eu ex eget lorem pretium molestie eu eget tellus. Morbi sodales, nibh eu gravida congue, eros elit hendrerit purus, ac viverra urna nibh suscipit lorem. Phasellus ut condimentum nulla. Aenean venenatis mauris eget libero sagittis bibendum. Etiam dignissim mi sit amet suscipit consectetur. Suspendisse dapibus mauris malesuada ipsum pellentesque, facilisis ultrices sapien efficitur. Pellentesque non est eu lacus consectetur suscipit. Integer congue, augue vitae lacinia suscipit, libero erat sagittis quam, nec elementum mauris est non magna. Nam aliquet iaculis tortor, id convallis sapien lacinia quis. Phasellus eget blandit nulla. Morbi pharetra tincidunt nulla eget tempor. Proin volutpat nulla eget nisi pretium, et luctus arcu ultricies.
-      Ut diam arcu, faucibus id sollicitudin vitae, auctor id lacus. Integer ornare tincidunt viverra. Sed eget tristique ante, sit amet gravida mi. Aliquam massa tortor, gravida tempor commodo quis, molestie non justo. Nam consectetur ante eget risus accumsan, id malesuada enim bibendum. Praesent pulvinar urna id vulputate iaculis. Pellentesque posuere nunc mauris, et ornare nisl pharetra eu. Phasellus ac ipsum facilisis, gravida ante eu, feugiat odio. Nulla mattis placerat ligula, ac viverra metus pulvinar ac.`,
+      text: `Welcome to experiment ${sectionDetails.experimentTitle}!
+You will see a series of questions, each one may be with a different assignment.
+Please, answer the questions honestly and as fast as possible.`,
     },
   });
   createdSection.title = "Introduction Section";
   // createdSection.description = "The best Introduction section yet!";
-  createdSection.questions.push(created2AFCQuestion._id.toString());
+  createdSection.questions.push(createdIntroductionQuestion._id.toString());
 
   await createdSection.save();
-  await created2AFCQuestion.save();
+  await createdIntroductionQuestion.save();
 
   return createdSection;
 };
@@ -73,22 +89,24 @@ const createAcknowledgementSection = async (
   sectionDetails: CreateNewSectionType
 ) => {
   const createdSection = await createBlankSection(sectionDetails);
-  const created2AFCQuestion = new Question({
+  const createdAcknowledgmentQuestion = new Question({
     experimentId: createdSection.experimentId,
     sectionId: createdSection._id,
     type: "PLAIN_TEXT",
-    title: "Experiment Acknowledgement",
+    title: "Acknowledgment",
     content: {
-      text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porta leo et elit lobortis accumsan. Quisque condimentum gravida urna, sed tempus purus facilisis sed. Duis et dapibus nunc. Aliquam eu ex eget lorem pretium molestie eu eget tellus. Morbi sodales, nibh eu gravida congue, eros elit hendrerit purus, ac viverra urna nibh suscipit lorem. Phasellus ut condimentum nulla. Aenean venenatis mauris eget libero sagittis bibendum. Etiam dignissim mi sit amet suscipit consectetur. Suspendisse dapibus mauris malesuada ipsum pellentesque, facilisis ultrices sapien efficitur. Pellentesque non est eu lacus consectetur suscipit. Integer congue, augue vitae lacinia suscipit, libero erat sagittis quam, nec elementum mauris est non magna. Nam aliquet iaculis tortor, id convallis sapien lacinia quis. Phasellus eget blandit nulla. Morbi pharetra tincidunt nulla eget tempor. Proin volutpat nulla eget nisi pretium, et luctus arcu ultricies.
-      Ut diam arcu, faucibus id sollicitudin vitae, auctor id lacus. Integer ornare tincidunt viverra. Sed eget tristique ante, sit amet gravida mi. Aliquam massa tortor, gravida tempor commodo quis, molestie non justo. Nam consectetur ante eget risus accumsan, id malesuada enim bibendum. Praesent pulvinar urna id vulputate iaculis. Pellentesque posuere nunc mauris, et ornare nisl pharetra eu. Phasellus ac ipsum facilisis, gravida ante eu, feugiat odio. Nulla mattis placerat ligula, ac viverra metus pulvinar ac.`,
+      text: `Thank you for completing the experiment ${sectionDetails.experimentTitle}.
+All your answers will be saved anonymously, without any connection to your person. The results of the experiment will be used purely for statistical purposes.
+If you would want to withdraw your consent to the collection of your data, your answers, you will have to choice to do that anytime in the future.
+Just click the link that you have received for the experiment completion.`,
     },
   });
   createdSection.title = "Acknowledgement Section";
   // createdSection.description = "The best Acknowledgement section yet!";
-  createdSection.questions.push(created2AFCQuestion._id.toString());
+  createdSection.questions.push(createdAcknowledgmentQuestion._id.toString());
 
   await createdSection.save();
-  await created2AFCQuestion.save();
+  await createdAcknowledgmentQuestion.save();
 
   return createdSection;
 };
@@ -114,19 +132,16 @@ export default async function handler(
     }
   } else if (req.method === "POST") {
     try {
-      const sectionType = req.body.type as SectionType["type"];
-      const sectionDetails = { ...req.body, experimentId };
+      const experiment = await ExperimentModel.findById(
+        new ObjectId(experimentId as string)
+      );
+      const sectionDetails: CreateNewSectionType = {
+        ...req.body,
+        experimentId,
+        experimentTitle: experiment.title,
+      };
 
-      let createdSection;
-      if (sectionType === "INTRODUCTION") {
-        createdSection = await createIntroductionSection(sectionDetails);
-      } else if (sectionType === "2AFC") {
-        createdSection = await create2AFCSection(sectionDetails);
-      } else if (sectionType === "ACKNOWLEDGEMENT") {
-        createdSection = await createAcknowledgementSection(sectionDetails);
-      } else {
-        createdSection = await createBlankSection(sectionDetails);
-      }
+      const createdSection = await createSection(sectionDetails);
 
       res.status(200).json({ success: true, data: createdSection });
     } catch (error) {

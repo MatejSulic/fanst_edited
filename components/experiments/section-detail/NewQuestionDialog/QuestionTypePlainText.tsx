@@ -17,7 +17,7 @@ const QuestionTypePlainText = ({ ...props }: QuestionTypeCardSharedProps) => {
             line={5}
             element="span"
             text={
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus risus mattis, mollis ligula at, consequat nibh. Fusce sit amet mauris est. Mauris nibh lacus, iaculis ac tempor sed, laoreet eget risus. Donec nec pulvinar eros, id gravida turpis. Ut ornare porta diam, quis bibendum nibh tristique vitae. Mauris non convallis elit. Sed luctus, lorem eu ultrices hendrerit, dolor ipsum efficitur ipsum, nec lacinia ligula massa id mi. Praesent at mauris eu tellus faucibus volutpat. Cras auctor malesuada mollis. Proin a imperdiet turpis. Morbi pulvinar erat eget congue luctus. Praesent venenatis iaculis purus, at facilisis mauris auctor sed. Vestibulum vulputate venenatis eros, tempor ultrices erat ultricies vitae. Ut non elit in mi egestas vestibulum. Curabitur sollicitudin fringilla risus, ut ullamcorper orci volutpat sed. Nulla rutrum, massa vitae malesuada auctor, nibh urna suscipit nunc, sit amet elementum ante elit quis dui."
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus risus mattis, mollis ligula at, consequat nibh. Fusce sit amet mauris est. Mauris nibh lacus, iaculis ac tempor sed, laoreet eget risus."
             }
           />
         </Typography>
