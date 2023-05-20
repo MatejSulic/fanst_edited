@@ -19,7 +19,7 @@ import {
   useUpdateExperimentMutation,
 } from "../../hooks/experiments/useExperiments";
 import { ExperimentType } from "../../types/experiment";
-import InviteParticipantDialog from "./invite-participant/InviteParticipantDialog";
+import ExperimentParticipantsDialog from "./experiment-participants/ExperimentParticipantsDialog";
 
 type Props = {
   experiment: ExperimentType;
@@ -28,11 +28,8 @@ type Props = {
 const ExperimentListItem = ({ experiment }: Props) => {
   const router = useRouter();
   const [openNestedListItem, setOpenNestedListItem] = useState(false);
-  const [inviteParticipantDialogDetails, setInviteParticipantDialogDetails] =
-    useState<{ open: boolean; experimentId: string | null }>({
-      open: false,
-      experimentId: null,
-    });
+  const [participantsDialogExperimentId, setParticipantsDialogExperimentId] =
+    useState<string | undefined>(undefined);
 
   const lockExperimentContext = useLockExperimentContext();
   const copyExperimentMutation = useCopyExperimentMutation(
@@ -47,10 +44,6 @@ const ExperimentListItem = ({ experiment }: Props) => {
 
   const handleCopyExperiment = async () => {
     copyExperimentMutation.mutate();
-  };
-
-  const handleInviteParticipantOpen = (experimentId: string) => {
-    setInviteParticipantDialogDetails({ open: true, experimentId });
   };
 
   const handleArchiveExperiment = () => {
@@ -131,19 +124,23 @@ const ExperimentListItem = ({ experiment }: Props) => {
                 component={Link}
                 href={`/experiments/${experiment._id.toString()}`}
               >
-                Edit
+                {experiment.locked ? "View" : "Edit"}
               </Button>
               <Button size="small">Preview</Button>
-              <Button size="small">
-                <Link
-                  href={{
-                    pathname: "/results",
-                    query: { experimentId: experiment._id.toString() },
+              {experiment.locked && (
+                <Button
+                  size="small"
+                  onClick={() => {
+                    console.log("Setting");
+                    console.log("current Id:", participantsDialogExperimentId);
+                    setParticipantsDialogExperimentId(
+                      experiment._id.toString()
+                    );
                   }}
                 >
-                  View Results
-                </Link>
-              </Button>
+                  Manage Participants
+                </Button>
+              )}
               {!experiment.locked && (
                 <Button
                   size="small"
@@ -154,13 +151,15 @@ const ExperimentListItem = ({ experiment }: Props) => {
                 </Button>
               )}
               {experiment.locked && (
-                <Button
-                  size="small"
-                  onClick={() =>
-                    handleInviteParticipantOpen(experiment._id.toString())
-                  }
-                >
-                  Invite participant
+                <Button size="small">
+                  <Link
+                    href={{
+                      pathname: "/results",
+                      query: { experimentId: experiment._id.toString() },
+                    }}
+                  >
+                    View Results
+                  </Link>
                 </Button>
               )}
               {experiment.locked && (
@@ -200,16 +199,15 @@ const ExperimentListItem = ({ experiment }: Props) => {
         </List>
       </Collapse>
 
-      <InviteParticipantDialog
-        experimentId={inviteParticipantDialogDetails.experimentId!}
-        open={inviteParticipantDialogDetails.open}
-        onClose={() =>
-          setInviteParticipantDialogDetails({ open: false, experimentId: null })
-        }
-        onSave={() =>
-          setInviteParticipantDialogDetails({ open: false, experimentId: null })
-        }
-      />
+      {participantsDialogExperimentId && (
+        <ExperimentParticipantsDialog
+          key={experiment._id.toString()}
+          experimentId={participantsDialogExperimentId}
+          open={!!participantsDialogExperimentId}
+          onClose={() => setParticipantsDialogExperimentId(undefined)}
+          onSave={() => {}}
+        />
+      )}
     </>
   );
 };

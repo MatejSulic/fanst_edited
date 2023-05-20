@@ -2,17 +2,21 @@ import { useForm } from "react-hook-form";
 import { InviteParticipantType } from "../../types/participant";
 import { useInviteParticipantMutation } from "./useExperiments";
 
-const useInviteParticipantForm = (experimentId: string) => {
+const useInviteParticipantForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<InviteParticipantType>();
-  const inviteParticipantMutation = useInviteParticipantMutation(experimentId);
+  const inviteParticipantMutation = useInviteParticipantMutation();
 
   const handleInviteParticipant = async (data: InviteParticipantType) => {
-    inviteParticipantMutation.mutate(data.email);
+    inviteParticipantMutation.mutate({
+      experimentId: data.experimentId,
+      email: data.email,
+    });
   };
 
   const onSubmit = (onSave?: () => void) =>
@@ -21,7 +25,7 @@ const useInviteParticipantForm = (experimentId: string) => {
       if (onSave) onSave();
     });
 
-  return [register, onSubmit, reset, errors] as const;
+  return { register, onSubmit, reset, setValue, errors };
 };
 
 export default useInviteParticipantForm;

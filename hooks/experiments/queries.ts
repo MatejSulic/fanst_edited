@@ -4,8 +4,11 @@ export const experimentDetailQueryKey = (experimentId: string) => [
   experimentId,
 ];
 
-export const experimentListQueryKey = (search?: string) =>
-  ["experiments", "list"].concat(search ? [search] : []);
+export const experimentListQueryKey = (options?: object) => [
+  "experiments",
+  "list",
+  options,
+];
 
 export const experimentUpdateMutationKey = (experimentId: string) => [
   "experiments",
@@ -30,9 +33,10 @@ export const experimentLockMutationKey = (experimentId: string) => [
   "experiment-lock-mutation",
 ];
 
-export const experimentInviteParticipantMutationKey = (
-  experimentId: string
-) => ["experiments", experimentId, "invite-participant-mutation"];
+export const experimentInviteParticipantMutationKey = () => [
+  "experiments",
+  "invite-participant-mutation",
+];
 
 export const experimentCopyMutationKey = (experimentId: string) => [
   "experiments",

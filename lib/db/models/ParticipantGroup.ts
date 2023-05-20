@@ -24,7 +24,8 @@ export const createParticipantGroupsForExperiment = async (
   await dbConnect();
   const experiment = await Experiment.findById(new ObjectId(experimentId));
 
-  const participantGroupsCount = experiment.settings.numberOfParticipantGroups;
+  const participantGroupsCount =
+    experiment.settings.numberOfParticipantGroups || 1;
 
   const newParticipantGroupsIds: string[] = [];
 

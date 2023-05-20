@@ -18,6 +18,7 @@ import {
   experimentLockMutationKey,
   experimentUpdateMutationKey,
 } from "./queries";
+import { participantListQueryKey } from "../participants/queries";
 
 export const useUpdateExperimentMutation = (experimentId: string) => {
   const queryClient = useQueryClient();
@@ -66,11 +67,17 @@ export const useLockExperimentMutation = (experimentId: string) => {
   });
 };
 
-export const useInviteParticipantMutation = (experimentId: string) => {
+export const useInviteParticipantMutation = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
 
-  const inviteParticipant = async (email: string) => {
+  const inviteParticipant = async ({
+    experimentId,
+    email,
+  }: {
+    experimentId: string;
+    email: string;
+  }) => {
     const { data } = await axios.post(
       `/api/experiments/${experimentId}/invite-participant`,
       { email }
@@ -78,10 +85,16 @@ export const useInviteParticipantMutation = (experimentId: string) => {
     return data.data;
   };
 
-  return useMutation(experimentInviteParticipantMutationKey(experimentId), {
+  return useMutation(experimentInviteParticipantMutationKey(), {
     mutationFn: inviteParticipant,
-    onSuccess: () => {
-      queryClient.invalidateQueries(experimentDetailQueryKey(experimentId));
+    onSuccess: (data) => {
+      console.log("onSuccess data", data);
+      queryClient.invalidateQueries(
+        experimentDetailQueryKey(data._id.toString())
+      );
+      queryClient.invalidateQueries(
+        participantListQueryKey({ experimentId: data._id.toString() })
+      );
       enqueueSnackbar("Participant has been invited");
     },
   });
@@ -131,27 +144,22 @@ export const useCreateExperimentMutation = () => {
 
 export const useExperiments = (options?: { all?: boolean }) => {
   const router = useRouter();
-  const [searchParams, setSearchParams] = useState("");
 
   const getExperiments = async (): Promise<ExperimentType[]> => {
-    const { data } = await axios.get("/api/experiments?" + searchParams);
-    return data.data;
-  };
-
-  useEffect(() => {
     const search = new URLSearchParams();
     if (!options?.all) {
       for (let key in router.query) {
         search.append(key, router.query[key] as string);
       }
-      setSearchParams(search.toString());
     } else {
       search.append("category", "all");
-      setSearchParams(search.toString());
     }
-  }, [router.query]);
 
-  return useQuery([...experimentListQueryKey(), searchParams], getExperiments);
+    const { data } = await axios.get("/api/experiments?" + search.toString());
+    return data.data;
+  };
+
+  return useQuery(experimentListQueryKey(options), getExperiments);
 };
 
 export const useAllExperimentsSafe = () => {

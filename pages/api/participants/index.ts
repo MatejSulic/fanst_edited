@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import ExperimentModel from "../../../lib/db/models/Experiment";
-import Participant from "../../../lib/db/models/Participant";
 import dbConnect from "../../../lib/db/mongooseDb";
+import ExperimentModel from "../../../lib/db/models/Experiment";
+import { ObjectId } from "mongodb";
+import Participant from "../../../lib/db/models/Participant";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,26 +11,24 @@ export default async function handler(
   await dbConnect();
 
   if (req.method === "GET") {
+    const searchQuery = req.query;
     try {
-      const participants = await Participant.find({});
-      const result = [];
-      await Promise.all(
-        participants.map(async (participant) => {
-          const participantExperiments = await ExperimentModel.find({
-            participants: participant._id.toString(),
-          });
-          result.push({
-            participant: participant._id.toString(),
-            participantEmail: participant.email,
-            participantExperiments,
-            links: participantExperiments.map(
-              (participantExperiment) =>
-                `/public/experiment-preview/${participantExperiment._id.toString()}/${participant._id.toString()}`
-            ),
-          });
-        })
-      );
-      res.status(200).json({ success: true, data: result });
+      let participants;
+      if (
+        searchQuery.experimentId &&
+        searchQuery.experimentId !== "null" &&
+        searchQuery.experimentId !== "undefined"
+      ) {
+        const experimentParticipants = await ExperimentModel.findById(
+          new ObjectId(searchQuery.experimentId as string)
+        ).select({ participants: 1, _id: 0 });
+        participants = await Participant.find({
+          _id: { $in: experimentParticipants.participants },
+        });
+      } else {
+        participants = [];
+      }
+      res.status(200).json({ success: true, data: participants || [] });
     } catch (error) {
       res.status(400).json({ success: false });
     }

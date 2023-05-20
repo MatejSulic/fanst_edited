@@ -3,10 +3,10 @@ import Link from "next/link";
 import React from "react";
 import AppBar from "../../components/common/AppBar";
 import ContentWrapper from "../../components/common/layout/ContentWrapper";
-import { useParticipants } from "../../hooks/participants/useParticipants";
+import { useParticipantsExperiments } from "../../hooks/participants/useParticipantsExperiments";
 
 const DashboardPage = () => {
-  const { data, isLoading, isError } = useParticipants();
+  const { data, isLoading, isError } = useParticipantsExperiments();
 
   if (isLoading || isError) {
     return null;
