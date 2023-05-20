@@ -3,6 +3,8 @@ import ExperimentModel from "../../../lib/db/models/Experiment";
 import ExperimentResultsModel from "../../../lib/db/models/ExperimentResults";
 import dbConnect from "../../../lib/db/mongooseDb";
 import { createExperimentResultsDetail } from "../../../utils/results";
+import { parseAuthHeader } from "../../../utils/auth";
+import { JwtTokenType } from "../../../types/auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,28 +12,41 @@ export default async function handler(
 ) {
   await dbConnect();
 
+  const decodedToken = parseAuthHeader(
+    req.headers.authorization
+  ) as JwtTokenType;
+
   if (req.method === "GET") {
     try {
-      const result = [];
+      if (decodedToken === undefined) {
+        res.status(401).end();
+      } else {
+        try {
+          const result = [];
 
-      const experimentResults = await ExperimentResultsModel.find({});
-      const experiments = await ExperimentModel.find({
-        _id: {
-          $in: experimentResults.map((item) => item.experimentId.toString()),
-        },
-      }).lean();
+          const experimentResults = await ExperimentResultsModel.find({});
+          const experiments = await ExperimentModel.find({
+            _id: {
+              $in: experimentResults.map((item) =>
+                item.experimentId.toString()
+              ),
+            },
+            userId: decodedToken.userId,
+          }).lean();
 
-      await Promise.all(
-        experiments.map(async (experiment) => {
-          const experimentResultsDetail = await createExperimentResultsDetail(
-            experiment._id.toString()
+          await Promise.all(
+            experiments.map(async (experiment) => {
+              const experimentResultsDetail =
+                await createExperimentResultsDetail(experiment._id.toString());
+              result.push(experimentResultsDetail);
+            })
           );
-          result.push(experimentResultsDetail);
-        })
-      );
-      console.log(result);
 
-      res.status(200).json({ success: true, data: result });
+          res.status(200).json({ success: true, data: result });
+        } catch (error) {
+          res.status(400).json({ success: false });
+        }
+      }
     } catch (error) {
       res.status(400).json({ success: false });
     }
