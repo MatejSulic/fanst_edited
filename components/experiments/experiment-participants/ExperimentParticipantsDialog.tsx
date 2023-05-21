@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -25,7 +26,6 @@ import {
   useDeleteParticipantMutation,
   useParticipants,
 } from "../../../hooks/participants/useParticipants";
-import Dialog from "../../MuiOverrides/Dialog";
 
 type Props = {
   experimentId?: string;

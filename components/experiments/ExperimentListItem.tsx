@@ -131,8 +131,6 @@ const ExperimentListItem = ({ experiment }: Props) => {
                 <Button
                   size="small"
                   onClick={() => {
-                    // console.log("Setting");
-                    // console.log("current Id:", participantsDialogExperimentId);
                     setParticipantsDialogExperimentId(
                       experiment._id.toString()
                     );
@@ -201,7 +199,7 @@ const ExperimentListItem = ({ experiment }: Props) => {
 
       {participantsDialogExperimentId && (
         <ExperimentParticipantsDialog
-          key={experiment._id.toString()}
+          key={participantsDialogExperimentId}
           experimentId={participantsDialogExperimentId}
           open={!!participantsDialogExperimentId}
           onClose={() => setParticipantsDialogExperimentId(undefined)}
