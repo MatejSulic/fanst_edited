@@ -12,10 +12,12 @@ import {
   List,
   ListItem,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   Stack,
   TextField,
   Typography,
+  styled,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import useInviteParticipantForm from "../../../hooks/experiments/useInviteParticipantForm";
@@ -31,6 +33,19 @@ type Props = {
   onClose: () => void;
   onSave?: () => void;
 };
+
+const StyledListItemSecondaryAction = styled(ListItemSecondaryAction)`
+  visibility: hidden;
+`;
+
+const StyledListItem = styled(ListItem)`
+  :hover .MuiListItemSecondaryAction-root {
+    visibility: inherit;
+  }
+  :hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+`;
 
 const ExperimentParticipantsDialog = ({
   experimentId,
@@ -69,7 +84,6 @@ const ExperimentParticipantsDialog = ({
       deleteParticipantMutation.mutate({ experimentId, participantId });
   };
 
-  // console.log("experimentId:", experimentId);
   if (!experimentId) return null;
 
   return (
@@ -90,9 +104,24 @@ const ExperimentParticipantsDialog = ({
               {data.length > 0 ? (
                 <List>
                   {data.map((participant) => (
-                    <ListItem
+                    <StyledListItem
                       key={participant._id.toString()}
-                      secondaryAction={
+                      // secondaryAction={
+                      //   <IconButton
+                      //     onClick={() =>
+                      //       handleDeleteParticipant(participant._id.toString())
+                      //     }
+                      //   >
+                      //     <DeleteIcon />
+                      //   </IconButton>
+                      // }
+                    >
+                      {/* <ListItemButton> */}
+                      <ListItemIcon>
+                        <PersonIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={participant.email} />
+                      <StyledListItemSecondaryAction>
                         <IconButton
                           onClick={() =>
                             handleDeleteParticipant(participant._id.toString())
@@ -100,15 +129,9 @@ const ExperimentParticipantsDialog = ({
                         >
                           <DeleteIcon />
                         </IconButton>
-                      }
-                    >
-                      {/* <ListItemButton> */}
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={participant.email} />
+                      </StyledListItemSecondaryAction>
                       {/* </ListItemButton> */}
-                    </ListItem>
+                    </StyledListItem>
                   ))}
                 </List>
               ) : (
