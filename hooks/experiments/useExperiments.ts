@@ -164,7 +164,7 @@ export const useExperiments = (options?: { all?: boolean }) => {
     return data.data;
   };
 
-  return useQuery(experimentListQueryKey(searchParams), getExperiments);
+  return useQuery([...experimentListQueryKey(), searchParams], getExperiments);
 };
 
 export const useAllExperimentsSafe = () => {
