@@ -4,10 +4,10 @@ export const experimentDetailQueryKey = (experimentId: string) => [
   experimentId,
 ];
 
-export const experimentListQueryKey = (options?: object) => [
+export const experimentListQueryKey = (search?: string) => [
   "experiments",
   "list",
-  options,
+  search,
 ];
 
 export const experimentUpdateMutationKey = (experimentId: string) => [

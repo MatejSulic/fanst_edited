@@ -144,22 +144,27 @@ export const useCreateExperimentMutation = () => {
 
 export const useExperiments = (options?: { all?: boolean }) => {
   const router = useRouter();
+  const [searchParams, setSearchParams] = useState("");
 
-  const getExperiments = async (): Promise<ExperimentType[]> => {
+  useEffect(() => {
     const search = new URLSearchParams();
     if (!options?.all) {
       for (let key in router.query) {
         search.append(key, router.query[key] as string);
       }
+      setSearchParams(search.toString());
     } else {
       search.append("category", "all");
+      setSearchParams(search.toString());
     }
+  }, [router.query, router.isReady, options?.all]);
 
-    const { data } = await axios.get("/api/experiments?" + search.toString());
+  const getExperiments = async (): Promise<ExperimentType[]> => {
+    const { data } = await axios.get("/api/experiments?" + searchParams);
     return data.data;
   };
 
-  return useQuery(experimentListQueryKey(options), getExperiments);
+  return useQuery(experimentListQueryKey(searchParams), getExperiments);
 };
 
 export const useAllExperimentsSafe = () => {
