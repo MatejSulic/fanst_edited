@@ -79,14 +79,19 @@ const ExperimentListItem = ({ experiment }: Props) => {
           <ListItemText
             disableTypography
             primary={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box
+                sx={{
+                  display: { md: "flex" },
+                  justifyContent: "space-between",
+                }}
+              >
                 <span>{experiment.title}</span>
                 {experiment.locked && (
                   <Typography
                     variant="subtitle2"
                     color={(theme) => theme.palette.error.main}
                   >
-                    Experiment is already locked
+                    Experiment is locked
                   </Typography>
                 )}
               </Box>
@@ -115,6 +120,7 @@ const ExperimentListItem = ({ experiment }: Props) => {
             <Box
               sx={{
                 display: "flex",
+                overflow: "auto",
                 width: "100%",
                 gap: 4,
               }}

@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  ListItem,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import Link from "next/link";
 import TextTruncate from "react-text-truncate";
 import { SectionType } from "../../../types/section/section";
@@ -23,7 +17,7 @@ const SectionListItem = ({
   activeSectionId,
 }: Props) => {
   return (
-    <ListItem
+    <Box
       component={Link}
       href={`/experiments/${activeExperimentId}/sections/${section._id.toString()}`}
       sx={{
@@ -34,8 +28,27 @@ const SectionListItem = ({
           activeSectionId === section._id.toString()
             ? theme.palette.action.selected
             : undefined,
+        // boxSizing: "border-box",
+        // minWidth: 200,
+        // maxWidth: "100%",
+        // width: "100%",
+        p: 1,
       }}
     >
+      {/* <ListItem
+        component={Link}
+        href={`/experiments/${activeExperimentId}/sections/${section._id.toString()}`}
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 2,
+          backgroundColor: (theme) =>
+            activeSectionId === section._id.toString()
+              ? theme.palette.action.selected
+              : undefined,
+          minWidth: { xs: 400 },
+        }}
+      > */}
       <Typography variant="h6" component="div">
         {idx}
       </Typography>
@@ -45,8 +58,10 @@ const SectionListItem = ({
             activeSectionId === section._id.toString()
               ? theme.palette.action.selected
               : undefined,
-          width: "100%",
-          height: 120,
+          // maxWidth: "80%",
+          // width: "80%",
+          minWidth: 200,
+          // height: 120,
         }}
       >
         <CardHeader
@@ -60,7 +75,7 @@ const SectionListItem = ({
               />
             </Typography>
           }
-          className="pb-0"
+          sx={{ pb: 0 }}
         />
         <CardContent>
           <Typography variant="body2" component="div">
@@ -68,7 +83,8 @@ const SectionListItem = ({
           </Typography>
         </CardContent>
       </Card>
-    </ListItem>
+      {/* </ListItem> */}
+    </Box>
   );
 };
 

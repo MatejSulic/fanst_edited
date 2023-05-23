@@ -15,10 +15,10 @@ const ExperimentDetailList = ({ experiment, sections }: Props) => {
     <Card
       variant="outlined"
       sx={{
-        width: (theme) => theme.breakpoints.values["md"],
-        maxWidth: (theme) => theme.breakpoints.values["md"],
-        maxHeight: "100%",
+        maxHeight: { md: "100%" },
         overflowY: "auto",
+        maxWidth: "100%",
+        boxSizing: "border-box",
       }}
     >
       <CardHeader

@@ -13,11 +13,11 @@ const LockedQuestionBlockPlainText = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
   return question.content.text ? (
-    <Box id="react-quill-container" sx={{ pb: 5 }}>
+    <Box id="react-quill-container">
       <ReactQuill
         theme={null}
         value={question.content.text}
-        style={{ height: 200 }}
+        // style={{ minHeight: 200 }}
         bounds="#react-quill-container"
         preserveWhitespace
         readOnly
@@ -52,12 +52,12 @@ const UnlockedQuestionBlockPlainText = ({
   }, [quillValue, setValue, question._id]);
 
   return (
-    <Box id="react-quill-container" sx={{ pb: 5 }}>
+    <Box id="react-quill-container">
       <ReactQuill
         theme="snow"
         value={quillValue}
         onChange={setQuillValue}
-        style={{ height: 200 }}
+        // style={{ minHeight: 160 }}
         bounds="#react-quill-container"
         preserveWhitespace
       />

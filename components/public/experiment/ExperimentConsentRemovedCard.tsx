@@ -1,5 +1,13 @@
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 import { ExperimentType } from "../../../types/experiment";
+import Link from "next/link";
 
 type Props = {
   experiment: ExperimentType;
@@ -28,19 +36,19 @@ const ExperimentConsentRemovedCard = ({ experiment, participantId }: Props) => {
           You can close the window now.
         </Typography>
       </CardContent>
-      {/* <CardContent>
+      <CardContent>
         <Typography variant="body2" sx={{ textAlign: "center" }}>
           If you would like to participate in the experiment again, please use
           the link below.
         </Typography>
-      </CardContent> */}
-      {/* <CardActions sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
+      </CardContent>
+      <CardActions sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
         <Link
           href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}`}
         >
           <Button variant="contained">Participate again</Button>
         </Link>
-      </CardActions> */}
+      </CardActions>
     </Card>
   );
 };

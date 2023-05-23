@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
 
@@ -8,20 +8,17 @@ type Props = {
 
 const ContentWrapper = ({ children }: Props) => {
   return (
-    <Box
+    <Container
+      maxWidth={"lg"}
       sx={{
-        maxWidth: (theme) => theme.breakpoints.values.lg,
-        ml: "auto",
-        mr: "auto",
         maxHeight: "100vh",
         height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        pb: 4,
+        // pb: 4,
+        // mb: 4,
       }}
     >
       <Stack
-        spacing={4}
+        spacing={2}
         sx={{
           p: 1,
           maxHeight: "100%",
@@ -34,7 +31,7 @@ const ContentWrapper = ({ children }: Props) => {
       >
         {children}
       </Stack>
-    </Box>
+    </Container>
   );
 };
 

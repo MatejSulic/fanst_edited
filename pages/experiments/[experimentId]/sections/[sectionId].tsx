@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AppBar from "../../../../components/common/AppBar";
@@ -82,30 +82,51 @@ const SectionDetailPage = () => {
               </Box> */}
               <ExperimentDetailPageToolbar />
 
-              <Box
-                sx={{ display: "flex", gap: 8, height: "83.3%", width: "100%" }}
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={{ xs: 2, md: 0 }}
+                sx={{
+                  // display: { xs: "block", md: "flex" },
+                  gap: 2,
+                  height: { md: "100%" },
+                  maxWidth: "100%",
+                  width: "100%",
+                  px: { md: 2 },
+                  mt: 2,
+                  pb: 2,
+                }}
               >
                 <aside>
                   <SectionList sections={sections} />
                 </aside>
 
-                <main
-                  style={{ paddingTop: 8, maxWidth: "100%", width: "100%" }}
+                <Stack
+                  direction={{ sm: "column", md: "row-reverse" }}
+                  spacing={2}
+                  sx={{
+                    // display: { md: "flex" },
+                    maxWidth: "100%",
+                    width: "100%",
+                    gap: 2,
+                    // alignItems: { sm: "center", md: "unset" },
+                  }}
                 >
-                  <SectionDetailCard
-                    key={currentSection._id.toString()}
-                    section={currentSection}
-                    questions={questions}
-                  />
-                </main>
+                  {sectionHasEditableSettings && (
+                    <SectionSettingsCardAside
+                      key={currentSection._id.toString()}
+                      section={currentSection}
+                    />
+                  )}
 
-                {sectionHasEditableSettings && (
-                  <SectionSettingsCardAside
-                    key={currentSection._id.toString()}
-                    section={currentSection}
-                  />
-                )}
-              </Box>
+                  <main style={{ flexGrow: 1 }}>
+                    <SectionDetailCard
+                      key={currentSection._id.toString()}
+                      section={currentSection}
+                      questions={questions}
+                    />
+                  </main>
+                </Stack>
+              </Stack>
             </IsSectionEditableContextProvider>
           </UpdateSectionFormContextProvider>
         </LockExperimentContextProvider>

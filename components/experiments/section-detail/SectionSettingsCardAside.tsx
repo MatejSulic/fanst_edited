@@ -34,12 +34,11 @@ const SectionSettingsCardAside = ({ section }: Props) => {
   }
 
   return (
-    <aside>
+    <aside style={{ flexGrow: 0 }}>
       <Box
         sx={{
           maxHeight: "100%",
           overflowY: "auto",
-          width: 256,
         }}
       >
         <form onSubmit={onSubmit()}>

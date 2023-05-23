@@ -54,27 +54,29 @@ const ResultsPage = () => {
     {
       field: "id",
       headerName: "ID",
-      flex: 0.3,
+      // flex: 0.5,
     },
     {
       field: "experimentName",
       headerName: "Experiment Name",
       flex: 1,
+      minWidth: 200,
     },
     {
       field: "responsesCount",
       headerName: "# of Responses",
-      flex: 0.5,
+      // flex: 0.5,
     },
     {
       field: "participantGroupsCount",
       headerName: "# of Groups",
-      flex: 0.5,
+      // flex: 0.5,
     },
     {
       field: "exportToCsv",
       headerName: "Export to CSV",
       flex: 0.5,
+      minWidth: 150,
       sortable: false,
       filterable: false,
       renderCell: (params: GridRenderCellParams) => (
@@ -94,28 +96,27 @@ const ResultsPage = () => {
     <>
       <AppBar />
       <ContentWrapper>
-        <Box sx={{ display: "flex", height: 400, width: "66%" }}>
-          <Box sx={{ flexGrow: 1 }}>
-            <DataGrid
-              initialState={{
-                // columns: { columnVisibilityModel: { id: false } },
-                filter: {
-                  filterModel: {
-                    items: [
-                      {
-                        columnField: "id",
-                        value: router.query.experimentId,
-                      },
-                    ],
+        <DataGrid
+          initialState={{
+            filter: {
+              filterModel: {
+                items: [
+                  {
+                    columnField: "id",
+                    value: router.query.experimentId,
                   },
-                },
-              }}
-              rows={rows}
-              columns={columns}
-              isRowSelectable={() => false}
-            />
-          </Box>
-        </Box>
+                ],
+              },
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          isRowSelectable={() => false}
+          sx={{
+            width: { md: "75%", xs: "100%" },
+            maxHeight: "75%",
+          }}
+        />
       </ContentWrapper>
     </>
   );

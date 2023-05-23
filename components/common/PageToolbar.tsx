@@ -24,18 +24,25 @@ const PageToolbar = ({ children }: Props) => {
 
   return (
     <>
-      <Box sx={{ width: "100%" }}>
+      <Box
+        sx={{ boxSizing: "border-box", width: "100%", px: { md: 2 }, py: 1 }}
+      >
         <Box
           sx={{
-            width: "100%",
-            px: 2,
             display: "flex",
             justifyContent: children ? "space-between" : "flex-end",
-            gap: 4,
+            alignItems: "center",
+            gap: { xs: 4, md: 2 },
+            overflowX: "auto",
           }}
         >
           {children}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: { xs: 4, md: 2 },
+            }}
+          >
             {lockExperimentContext.isExperimentLocked ? null : (
               <Button variant="outlined" size="small" onClick={handleOpen}>
                 Experiment settings

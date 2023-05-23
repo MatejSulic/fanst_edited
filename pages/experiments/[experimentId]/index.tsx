@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
@@ -65,17 +65,30 @@ const ExperimentDetailPage = () => {
       <AppBar />
       <ContentWrapper>
         <LockExperimentContextProvider experimentId={experiment._id.toString()}>
-          {/* <Box sx={{ width: "100%" }}>
-            <Breadcrumbs />
-          </Box> */}
           <ExperimentDetailPageToolbar />
 
-          <Box sx={{ display: "flex", gap: 4, height: "83.3%", mt: 2 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={{ xs: 2, md: 0 }}
+            sx={{
+              // display: { xs: "block", md: "flex" },
+              gap: 2,
+              height: { md: "100%" },
+              maxWidth: "100%",
+              width: "100%",
+              px: { md: 2 },
+              mt: 2,
+              pb: 2,
+              overflow: "hidden",
+            }}
+          >
             <aside>
               <SectionList sections={sections} />
             </aside>
 
-            <main>
+            <main
+              style={{ width: "100%", maxHeight: "100%", overflowY: "auto" }}
+            >
               <DragDropContext onDragEnd={handleOnDragEnd}>
                 <ExperimentDetailList
                   experiment={experiment}
@@ -83,7 +96,7 @@ const ExperimentDetailPage = () => {
                 />
               </DragDropContext>
             </main>
-          </Box>
+          </Stack>
         </LockExperimentContextProvider>
       </ContentWrapper>
     </>

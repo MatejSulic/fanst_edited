@@ -41,26 +41,50 @@ const ExperimentsListPage = () => {
         <Box
           sx={{
             display: "flex",
+            flex: 0,
             justifyContent: "space-between",
             gap: 8,
             width: "100%",
             height: "min-content",
           }}
         >
-          {/* <Breadcrumbs /> */}
           <CreateNewExperimentButton
             onClick={() => setNewExperimentDialogIsOpen(true)}
           />
         </Box>
 
-        <Box sx={{ display: "flex", gap: 8, width: "100%" }}>
-          <aside>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { md: "row", xs: "column" },
+            gap: { md: 4, xs: 2 },
+            width: "100%",
+            maxHeight: "100%",
+            overflow: "hidden",
+            flex: 1,
+          }}
+        >
+          <aside style={{ flex: 0 }}>
             <CategoriesList />
           </aside>
 
-          <main style={{ width: "100%" }}>
+          <main
+            style={{
+              width: "100%",
+              flex: 1,
+              overflow: "auto",
+              maxHeight: "100%",
+            }}
+          >
             {experiments && experiments.length > 0 ? (
-              <Card variant="outlined">
+              <Card
+                variant="outlined"
+                sx={{
+                  maxHeight: "100%",
+                  overflowY: "auto",
+                  maxWidth: "100%",
+                }}
+              >
                 {router.query.category === undefined ||
                 router.query.category === "active" ? (
                   <>

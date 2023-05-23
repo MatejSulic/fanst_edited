@@ -43,17 +43,12 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
   }
 
   useEffect(() => {
-    reset();
+    if (open) reset();
   }, [open]);
-
-  const handleClose = () => {
-    reset();
-    return onSave();
-  };
 
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth maxWidth="sm">
-      <form onSubmit={onSubmit(handleClose)}>
+      <form onSubmit={onSubmit(onSave)}>
         <DialogTitle>Experiment Settings</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -85,7 +80,7 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
                 }
                 {...register("settings.numberOfParticipantGroups")}
               />
-              <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
+              {/* <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
                 <TextField
                   label="Maximum time validity"
                   type="number"
@@ -99,7 +94,7 @@ const ExperimentSettingsDialog = ({ open, onClose, onSave }: Props) => {
                 <Typography component="span" variant="body2">
                   minutes
                 </Typography>
-              </Box>
+              </Box> */}
             </Stack>
           </Box>
         </DialogContent>

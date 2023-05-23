@@ -12,6 +12,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
@@ -20,6 +21,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useInviteParticipantForm from "../../../hooks/experiments/useInviteParticipantForm";
 import {
@@ -42,9 +44,6 @@ const StyledListItem = styled(ListItem)`
   :hover .MuiListItemSecondaryAction-root {
     visibility: inherit;
   }
-  :hover {
-    background-color: rgba(0, 0, 0, 0.04);
-  }
 `;
 
 const ExperimentParticipantsDialog = ({
@@ -53,6 +52,7 @@ const ExperimentParticipantsDialog = ({
   onClose,
   onSave,
 }: Props) => {
+  const router = useRouter();
   const [addingNewParticipant, setAddingNewParticipant] = useState(false);
   const { data, isLoading, isError } = useParticipants({ experimentId });
   const deleteParticipantMutation = useDeleteParticipantMutation();
@@ -116,21 +116,29 @@ const ExperimentParticipantsDialog = ({
                       //   </IconButton>
                       // }
                     >
-                      {/* <ListItemButton> */}
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={participant.email} />
-                      <StyledListItemSecondaryAction>
-                        <IconButton
-                          onClick={() =>
-                            handleDeleteParticipant(participant._id.toString())
-                          }
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </StyledListItemSecondaryAction>
-                      {/* </ListItemButton> */}
+                      <ListItemButton
+                        onClick={() =>
+                          router.push(
+                            `/public/experiment-preview/${experimentId}/${participant._id.toString()}`
+                          )
+                        }
+                      >
+                        <ListItemIcon>
+                          <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={participant.email} />
+                        <StyledListItemSecondaryAction>
+                          <IconButton
+                            onClick={() =>
+                              handleDeleteParticipant(
+                                participant._id.toString()
+                              )
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </StyledListItemSecondaryAction>
+                      </ListItemButton>
                     </StyledListItem>
                   ))}
                 </List>

@@ -63,9 +63,9 @@ const SectionDetailCard = ({ section, questions }: Props) => {
       <Card
         variant="outlined"
         sx={{
-          width: questions.length > 0 ? "min-content" : 584,
           maxHeight: "100%",
           overflowY: "auto",
+          maxWidth: "100%",
         }}
       >
         <form onSubmit={onSubmit(onSave)}>

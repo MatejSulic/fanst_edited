@@ -24,11 +24,11 @@ const AppBar = () => {
   const authContext = useAuthContext();
 
   const pages = {
-    Dashboard: "/dashboard",
+    // Dashboard: "/dashboard",
     Experiments: "/experiments",
     Results: "/results",
   };
-  const settings = ["Profile", "Account", "Dashboard"];
+  // const settings = ["Profile", "Account", "Dashboard"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -51,33 +51,17 @@ const AppBar = () => {
 
   return (
     <MuiAppBar position="static">
-      <Box sx={{ maxWidth: "100%", mx: 8 }}>
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
+      <Box sx={{ maxWidth: "100%", mx: { md: 8, xs: 2 } }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          {/* small screen hamburger menu */}
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              display: { md: "none", xs: "flex" },
+              // flex: 1,
             }}
           >
-            LOGO
-          </Typography>
-
-          <Box className="flex md:hidden flex-1">
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
@@ -113,24 +97,71 @@ const AppBar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon className="flex md:hidden mr-2" />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            className="flex md:hidden mr-4 grow"
+
+          {/* small screen logo and title */}
+          <Box
             sx={{
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              display: { xs: "flex", md: "none" },
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            LOGO
-          </Typography>
-          <Box className="hidden md:flex grow justify-center items-center gap-8">
+            <AdbIcon sx={{ display: { md: "none", xs: "flex" }, mr: 1 }} />
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                // textDecoration: "none",
+              }}
+            >
+              FaNST
+            </Typography>
+          </Box>
+
+          {/* big screen logo and title */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                // mr: 2,
+                // display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                // textDecoration: "none",
+              }}
+            >
+              FaNST
+            </Typography>
+          </Box>
+
+          {/* big screen menu */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              flexGrow: 1,
+              justifyContent: "center",
+              alignItems: "baseline",
+              gap: 2,
+            }}
+          >
             {Object.entries(pages).map(([key, value], idx) => (
               <React.Fragment key={value}>
                 <Button
@@ -146,10 +177,11 @@ const AppBar = () => {
             ))}
           </Box>
 
+          {/* avatar dropdown menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
+                <Avatar alt="Avatar" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -168,12 +200,11 @@ const AppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
-
+              ))} */}
               <MenuItem onClick={handleLogout}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
