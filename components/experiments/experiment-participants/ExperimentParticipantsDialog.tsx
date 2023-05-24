@@ -28,6 +28,7 @@ import {
   useDeleteParticipantMutation,
   useParticipants,
 } from "../../../hooks/participants/useParticipants";
+import Link from "next/link";
 
 type Props = {
   experimentId?: string;
@@ -116,12 +117,12 @@ const ExperimentParticipantsDialog = ({
                       //   </IconButton>
                       // }
                     >
+                      {/* <Link
+                        href={`/public/experiment-preview/${experimentId}/${participant._id.toString()}`}
+                      > */}
                       <ListItemButton
-                        onClick={() =>
-                          router.push(
-                            `/public/experiment-preview/${experimentId}/${participant._id.toString()}`
-                          )
-                        }
+                        LinkComponent={Link}
+                        href={`/public/experiment-preview/${experimentId}/${participant._id.toString()}`}
                       >
                         <ListItemIcon>
                           <PersonIcon />
@@ -139,6 +140,7 @@ const ExperimentParticipantsDialog = ({
                           </IconButton>
                         </StyledListItemSecondaryAction>
                       </ListItemButton>
+                      {/* </Link> */}
                     </StyledListItem>
                   ))}
                 </List>

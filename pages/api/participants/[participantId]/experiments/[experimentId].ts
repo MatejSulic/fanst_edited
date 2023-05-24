@@ -19,9 +19,24 @@ export default async function handler(
       const experiment = await ExperimentModel.findById(
         new ObjectId(experimentId as string)
       );
+
+      // remove participant from experiment.participants
       experiment.participants = experiment.participants.filter(
         (item) => item !== participantId
       );
+
+      // remove participant from experiment.participantsPerGroups
+      const removedParticipantIndexInGroup = experiment.participantsPerGroups
+        .find((obj) => obj.get("participants").includes(participantId))
+        .get("participants")
+        .indexOf(participantId);
+
+      experiment.participantsPerGroups
+        .find((obj) => obj.get("participants").includes(participantId))
+        .get("participants")
+        .splice(removedParticipantIndexInGroup, 1);
+      experiment.markModified("participantsPerGroups");
+
       await experiment.save();
 
       res.status(200).json({ success: true, data: experiment });

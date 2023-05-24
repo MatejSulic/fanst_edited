@@ -4,6 +4,7 @@ import Experiment from "../../../../../../lib/db/models/Experiment";
 import ExperimentProgress from "../../../../../../lib/db/models/ExperimentProgress";
 import ExperimentResultsModel from "../../../../../../lib/db/models/ExperimentResults";
 import dbConnect from "../../../../../../lib/db/mongooseDb";
+import ExperimentModel from "../../../../../../lib/db/models/Experiment";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,7 +17,15 @@ export default async function handler(
   const participantIdObjectId = new Types.ObjectId(participantId as string);
 
   if (req.method === "POST") {
+    const experiment = await ExperimentModel.findById(experimentIdObjectId);
+
     try {
+      if (!experiment.participants.find((id) => id === participantId)) {
+        console.log("participant does not exist anymore");
+        res.status(404).end();
+        return;
+      }
+
       const createdExperimentProgress = new ExperimentProgress({
         experimentId: experimentIdObjectId,
         participantId: participantIdObjectId,
