@@ -130,11 +130,13 @@ const ExperimentParticipantsDialog = ({
                         <ListItemText primary={participant.email} />
                         <StyledListItemSecondaryAction>
                           <IconButton
-                            onClick={() =>
+                            onClick={(e) => {
+                              // prevent ListItemButton Link redirect
+                              e.preventDefault();
                               handleDeleteParticipant(
                                 participant._id.toString()
-                              )
-                            }
+                              );
+                            }}
                           >
                             <DeleteIcon />
                           </IconButton>
