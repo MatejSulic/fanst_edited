@@ -130,6 +130,7 @@ export const copyExperiment = async (
             .then((res) => newQuestions.push(res._id.toString()));
         })
       );
+      newSection.questions = newQuestions;
       return newSection
         .save()
         .then((res) => newSections.push(res._id.toString()));
