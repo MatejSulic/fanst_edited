@@ -21,7 +21,7 @@ const SectionTypeAcknowledgement = ({
             }
           />
         </Typography>
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             justifyContent: "flex-end",
@@ -40,7 +40,7 @@ const SectionTypeAcknowledgement = ({
           <Button variant="contained" size="small" component="div">
             Finish experiment
           </Button>
-        </Box>
+        </Box> */}
       </Stack>
     </SectionTypeCard>
   );
