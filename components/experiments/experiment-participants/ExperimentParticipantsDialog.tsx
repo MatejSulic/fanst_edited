@@ -117,7 +117,10 @@ const ExperimentParticipantsDialog = ({
               {data.length > 0 ? (
                 <List>
                   {data.map((participant) => (
-                    <StyledListItem key={participant._id.toString()}>
+                    <StyledListItem
+                      key={participant._id.toString()}
+                      sx={{ p: 0 }}
+                    >
                       <ListItemButton
                         LinkComponent={Link}
                         href={`/public/experiment-preview/${experimentId}/${participant._id.toString()}`}

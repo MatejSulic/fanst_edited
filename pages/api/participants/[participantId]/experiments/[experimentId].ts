@@ -3,6 +3,7 @@ import dbConnect from "../../../../../lib/db/mongooseDb";
 import Participant from "../../../../../lib/db/models/Participant";
 import { ObjectId } from "mongodb";
 import ExperimentModel from "../../../../../lib/db/models/Experiment";
+import ParticipantGroupModel from "../../../../../lib/db/models/ParticipantGroup";
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,6 +25,18 @@ export default async function handler(
       experiment.participants = experiment.participants.filter(
         (item) => item !== participantId
       );
+
+      // remove participant from participantGroup document
+      const participantGroupId = experiment.participantsPerGroups
+        .find((obj) => obj.get("participants").includes(participantId))
+        .get("group");
+      const participantGroup = await ParticipantGroupModel.findById(
+        participantGroupId
+      );
+      participantGroup.participants = participantGroup.participants.filter(
+        (partId) => partId !== participantId
+      );
+      await participantGroup.save();
 
       // remove participant from experiment.participantsPerGroups
       const removedParticipantIndexInGroup = experiment.participantsPerGroups

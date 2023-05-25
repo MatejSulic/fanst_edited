@@ -47,6 +47,11 @@ const UnlockedQuestionBlockPlainText = ({
   const [quillValue, setQuillValue] = useState(question?.content?.text || "");
   const { register, setValue, onSubmit } = useUpdateSectionFormContext();
 
+  useEffect(
+    () => setQuillValue(question.content.text || ""),
+    [question.content.text]
+  );
+
   useEffect(() => {
     setValue(`questions.${question._id.toString()}.content.text`, quillValue);
   }, [quillValue, setValue, question._id]);

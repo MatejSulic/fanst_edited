@@ -54,7 +54,7 @@ const PageToolbar = ({ children }: Props) => {
                 size="small"
                 onClick={() => setInviteParticipantDialogOpen(true)}
               >
-                Invite participants
+                Manage participants
               </Button>
             ) : null}
             <Button variant="text" size="small">
