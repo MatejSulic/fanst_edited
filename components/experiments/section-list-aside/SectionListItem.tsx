@@ -67,18 +67,13 @@ const SectionListItem = ({
         <CardHeader
           title={
             <Typography variant="subtitle1" component="div">
-              <TextTruncate
-                textElement="span"
-                // containerClassName="text-gray-500 text-sm pt-2"
-                line={1}
-                text={section.title}
-              />
+              <TextTruncate textElement="span" line={1} text={section.title} />
             </Typography>
           }
           sx={{ pb: 0 }}
         />
         <CardContent>
-          <Typography variant="body2" component="div">
+          <Typography variant="subtitle2" component="div">
             <TextTruncate line={2} element="span" text={section.description} />
           </Typography>
         </CardContent>

@@ -166,7 +166,7 @@ const QuestionBlockCard = ({
           placement="bottom-start"
           transition
           disablePortal
-          className="z-10"
+          sx={{ zIndex: 10 }}
         >
           {({ TransitionProps, placement }) => (
             <Grow

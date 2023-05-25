@@ -35,14 +35,16 @@ const PublicAppBar = () => {
             LOGO
           </Typography>
 
-          <AdbIcon className="flex md:hidden mr-2" />
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
             href=""
-            className="flex md:hidden mr-4 grow"
             sx={{
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+              flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",

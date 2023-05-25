@@ -69,7 +69,7 @@ const SectionBlock = ({ section }: Props) => {
                 title={
                   <Typography variant="subtitle1">{section.title}</Typography>
                 }
-                className="pb-0"
+                sx={{ pb: 0 }}
               />
               <CardContent>
                 <Typography variant="body1">{section.description}</Typography>

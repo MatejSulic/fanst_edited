@@ -43,7 +43,7 @@ const SectionCardHeader = ({ sectionTitle, experimentId }: Props) => {
           />
         )
       }
-      className="pb-0"
+      sx={{ pb: 0 }}
     />
   );
 };
