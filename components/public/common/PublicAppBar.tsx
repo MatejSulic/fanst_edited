@@ -32,7 +32,7 @@ const PublicAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            FaNST
           </Typography>
 
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -52,7 +52,7 @@ const PublicAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            FaNST
           </Typography>
         </Toolbar>
       </Box>
