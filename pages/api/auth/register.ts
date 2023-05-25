@@ -16,6 +16,14 @@ export default async function handler(
     try {
       const hashedPass = await bcrypt.hash(reqBody.password, 10);
 
+      const existingUser = await User.findOne({ email: reqBody.email });
+      if (existingUser) {
+        res.status(400).json({
+          success: false,
+          data: "User with that email already exists.",
+        });
+      }
+
       const createdUser = new User({
         email: reqBody.email,
         password: hashedPass,

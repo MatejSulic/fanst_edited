@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { jwtRefreshSecret, jwtSecret } from "../lib/auth";
+import { jwtPrivateKey, jwtPublicKey } from "../lib/auth";
 
 export const generateAccessToken = (userId: string, userEmail: string) => {
   return jwt.sign(
@@ -7,10 +7,8 @@ export const generateAccessToken = (userId: string, userEmail: string) => {
       userId,
       userEmail,
     },
-    jwtSecret as string
-    // {
-    //   expiresIn: "1h",
-    // }
+    jwtPrivateKey,
+    { algorithm: "RS256" }
   );
 };
 
@@ -30,7 +28,7 @@ export const parseAuthHeader = (authHeader?: string) => {
 
 export const verifyAccessToken = (token: string) => {
   try {
-    return jwt.verify(token, jwtSecret as string);
+    return jwt.verify(token, jwtPublicKey);
   } catch (err) {
     console.error("Invalid JWT");
   }
@@ -42,9 +40,10 @@ export const generateRefreshToken = (userId: string, userEmail: string) => {
       userId,
       userEmail,
     },
-    jwtRefreshSecret as string,
+    jwtPrivateKey,
     {
       expiresIn: "30d",
+      algorithm: "RS256",
     }
   );
 };

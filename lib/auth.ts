@@ -1,2 +1,4 @@
-export const jwtSecret = process.env.JWT_SECRET;
-export const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
+import fs from "fs";
+
+export const jwtPrivateKey = fs.readFileSync("./jwtRS256.key");
+export const jwtPublicKey = fs.readFileSync("./jwtRS256.key.pub");

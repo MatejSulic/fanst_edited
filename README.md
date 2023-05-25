@@ -6,9 +6,39 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 #### MongoDB
 
-Install MongoDB Community Edition locally - [Install MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/).
+* Install MongoDB Community Edition locally - [Install MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/).
+
+* Run the MongoDB service:
+[Run MongoDB Community Edition (MacOS)](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition).
+
+* Create a file `.env.local` with a single line containing URI, where your instance of MongoDB run. Keep in mind that the URI must have the database name at the end. That means that e.g. my MongoDB instance run at `127.0.0.1:27017` and I want to use the database called `fanst` for this project (the database does not have to be initialized before).
+
+```
+MONGODB_URI=mongodb://127.0.0.1:27017/fanst
+```
+
+#### Cloudinary
+
+* Create a Cloudinary free account (https://cloudinary.com/).
+* Login into the account and copy the "cloud_name" to file `.env.local` into the variable `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=--paste-here--`.
+* Go to Cloudinary settings (https://console.cloudinary.com/settings/) -> Upload -> Upload Presets and create a new Unsigned upload preset. You can leave all other options except "Unsigned" with no changes.
+* Copy the Upload Preset name into variable `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=--paste-here--` in the `.env.local.` file.
+
+#### Authentication
+
+* Go to the repository root folder (folder `fanst`).
+* Generate JWT private key - `openssl genrsa -out jwtRS256.key 2048`.
+* Generate JWT corresponding public key - `openssl rsa -in jwtRS256.key -pubout -out jwtRS256.key.pub`.
 
 #### Dependencies
+
+Your file `.env.local` should look like this:
+
+```
+MONGODB_URI=---Mongodb-URI---
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=---Cloudinary-Cloud-Name---
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=---Cloudinary-Upload-Preset---
+```
 
 All other dependencies are to be installed using `npm`.
 
@@ -18,37 +48,10 @@ npm install
 
 ### Run the app
 
-Run the MongoDB service:
-[Run MongoDB Community Edition (MacOS)](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition)
-
-Create a file `.env.local` with a single line containing URI, where your instance of MongoDB run. Keep in mind that the URI must have the database name at the end.
-
-That means that e.g. my MongoDB instance run at `127.0.0.1:27017` and I want to use the database called `fanst` for this project (the database does not have to be initialized before).
-
-```
-MONGODB_URI=mongodb://127.0.0.1:27017/fanst
-```
-
 Run the development server:
 
 ```bash
 npm run dev
 ```
 
-For image upload, you also need a Cloudinary account - for now, I provide my account, which is set to be open for upload. Add three lines of cloudinary details to `.env.local` file:
-
-```
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=de0gplj3a
-NEXT_PUBLIC_CLOUDINARY_API_KEY=932718483389988
-NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=uvxrlncm
-```
-
-Open [http://localhost:3000/experiments](http://localhost:3000/experiments) within your browser to see the result.
-
-## Working stuff
-
-* Only 'Experiments' tab from the main top menu works
-* Create experiment, create all types of sections and questions
-* Edit experiment settings
-* Edit and delete sections (excluding section settings)
-* Edit and delete questions
+Open [http://localhost:3000/](http://localhost:3000/) within your browser.
