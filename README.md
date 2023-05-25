@@ -48,7 +48,7 @@ npm install
 
 ### Run the app
 
-Run the development server:
+Run the server:
 
 ```bash
 npm run dev
