@@ -1,5 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import PersonIcon from "@mui/icons-material/Person";
+import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
   Box,
@@ -21,14 +21,17 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import useInviteParticipantForm from "../../../hooks/experiments/useInviteParticipantForm";
 import {
   useDeleteParticipantMutation,
   useParticipants,
 } from "../../../hooks/participants/useParticipants";
-import Link from "next/link";
+import {
+  getParticipantMailtoBodyUriEncoded,
+  getParticipantMailtoSubjectUriEncoded,
+} from "../../../utils/participantInviteEmail";
 
 type Props = {
   experimentId?: string;
@@ -36,6 +39,10 @@ type Props = {
   onClose: () => void;
   onSave?: () => void;
 };
+
+// const StyledListItemPrimaryAction = styled(ListItemAction)`
+//   visibility: hidden;
+// `;
 
 const StyledListItemSecondaryAction = styled(ListItemSecondaryAction)`
   visibility: hidden;
@@ -53,7 +60,6 @@ const ExperimentParticipantsDialog = ({
   onClose,
   onSave,
 }: Props) => {
-  const router = useRouter();
   const [addingNewParticipant, setAddingNewParticipant] = useState(false);
   const { data, isLoading, isError } = useParticipants({ experimentId });
   const deleteParticipantMutation = useDeleteParticipantMutation();
@@ -85,6 +91,12 @@ const ExperimentParticipantsDialog = ({
       deleteParticipantMutation.mutate({ experimentId, participantId });
   };
 
+  const getMailtoString = (participantId: string, participantEmail: string) =>
+    `mailto:${participantEmail}?subject=${getParticipantMailtoSubjectUriEncoded()}&body=${getParticipantMailtoBodyUriEncoded(
+      experimentId as string,
+      participantId
+    )}`;
+
   if (!experimentId) return null;
 
   return (
@@ -105,33 +117,26 @@ const ExperimentParticipantsDialog = ({
               {data.length > 0 ? (
                 <List>
                   {data.map((participant) => (
-                    <StyledListItem
-                      key={participant._id.toString()}
-                      // secondaryAction={
-                      //   <IconButton
-                      //     onClick={() =>
-                      //       handleDeleteParticipant(participant._id.toString())
-                      //     }
-                      //   >
-                      //     <DeleteIcon />
-                      //   </IconButton>
-                      // }
-                    >
-                      {/* <Link
-                        href={`/public/experiment-preview/${experimentId}/${participant._id.toString()}`}
-                      > */}
+                    <StyledListItem key={participant._id.toString()}>
                       <ListItemButton
                         LinkComponent={Link}
                         href={`/public/experiment-preview/${experimentId}/${participant._id.toString()}`}
                       >
                         <ListItemIcon>
-                          <PersonIcon />
+                          <IconButton
+                            href={getMailtoString(
+                              participant._id.toString(),
+                              participant.email
+                            )}
+                          >
+                            <ForwardToInboxIcon />
+                          </IconButton>
                         </ListItemIcon>
                         <ListItemText primary={participant.email} />
                         <StyledListItemSecondaryAction>
                           <IconButton
                             onClick={(e) => {
-                              // prevent ListItemButton Link redirect
+                              // preventDefault to prevent ListItemButton Link redirect
                               e.preventDefault();
                               handleDeleteParticipant(
                                 participant._id.toString()
@@ -142,7 +147,6 @@ const ExperimentParticipantsDialog = ({
                           </IconButton>
                         </StyledListItemSecondaryAction>
                       </ListItemButton>
-                      {/* </Link> */}
                     </StyledListItem>
                   ))}
                 </List>
