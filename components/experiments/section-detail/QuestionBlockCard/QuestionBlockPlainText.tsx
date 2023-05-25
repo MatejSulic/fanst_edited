@@ -15,6 +15,8 @@ const LockedQuestionBlockPlainText = ({
   return question.content.text ? (
     <Box id="react-quill-container">
       <ReactQuill
+        // @ts-ignore
+        // eslint-disable-next-line
         theme={null}
         value={question.content.text}
         // style={{ minHeight: 200 }}

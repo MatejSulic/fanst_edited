@@ -13,6 +13,8 @@ const ExperimentQuestionPlainText = ({
     <>
       <Box id="react-quill-container">
         <ReactQuill
+          // @ts-ignore
+          // eslint-disable-next-line
           theme={null}
           value={question.content.text}
           // style={{ height: 200 }}

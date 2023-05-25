@@ -87,8 +87,8 @@ const ExperimentQuestionDrawLine = ({
       />
       <Box sx={{ position: "absolute", top: 0 }}>
         <ReactKonvaStage
-          width={imageWidth}
-          height={imageHeight}
+          width={imageWidth!}
+          height={imageHeight!}
           setResult={setResult}
         />
       </Box>

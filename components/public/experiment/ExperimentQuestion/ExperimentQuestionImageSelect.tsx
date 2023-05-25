@@ -85,7 +85,7 @@ const ExperimentQuestionImageSelect = ({
         }}
       >
         <CloudinaryImagePreview
-          imagePublicId={question.content.leftImage}
+          imagePublicId={question.content.leftImage!}
           width={imageWidth}
           height={imageHeight}
         />
@@ -102,7 +102,7 @@ const ExperimentQuestionImageSelect = ({
         }}
       >
         <CloudinaryImagePreview
-          imagePublicId={question.content.rightImage}
+          imagePublicId={question.content.rightImage!}
           width={imageWidth}
           height={imageHeight}
         />
