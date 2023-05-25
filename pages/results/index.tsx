@@ -19,7 +19,6 @@ const ExportCsvButton = ({ id }: { id: string }) => {
     setIsLoading(true);
     resultsCsvMutation.mutate(id, {
       onSuccess: (data) => {
-        console.log("on Success: ", data);
         setData(data);
       },
     });

@@ -47,8 +47,6 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
   }
 
   const handleSubmitQuestion = (results?: UpdateQuestionResultsType) => {
-    console.log("currentQuestionIdx", currentQuestionIdx);
-    console.log("question length", questions.length);
     // submit whole section on last question
     if (currentQuestionIdx === questions.length - 1 || questions.length === 0) {
       submitSection({

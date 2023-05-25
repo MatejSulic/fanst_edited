@@ -23,7 +23,6 @@ export const useParticipants = (options?: OptionsType) => {
     }
 
     const { data } = await axios.get("/api/participants?" + search.toString());
-    // console.log("data:", data);
     return data.data;
   };
 

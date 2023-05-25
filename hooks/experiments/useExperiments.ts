@@ -88,7 +88,6 @@ export const useInviteParticipantMutation = () => {
   return useMutation(experimentInviteParticipantMutationKey(), {
     mutationFn: inviteParticipant,
     onSuccess: (data) => {
-      // console.log("onSuccess data", data);
       queryClient.invalidateQueries(
         experimentDetailQueryKey(data._id.toString())
       );

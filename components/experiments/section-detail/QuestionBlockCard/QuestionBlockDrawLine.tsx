@@ -62,7 +62,7 @@ const CloudinaryImagePreview = ({
         })
       }
       plugins={[lazyload()]}
-      // width={200}
+      width={200}
       style={{ borderRadius: 4 }}
     />
   );

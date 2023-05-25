@@ -19,7 +19,6 @@ const ReactKonvaStage = ({ width, height, setResult }: Props) => {
       points.length === 4 &&
       isDrawing.current === false
     ) {
-      // console.log("setting result", points);
       setResult([
         points[0] / width,
         points[1] / height,
@@ -55,7 +54,6 @@ const ReactKonvaStage = ({ width, height, setResult }: Props) => {
 
     // (y2 - y1) / (x2 - x1)
     const slope = (finalPoint[1] - points[1]) / (finalPoint[0] - points[0]);
-    // console.log(slope);
     if (isFinite(slope) && slope !== 0) {
       const c = points[1] - slope * points[0];
       const yForXZero = c;

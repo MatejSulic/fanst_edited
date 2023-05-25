@@ -15,7 +15,6 @@ export default async function handler(
       const csv = await exportExperimentResultsDetailToCsv(
         experimentId as string
       );
-      console.log(csv);
       res.status(200).json({ success: true, data: csv });
     } catch (error) {
       res.status(400).json({ success: false });

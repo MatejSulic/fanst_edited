@@ -165,9 +165,7 @@ export const inviteParticipant = async (
 
   smallestParticipantGroup.participants.push(newParticipant._id.toString());
   await smallestParticipantGroup.save();
-  // console.log("group:", smallestParticipantGroup);
 
-  // console.log(experiment);
   experiment.participants.push(newParticipant._id.toString());
   if (smallestParticipantGroup.participants.length === 1) {
     // first participant in the group
