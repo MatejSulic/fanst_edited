@@ -140,7 +140,6 @@ const ExperimentListItem = ({ experiment }: Props) => {
               >
                 {experiment.locked ? "View" : "Edit"}
               </Button>
-              <Button size="small">Preview</Button>
               {experiment.locked && (
                 <Button
                   size="small"

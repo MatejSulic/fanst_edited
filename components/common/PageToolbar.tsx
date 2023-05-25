@@ -57,9 +57,6 @@ const PageToolbar = ({ children }: Props) => {
                 Manage participants
               </Button>
             ) : null}
-            <Button variant="text" size="small">
-              Preview experiment
-            </Button>
             {lockExperimentContext.isExperimentLocked ? null : (
               <Button
                 variant="contained"

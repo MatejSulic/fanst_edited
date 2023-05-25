@@ -36,7 +36,7 @@ const ExperimentConsentRemovedCard = ({ experiment, participantId }: Props) => {
           You can close the window now.
         </Typography>
       </CardContent>
-      <CardContent>
+      {/* <CardContent>
         <Typography variant="body2" sx={{ textAlign: "center" }}>
           If you would like to participate in the experiment again, please use
           the link below.
@@ -48,7 +48,7 @@ const ExperimentConsentRemovedCard = ({ experiment, participantId }: Props) => {
         >
           <Button variant="contained">Participate again</Button>
         </Link>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };

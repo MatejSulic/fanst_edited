@@ -121,20 +121,20 @@ const ExperimentParticipantsDialog = ({
                       key={participant._id.toString()}
                       sx={{ p: 0 }}
                     >
+                      <ListItemIcon>
+                        <IconButton
+                          href={getMailtoString(
+                            participant._id.toString(),
+                            participant.email
+                          )}
+                        >
+                          <ForwardToInboxIcon />
+                        </IconButton>
+                      </ListItemIcon>
                       <ListItemButton
                         LinkComponent={Link}
                         href={`/public/experiment-preview/${experimentId}/${participant._id.toString()}`}
                       >
-                        <ListItemIcon>
-                          <IconButton
-                            href={getMailtoString(
-                              participant._id.toString(),
-                              participant.email
-                            )}
-                          >
-                            <ForwardToInboxIcon />
-                          </IconButton>
-                        </ListItemIcon>
                         <ListItemText primary={participant.email} />
                         <StyledListItemSecondaryAction>
                           <IconButton
