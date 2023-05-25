@@ -7,7 +7,7 @@ import QuestionTypeCard, {
 const QuestionTypeDrawLine = ({ ...props }: QuestionTypeCardSharedProps) => {
   return (
     <QuestionTypeCard
-      title="Interactively draw a line into an image"
+      title="Interactively draw a line in the image"
       subheader="Manually upload an image and let the participant draw a line in in."
       {...props}
     >
