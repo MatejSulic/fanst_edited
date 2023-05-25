@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useQuestionTimeLimitExceeded } from "../../../../hooks/public/experiments/useQuestionTimeLimitExceeded";
 import { UpdateQuestionResultsType } from "../../../../types/experimentProgress";
 import { QuestionType } from "../../../../types/question/question";
 import { SectionType } from "../../../../types/section/section";
@@ -17,6 +19,15 @@ const ExperimentQuestion = ({
   section,
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
+  const { questionTimeLimitExceeded } = useQuestionTimeLimitExceeded(
+    section.settings.questionDisplayTime
+  );
+
+  useEffect(() => {
+    if (questionTimeLimitExceeded && section.type !== "2AFC")
+      submitQuestion(undefined);
+  }, [questionTimeLimitExceeded]);
+
   const renderQuestionTypeBlock = () => {
     if (question.type === "PLAIN_TEXT") {
       return (

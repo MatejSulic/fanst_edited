@@ -8,6 +8,7 @@ import { useExperiment } from "../../../../hooks/experiments/useExperiments";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { QuestionType } from "../../../../types/question/question";
 import { convertCmToPx } from "../../../../utils/sizeConversion";
+import { useQuestionTimeLimitExceeded } from "../../../../hooks/public/experiments/useQuestionTimeLimitExceeded";
 
 type CloudinaryImagePreviewProps = {
   imagePublicId: string;
@@ -52,6 +53,8 @@ const ExperimentQuestion2AFC = ({
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
   const router = useRouter();
+  const { questionTimeLimitExceeded, resetTimeLimit } =
+    useQuestionTimeLimitExceeded(section.settings.questionDisplayTime);
   const { experimentId, participantId } = router.query;
 
   const comparisons = useComparisons(
@@ -62,15 +65,29 @@ const ExperimentQuestion2AFC = ({
   const [results, setResults] = useState<ComparisonResultType[]>([]);
   const [currentComparisonIdx, setCurrentComparisonIdx] = useState(0);
 
+  useEffect(() => {
+    if (questionTimeLimitExceeded)
+      handleSubmitComparison(createComparisonResult("timeLimitExceeded"));
+  }, [questionTimeLimitExceeded]);
+
+  useEffect(() => {
+    resetTimeLimit();
+  }, [currentComparisonIdx]);
+
   const createComparisonResult = (
-    chosenImage: "left" | "right"
+    chosenImage: "left" | "right" | "timeLimitExceeded"
   ): ComparisonResultType => {
     const leftImage = comparisons[currentComparisonIdx].leftImage;
     const rightImage = comparisons[currentComparisonIdx].rightImage;
     return {
       leftImage,
       rightImage,
-      chosenImage: chosenImage === "left" ? leftImage : rightImage,
+      chosenImage:
+        chosenImage === "left"
+          ? leftImage
+          : chosenImage === "right"
+          ? rightImage
+          : "timeLimitExceeded",
     };
   };
 
@@ -101,9 +118,11 @@ const ExperimentQuestion2AFC = ({
   const imageHeight = section.settings.imageHeight
     ? convertCmToPx(section.settings.imageHeight)
     : undefined;
-  const gapBetweenImages = section.settings.distanceOfImages
-    ? convertCmToPx(section.settings.distanceOfImages) / 8
-    : undefined;
+  const gapBetweenImages =
+    section.settings.distanceOfImages !== null &&
+    section.settings.distanceOfImages !== undefined
+      ? convertCmToPx(section.settings.distanceOfImages) / 8
+      : undefined;
 
   return (
     <Box

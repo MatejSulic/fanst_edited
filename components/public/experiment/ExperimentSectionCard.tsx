@@ -7,7 +7,6 @@ import {
 } from "../../../types/experimentProgress";
 import { SectionType } from "../../../types/section/section";
 import ExperimentQuestion from "./ExperimentQuestion";
-import { useQuestionTimeLimit } from "../../../hooks/public/experiments/useQuestionTimeLimit";
 
 type Props = {
   section: SectionType;
@@ -19,9 +18,6 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     UpdateQuestionResultsType[]
   >([]);
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
-  const questionTimeLimitExceeded = useQuestionTimeLimit(
-    section.settings.questionDisplayTime
-  );
 
   const {
     data: questions,
@@ -42,10 +38,6 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     }
   }, [isLoading, isError]);
 
-  useEffect(() => {
-    if (questionTimeLimitExceeded) handleSubmitQuestion(undefined);
-  }, [questionTimeLimitExceeded]);
-
   if (isLoading) {
     return <Typography variant="h1">Loading...</Typography>;
   }
@@ -55,6 +47,8 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
   }
 
   const handleSubmitQuestion = (results?: UpdateQuestionResultsType) => {
+    console.log("currentQuestionIdx", currentQuestionIdx);
+    console.log("question length", questions.length);
     // submit whole section on last question
     if (currentQuestionIdx === questions.length - 1 || questions.length === 0) {
       submitSection({
