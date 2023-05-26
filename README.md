@@ -26,7 +26,7 @@ MONGODB_URI=mongodb://127.0.0.1:27017/fanst
 
 #### Authentication
 
-* Go to the repository root folder (folder `fanst`).
+* Go to the repository root folder.
 * Generate JWT private key - `openssl genrsa -out jwtRS256.key 2048`.
 * Generate JWT corresponding public key - `openssl rsa -in jwtRS256.key -pubout -out jwtRS256.key.pub`.
 
