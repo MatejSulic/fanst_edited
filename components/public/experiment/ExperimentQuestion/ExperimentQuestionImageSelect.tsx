@@ -12,6 +12,12 @@ type CloudinaryImagePreviewProps = {
   height?: number;
 };
 
+type ComparisonResultType = {
+  leftImage: string;
+  rightImage: string;
+  chosenImage: string;
+};
+
 const CloudinaryImagePreview = ({
   imagePublicId,
   width,
@@ -24,7 +30,7 @@ const CloudinaryImagePreview = ({
           cloudName: cloudinaryCloudName,
         })
       }
-      plugins={[lazyload()]}
+      // plugins={[lazyload()]}
       width={width || 200}
       height={height || 200}
       style={{ borderRadius: 4 }}
@@ -37,6 +43,23 @@ const ExperimentQuestionImageSelect = ({
   section,
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
+  const createComparisonResult = (
+    chosenImage: "left" | "right" | "timeLimitExceeded"
+  ): ComparisonResultType => {
+    const leftImage = question.content.leftImage;
+    const rightImage = question.content.rightImage;
+    return {
+      leftImage,
+      rightImage,
+      chosenImage:
+        chosenImage === "left"
+          ? leftImage
+          : chosenImage === "right"
+          ? rightImage
+          : "timeLimitExceeded",
+    };
+  };
+
   const handleSubmitQuestion = useCallback(
     (result: any) => {
       submitQuestion({
@@ -75,7 +98,7 @@ const ExperimentQuestionImageSelect = ({
     >
       <Box
         component="button"
-        onClick={() => handleSubmitQuestion(question.content.leftImage)}
+        onClick={() => handleSubmitQuestion(createComparisonResult("left"))}
         sx={{
           border: "none",
           p: 0,
@@ -92,7 +115,7 @@ const ExperimentQuestionImageSelect = ({
       </Box>
       <Box
         component="button"
-        onClick={() => handleSubmitQuestion(question.content.rightImage)}
+        onClick={() => handleSubmitQuestion(createComparisonResult("right"))}
         sx={{
           border: "none",
           p: 0,

@@ -14,6 +14,9 @@ type QuestionContentType = {
   // in case of IMAGE_SELECT
   leftImage?: string;
   rightImage?: string;
+  // in case of SINGLE_IMAGE_TWO_CHOICES
+  leftTextOption?: string;
+  rightTextOption?: string;
 };
 
 export type QuestionType = {

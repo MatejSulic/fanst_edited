@@ -54,6 +54,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
         sectionType: section.type,
         results: results ? [...questionResults, results] : [...questionResults],
       });
+      setQuestionResults([]);
       setCurrentQuestionIdx(0);
     } else {
       if (results) setQuestionResults((prev) => [...prev, results]);

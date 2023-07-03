@@ -61,7 +61,7 @@ const CloudinaryImagePreview = ({
           cloudName: cloudinaryCloudName,
         })
       }
-      plugins={[lazyload()]}
+      // plugins={[lazyload()]}
       width={200}
       style={{ borderRadius: 4 }}
     />

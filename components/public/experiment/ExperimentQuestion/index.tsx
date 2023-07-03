@@ -7,6 +7,7 @@ import ExperimentQuestion2AFC from "./ExperimentQuestion2AFC";
 import ExperimentQuestionDrawLine from "./ExperimentQuestionDrawLine";
 import ExperimentQuestionImageSelect from "./ExperimentQuestionImageSelect";
 import ExperimentQuestionPlainText from "./ExperimentQuestionPlainText";
+import ExperimentQuestionSingleImageTwoChoices from "./ExperimentQuestionSingleImageTwoChoices";
 
 export type ExperimentQuestionSharedProps = {
   question: QuestionType;
@@ -56,6 +57,14 @@ const ExperimentQuestion = ({
     } else if (question.type === "DRAW_LINE") {
       return (
         <ExperimentQuestionDrawLine
+          question={question}
+          section={section}
+          submitQuestion={submitQuestion}
+        />
+      );
+    } else if (question.type === "SINGLE_IMAGE_TWO_CHOICES") {
+      return (
+        <ExperimentQuestionSingleImageTwoChoices
           question={question}
           section={section}
           submitQuestion={submitQuestion}

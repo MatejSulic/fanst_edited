@@ -35,10 +35,10 @@ const useRegisterForm = () => {
     formState: { errors },
     getValues,
   } = useForm<RegisterUserType>();
-  const loginMutation = useRegisterMutation();
+  const registerMutation = useRegisterMutation();
 
   const handleRegister = async (data: RegisterUserType) => {
-    loginMutation.mutate({ registerData: data });
+    registerMutation.mutate({ registerData: data });
   };
 
   const onSubmit = (onSave?: () => void) =>

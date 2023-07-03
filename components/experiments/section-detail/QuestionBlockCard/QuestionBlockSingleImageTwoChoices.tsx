@@ -1,7 +1,14 @@
-import { AdvancedImage, lazyload } from "@cloudinary/react";
+import { AdvancedImage } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   QuestionBlockCardSharedProps,
@@ -67,13 +74,14 @@ const CloudinaryImagePreview = ({
   );
 };
 
-const LockedQuestionBlockDrawImage = ({
+const LockedQuestionBlockSingleImageTwoChoices = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
   return (
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -108,11 +116,28 @@ const LockedQuestionBlockDrawImage = ({
           No image
         </Box>
       )}
+
+      <Box
+        sx={{
+          mt: 2,
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Typography variant="body1">
+          {question.content.leftTextOption}
+        </Typography>
+        <Typography variant="body1">
+          {question.content.rightTextOption}
+        </Typography>
+      </Box>
     </Box>
   );
 };
 
-const UnlockedQuestionBlockDrawImage = ({
+const UnlockedQuestionBlockSingleImageTwoChoices = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
   const [imagePublicId, setImagePublicId] = useState<string[]>([]);
@@ -173,7 +198,42 @@ const UnlockedQuestionBlockDrawImage = ({
           </Box>
         )}
 
-        {imagePublicId.length > 0 ? (
+        {imagePublicId.length <= 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <UploadFileButtonCard onClick={() => handleUploadFileOnClick()} />
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <TextField
+            label="First option"
+            defaultValue={question.content.leftTextOption}
+            {...register(
+              `questions.${question._id.toString()}.content.leftTextOption`
+            )}
+          />
+          <TextField
+            label="Other option"
+            defaultValue={question.content.rightTextOption}
+            {...register(
+              `questions.${question._id.toString()}.content.rightTextOption`
+            )}
+          />
+        </Box>
+
+        {imagePublicId.length > 0 && (
           <Box
             sx={{
               display: "flex",
@@ -192,31 +252,21 @@ const UnlockedQuestionBlockDrawImage = ({
             </Button>
             <UploadFileButtonSimple onClick={() => handleUploadFileOnClick()} />
           </Box>
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <UploadFileButtonCard onClick={() => handleUploadFileOnClick()} />
-          </Box>
         )}
       </Stack>
     </>
   );
 };
 
-const QuestionBlockDrawImage = ({
+const QuestionBlockSingleImageTwoChoices = ({
   question,
   locked,
 }: QuestionBlockCardSharedProps) => {
   return locked ? (
-    <LockedQuestionBlockDrawImage question={question} />
+    <LockedQuestionBlockSingleImageTwoChoices question={question} />
   ) : (
-    <UnlockedQuestionBlockDrawImage question={question} />
+    <UnlockedQuestionBlockSingleImageTwoChoices question={question} />
   );
 };
 
-export default QuestionBlockDrawImage;
+export default QuestionBlockSingleImageTwoChoices;

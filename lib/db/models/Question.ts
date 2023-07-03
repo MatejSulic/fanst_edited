@@ -26,6 +26,8 @@ const QuestionContentSchema = new Schema<QuestionContentType>(
     ],
     leftImage: String,
     rightImage: String,
+    leftTextOption: String,
+    rightTextOption: String,
   },
   { _id: false }
 );

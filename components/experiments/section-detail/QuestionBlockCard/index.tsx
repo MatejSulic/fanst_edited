@@ -26,6 +26,7 @@ import QuestionBlock2AFC from "./QuestionBlock2AFC";
 import QuestionBlockImageSelect from "./QuestionBlockImageSelect";
 import QuestionBlockPlainText from "./QuestionBlockPlainText";
 import QuestionBlockDrawImage from "./QuestionBlockDrawLine";
+import QuestionBlockSingleImageTwoChoices from "./QuestionBlockSingleImageTwoChoices";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;
@@ -104,6 +105,13 @@ const QuestionBlockCard = ({
       return <QuestionBlock2AFC question={question} locked={locked} />;
     } else if (question.type === "DRAW_LINE") {
       return <QuestionBlockDrawImage question={question} locked={locked} />;
+    } else if (question.type === "SINGLE_IMAGE_TWO_CHOICES") {
+      return (
+        <QuestionBlockSingleImageTwoChoices
+          question={question}
+          locked={locked}
+        />
+      );
     } else {
       return null;
     }

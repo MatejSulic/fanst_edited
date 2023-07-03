@@ -13,7 +13,7 @@ import useCreateNewQuestionForm from "../../../../hooks/questions/useCreateNewQu
 import { QuestionType } from "../../../../types/question/question";
 import { questionTypeTypes } from "../../../../types/question/questionTypes";
 import Dialog from "../../../MuiOverrides/Dialog";
-import QuestionTypeDisplayedCard from "./SectionTypeDisplayedCard";
+import QuestionTypeDisplayedCard from "./QuestionTypeDisplayedCard";
 
 type Props = {
   open: boolean;

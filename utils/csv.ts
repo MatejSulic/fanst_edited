@@ -18,9 +18,9 @@ export const exportExperimentResultsDetailToCsv = async (
     "Section Type",
     "Question Id",
     "Question Type",
-    "Left Image",
-    "Right Image",
-    "Chosen Image",
+    "Left Image (Text Choice)",
+    "Right Image (Text Choice)",
+    "Chosen Image (Text Choice)",
     "Center Image",
     "Drawn Points ('x1 y1 x2 y2' as factors of image dimensions)",
   ];
@@ -84,6 +84,30 @@ export const exportExperimentResultsDetailToCsv = async (
             csv += questionResult.result.centerImage + ",";
             csv += questionResult.result.drawnPoints.join(" ");
             csv += "\n";
+            // }
+          } else if (
+            questionResult.questionType === "SINGLE_IMAGE_TWO_CHOICES" &&
+            questionResult.result
+          ) {
+            const questionDetailValues = [
+              questionResult.questionId,
+              questionResult.questionType,
+            ];
+            const comparisonResult = questionResult.result;
+            const comparisonDetailValues = [
+              comparisonResult.leftChoice,
+              comparisonResult.rightChoice,
+              comparisonResult.chosenChoice,
+            ];
+            csv +=
+              [
+                ...experimentDetailValues,
+                ...sectionDetailValues,
+                ...questionDetailValues,
+                ...comparisonDetailValues,
+              ].join(",") +
+              ",," +
+              "\n";
           }
         }
       });

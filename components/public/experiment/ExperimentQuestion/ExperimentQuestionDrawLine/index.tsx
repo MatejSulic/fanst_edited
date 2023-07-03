@@ -28,7 +28,7 @@ const CloudinaryImagePreview = ({
           cloudName: cloudinaryCloudName,
         })
       }
-      plugins={[lazyload()]}
+      // plugins={[lazyload()]}
       width={width || 200}
       height={height || 200}
       style={{ borderRadius: 4 }}
@@ -53,6 +53,7 @@ const ExperimentQuestionDrawLine = ({
   }, []);
 
   const handleSubmitQuestion = (res?: any) => {
+    console.log("submit draw line");
     submitQuestion({
       questionId: question._id.toString(),
       questionType: "DRAW_LINE",
