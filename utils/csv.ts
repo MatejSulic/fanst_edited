@@ -17,8 +17,10 @@ export const exportExperimentResultsDetailToCsv = async (
     "Participant Id",
     "Section Id",
     "Section Type",
+    "Section Position",
     "Question Id",
     "Question Type",
+    "Question Position",
     "Left Image (Text Choice)",
     "Right Image (Text Choice)",
     "Chosen Image (Text Choice)",
@@ -40,6 +42,7 @@ export const exportExperimentResultsDetailToCsv = async (
       const sectionDetailValues = [
         sectionResult.sectionId.toString(),
         sectionResult.sectionType,
+        sectionResult.sectionPosition,
       ];
       sectionResult.results.forEach((questionResult) => {
         if (questionResult.result) {
@@ -51,6 +54,7 @@ export const exportExperimentResultsDetailToCsv = async (
             const questionDetailValues = [
               questionResult.questionId,
               questionResult.questionType,
+              questionResult.questionPosition,
             ];
             questionResult.result.forEach((comparisonResult) => {
               const comparisonDetailValues = [
@@ -76,6 +80,7 @@ export const exportExperimentResultsDetailToCsv = async (
             const questionDetailValues = [
               questionResult.questionId,
               questionResult.questionType,
+              questionResult.questionPosition,
             ];
             csv += [
               ...experimentDetailValues,
@@ -94,6 +99,7 @@ export const exportExperimentResultsDetailToCsv = async (
             const questionDetailValues = [
               questionResult.questionId,
               questionResult.questionType,
+              questionResult.questionPosition,
             ];
             const comparisonResult = questionResult.result;
             const comparisonDetailValues = [

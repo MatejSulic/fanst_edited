@@ -65,6 +65,7 @@ const ExperimentQuestionSingleImageTwoChoices = ({
       submitQuestion({
         questionId: question._id.toString(),
         questionType: "SINGLE_IMAGE_TWO_CHOICES",
+        questionPosition: question.position,
         result,
       });
     },

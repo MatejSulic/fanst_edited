@@ -95,6 +95,7 @@ const ExperimentQuestion2AFC = ({
     submitQuestion({
       questionId: question._id.toString(),
       questionType: "2AFC",
+      questionPosition: question.position,
       result,
     });
   };

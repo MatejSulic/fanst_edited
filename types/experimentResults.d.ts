@@ -7,12 +7,14 @@ import { SectionType } from "./section/section";
 export type ExperimentQuestionResults = {
   questionId: Types.ObjectId;
   questionType: QuestionType["type"];
+  questionPosition: QuestionType["position"];
   result: any;
 };
 
 export type ExperimentSectionResults = {
   sectionId: Types.ObjectId;
   sectionType: SectionType["type"];
+  sectionPosition: SectionType["position"];
   results: ExperimentQuestionResults[];
 };
 

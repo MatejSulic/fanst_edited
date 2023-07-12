@@ -37,6 +37,7 @@ const ExperimentQuestionPlainText = ({
             submitQuestion({
               questionId: question._id.toString(),
               questionType: "PLAIN_TEXT",
+              questionPosition: question.position,
               result: "SUBMITTED",
             })
           }

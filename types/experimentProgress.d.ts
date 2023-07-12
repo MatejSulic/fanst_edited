@@ -5,12 +5,14 @@ import { SectionType } from "./section/section";
 export type QuestionResults = {
   questionId: Types.ObjectId;
   questionType: QuestionType["type"];
+  questionPosition: QuestionType["position"];
   result: any;
 };
 
 export type SectionResults = {
   sectionId: Types.ObjectId;
   sectionType: SectionType["type"];
+  sectionPosition: SectionType["position"];
   results: QuestionResults[];
 };
 
@@ -27,11 +29,20 @@ type UpdateQuestionResultsType = Omit<QuestionResults, "questionId"> & {
   questionId: string;
 };
 
-type UpdateSectionResultsType = {
+type UpdateSectionResultsType = Omit<
+  SectionResults,
+  "sectionId" | "results"
+> & {
   sectionId: string;
-  sectionType: SectionType["type"];
   results: UpdateQuestionResultsType[];
 };
+
+// type UpdateSectionResultsType = {
+//   sectionId: string;
+//   sectionType: SectionType["type"];
+//   sectionPosition: SectionType["position"];
+//   results: UpdateQuestionResultsType[];
+// };
 
 export type UpdateExperimentProgressType = {
   sectionResults: UpdateSectionResultsType;

@@ -33,6 +33,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       submitSection({
         sectionId: section._id.toString(),
         sectionType: section.type,
+        sectionPosition: section.position,
         results: [],
       });
     }
@@ -52,6 +53,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       submitSection({
         sectionId: section._id.toString(),
         sectionType: section.type,
+        sectionPosition: section.position,
         results: results ? [...questionResults, results] : [...questionResults],
       });
       setQuestionResults([]);

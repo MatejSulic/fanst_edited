@@ -15,6 +15,7 @@ const QuestionResultsSchema = new Schema<QuestionResults>(
       required: true,
     },
     questionType: { type: String, enum: questionTypeTypes, required: true },
+    questionPosition: { type: Number, required: true },
     // TODO:
     result: Schema.Types.Mixed,
   },
@@ -25,6 +26,7 @@ const SectionResultsSchema = new Schema<SectionResults>(
   {
     sectionId: { type: Schema.Types.ObjectId, ref: "Section", required: true },
     sectionType: { type: String, enum: sectionTypeTypes, required: true },
+    sectionPosition: { type: Number, required: true },
     results: { type: [QuestionResultsSchema], default: () => [] },
   },
   { _id: false }

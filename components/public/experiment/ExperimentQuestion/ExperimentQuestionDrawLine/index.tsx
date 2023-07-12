@@ -57,6 +57,7 @@ const ExperimentQuestionDrawLine = ({
     submitQuestion({
       questionId: question._id.toString(),
       questionType: "DRAW_LINE",
+      questionPosition: question.position,
       result: res
         ? { centerImage: question.content.images![0], drawnPoints: res }
         : null,
