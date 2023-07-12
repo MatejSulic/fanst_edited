@@ -173,11 +173,9 @@ const ExperimentListItem = ({ experiment }: Props) => {
                   </Link>
                 </Button>
               )}
-              {experiment.locked && (
-                <Button size="small" onClick={() => handleCopyExperiment()}>
-                  Copy experiment
-                </Button>
-              )}
+              <Button size="small" onClick={() => handleCopyExperiment()}>
+                Copy experiment
+              </Button>
               {experiment.locked && !experiment.archived && (
                 <Button
                   size="small"
