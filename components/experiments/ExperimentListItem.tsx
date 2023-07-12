@@ -158,7 +158,7 @@ const ExperimentListItem = ({ experiment }: Props) => {
                   color="warning"
                   onClick={() => lockExperimentContext.lockExperiment()}
                 >
-                  Lock experiment
+                  Start experiment
                 </Button>
               )}
               {experiment.locked && (

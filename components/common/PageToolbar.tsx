@@ -64,7 +64,7 @@ const PageToolbar = ({ children }: Props) => {
                 color="warning"
                 onClick={() => lockExperimentContext.lockExperiment()}
               >
-                Lock experiment
+                Start experiment
               </Button>
             )}
           </Box>
