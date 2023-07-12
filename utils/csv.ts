@@ -14,6 +14,7 @@ export const exportExperimentResultsDetailToCsv = async (
     "Experiment Description",
     "Number of Participant Groups",
     "Number of Responses",
+    "Participant Id",
     "Section Id",
     "Section Type",
     "Question Id",
@@ -60,6 +61,7 @@ export const exportExperimentResultsDetailToCsv = async (
               csv +=
                 [
                   ...experimentDetailValues,
+                  experimentResult.participantId,
                   ...sectionDetailValues,
                   ...questionDetailValues,
                   ...comparisonDetailValues,
@@ -77,6 +79,7 @@ export const exportExperimentResultsDetailToCsv = async (
             ];
             csv += [
               ...experimentDetailValues,
+              experimentResult.participantId,
               ...sectionDetailValues,
               ...questionDetailValues,
             ];
@@ -84,7 +87,6 @@ export const exportExperimentResultsDetailToCsv = async (
             csv += questionResult.result.centerImage + ",";
             csv += questionResult.result.drawnPoints.join(" ");
             csv += "\n";
-            // }
           } else if (
             questionResult.questionType === "SINGLE_IMAGE_TWO_CHOICES" &&
             questionResult.result
@@ -102,6 +104,7 @@ export const exportExperimentResultsDetailToCsv = async (
             csv +=
               [
                 ...experimentDetailValues,
+                experimentResult.participantId,
                 ...sectionDetailValues,
                 ...questionDetailValues,
                 ...comparisonDetailValues,
