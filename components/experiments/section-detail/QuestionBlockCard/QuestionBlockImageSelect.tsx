@@ -220,7 +220,7 @@ const UnlockedQuestionBlockImageSelect = ({
         }}
       >
         {leftImagePublicId ? (
-          <Stack spacing={2}>
+          <Stack key={leftImagePublicId} spacing={2}>
             <CloudinaryImagePreview imagePublicId={leftImagePublicId} />
             <UploadFileButtonSimple onClick={handleUploadFileOnClick("left")} />
           </Stack>
@@ -228,7 +228,7 @@ const UnlockedQuestionBlockImageSelect = ({
           <UploadFileButtonCard onClick={handleUploadFileOnClick("left")} />
         )}
         {rightImagePublicId ? (
-          <Stack spacing={2}>
+          <Stack key={rightImagePublicId} spacing={2}>
             <CloudinaryImagePreview imagePublicId={rightImagePublicId} />
             <UploadFileButtonSimple
               onClick={handleUploadFileOnClick("right")}

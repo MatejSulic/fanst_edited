@@ -31,10 +31,10 @@ const QuestionTypeSingleImageTwoChoices = ({
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-          <Button disabled variant="outlined">
+          <Button disabled variant="outlined" component={Box}>
             Choice 1
           </Button>
-          <Button disabled variant="outlined">
+          <Button disabled variant="outlined" component={Box}>
             Choice 2
           </Button>
         </Box>

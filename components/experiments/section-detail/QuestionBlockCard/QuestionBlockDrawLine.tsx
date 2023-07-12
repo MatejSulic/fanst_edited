@@ -163,6 +163,7 @@ const UnlockedQuestionBlockDrawImage = ({
       <Stack spacing={4}>
         {imagePublicId.length > 0 && (
           <Box
+            key={JSON.stringify(imagePublicId)}
             sx={{
               display: "flex",
               justifyContent: "center",

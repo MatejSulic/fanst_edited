@@ -74,7 +74,13 @@ const LockedQuestionBlock2AFC = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
   return question.content.images && question.content.images.length > 0 ? (
-    <Grid container spacing={2} justifyContent="flex-start" alignItems="center">
+    <Grid
+      key={JSON.stringify(question.content.images)}
+      container
+      spacing={2}
+      justifyContent="flex-start"
+      alignItems="center"
+    >
       {question.content.images.map((publicId) => (
         <Grid key={publicId} item xs="auto">
           <CloudinaryImagePreview imagePublicId={publicId} />
@@ -150,6 +156,7 @@ const UnlockedQuestionBlock2AFC = ({
       <Stack spacing={4}>
         {imagesPublicIds.length > 0 && (
           <Grid
+            key={JSON.stringify(imagesPublicIds)}
             container
             spacing={2}
             justifyContent="flex-start"

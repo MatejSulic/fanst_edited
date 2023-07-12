@@ -124,6 +124,7 @@ const QuestionBlockCard = ({
           title={
             locked ? (
               <Box
+                key={question.title}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -134,6 +135,7 @@ const QuestionBlockCard = ({
               </Box>
             ) : (
               <Box
+                key={question.title}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
