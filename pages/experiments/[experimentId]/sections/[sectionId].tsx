@@ -36,8 +36,16 @@ const SectionDetailPage = () => {
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
 
-  const { register, setValue, onSubmit, reset, errors, data } =
-    useUpdateSectionForm(experimentId as string, sectionId as string);
+  const {
+    register,
+    setValue,
+    onSubmit,
+    reset,
+    errors,
+    data,
+    getValues,
+    watch,
+  } = useUpdateSectionForm(experimentId as string, sectionId as string);
 
   useEffect(() => {
     if (sections) {
@@ -61,6 +69,7 @@ const SectionDetailPage = () => {
     "2AFC",
     "IMAGE_SELECT",
     "DRAW_LINE",
+    "SINGLE_IMAGE_TWO_CHOICES",
   ];
   const sectionHasEditableQuestion = Boolean(
     questions.find((question) => editableQuestionTypes.includes(question.type))
@@ -74,7 +83,7 @@ const SectionDetailPage = () => {
       <ContentWrapper>
         <LockExperimentContextProvider experimentId={experimentId as string}>
           <UpdateSectionFormContextProvider
-            value={{ register, setValue, onSubmit, data }}
+            value={{ register, setValue, onSubmit, data, getValues, watch }}
           >
             <IsSectionEditableContextProvider value={{ isSectionEditable }}>
               {/* <Box sx={{ width: "100%" }}>

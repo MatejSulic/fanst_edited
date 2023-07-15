@@ -1,4 +1,4 @@
-import { AdvancedImage, lazyload, responsive } from "@cloudinary/react";
+import { AdvancedImage, responsive } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
@@ -7,9 +7,9 @@ import {
   QuestionBlockCardSharedProps,
   QuestionBlockSpecificCardSharedProps,
 } from ".";
-import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
+import { useUpdateQuestionContent } from "../../../../hooks/questions/useUpdateQuestionContent";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
-import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
+import { handleOpenCloudinaryUploadWidget } from "../../../../utils/cloudinaryFileUpload";
 
 type UploadFileButtonProps = { onClick: () => void };
 
@@ -107,62 +107,45 @@ const LockedQuestionBlock2AFC = ({
 const UnlockedQuestionBlock2AFC = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  const [imagesPublicIds, setImagesPublicIds] = useState<string[]>([]);
-
-  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
-
-  useEffect(
-    () => setImagesPublicIds(question.content.images || []),
-    [question.content.images]
+  const [questionImages, setQuestionImages] = useState(
+    question.content.images || []
+  );
+  const updateQuestionMutation = useUpdateQuestionContent(
+    question.experimentId.toString(),
+    question.sectionId.toString(),
+    question._id.toString()
   );
 
   useEffect(() => {
-    setValue(
-      `questions.${question._id.toString()}.content.images`,
-      imagesPublicIds
-    );
-  }, [imagesPublicIds, setValue, question._id]);
-
-  const resetUploadedImages = () => {
-    setImagesPublicIds([]);
-  };
-
-  const handleUploadFileOnClick = () => {
-    openUploadWidget({
-      onSuccess: (result) => {
-        setImagesPublicIds((prev) => [...prev, result.info.public_id]);
-      },
-      onError: (error) => {
-        console.log(error);
+    updateQuestionMutation.mutate({
+      questionContent: {
+        images: questionImages,
       },
     });
+  }, [questionImages]);
+
+  const getImagesValuesSafe = () => questionImages || [];
+
+  const resetUploadedImages = () => {
+    setQuestionImages([]);
+  };
+
+  const onUploadSuccess = (result) => {
+    setQuestionImages((prev) => [...prev, result.info.public_id]);
   };
 
   return (
     <>
-      {JSON.stringify(imagesPublicIds) !==
-        JSON.stringify(question.content.images) && (
-        <Box sx={{ mb: 2 }}>
-          <Typography
-            variant="subtitle1"
-            color={(theme) => theme.palette.warning.main}
-            align="center"
-          >
-            Changes are not saved yet! Please save the section.
-          </Typography>
-        </Box>
-      )}
-
       <Stack spacing={4}>
-        {imagesPublicIds.length > 0 && (
+        {getImagesValuesSafe().length > 0 && (
           <Grid
-            key={JSON.stringify(imagesPublicIds)}
+            key={JSON.stringify(getImagesValuesSafe())}
             container
             spacing={2}
             justifyContent="flex-start"
             alignItems="center"
           >
-            {imagesPublicIds.map((publicId) => (
+            {getImagesValuesSafe().map((publicId) => (
               <Grid key={publicId} item xs="auto">
                 <CloudinaryImagePreview imagePublicId={publicId} />
               </Grid>
@@ -170,7 +153,7 @@ const UnlockedQuestionBlock2AFC = ({
           </Grid>
         )}
 
-        {imagesPublicIds.length > 0 ? (
+        {getImagesValuesSafe().length > 0 ? (
           <Box
             sx={{
               display: "flex",
@@ -187,7 +170,13 @@ const UnlockedQuestionBlock2AFC = ({
             >
               Reset images
             </Button>
-            <UploadFileButtonSimple onClick={() => handleUploadFileOnClick()} />
+            <UploadFileButtonSimple
+              onClick={() =>
+                handleOpenCloudinaryUploadWidget({
+                  onSuccess: onUploadSuccess,
+                })
+              }
+            />
           </Box>
         ) : (
           <Box
@@ -197,7 +186,13 @@ const UnlockedQuestionBlock2AFC = ({
               alignItems: "center",
             }}
           >
-            <UploadFileButtonCard onClick={() => handleUploadFileOnClick()} />
+            <UploadFileButtonCard
+              onClick={() =>
+                handleOpenCloudinaryUploadWidget({
+                  onSuccess: onUploadSuccess,
+                })
+              }
+            />
           </Box>
         )}
       </Stack>

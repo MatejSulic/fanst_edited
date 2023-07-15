@@ -2,7 +2,7 @@ import { BaseSyntheticEvent, createContext, useContext } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 const UpdateSectionFormContext = createContext<
-  | Pick<UseFormReturn, "register" | "setValue"> & {
+  | Pick<UseFormReturn, "register" | "setValue" | "getValues" | "watch"> & {
       onSubmit: (
         onSave?: () => void
       ) => (

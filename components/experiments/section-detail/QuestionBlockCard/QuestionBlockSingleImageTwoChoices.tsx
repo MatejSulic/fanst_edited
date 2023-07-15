@@ -9,14 +9,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import {
   QuestionBlockCardSharedProps,
   QuestionBlockSpecificCardSharedProps,
 } from ".";
 import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
+import { useUpdateQuestionContent } from "../../../../hooks/questions/useUpdateQuestionContent";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
-import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
+import { handleOpenCloudinaryUploadWidget } from "../../../../utils/cloudinaryFileUpload";
 
 type UploadFileButtonProps = { onClick: () => void };
 
@@ -140,66 +140,44 @@ const LockedQuestionBlockSingleImageTwoChoices = ({
 const UnlockedQuestionBlockSingleImageTwoChoices = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  const [imagePublicId, setImagePublicId] = useState<string[]>([]);
-  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
-
-  useEffect(
-    () => setImagePublicId(question.content.images || []),
-    [question.content.images]
+  const { register } = useUpdateSectionFormContext();
+  const updateQuestionMutation = useUpdateQuestionContent(
+    question.experimentId.toString(),
+    question.sectionId.toString(),
+    question._id.toString()
   );
 
-  useEffect(() => {
-    setValue(
-      `questions.${question._id.toString()}.content.images`,
-      imagePublicId
-    );
-  }, [imagePublicId, setValue, question._id]);
+  const getImagesValuesSafe = () => question.content.images || [];
 
-  const handleUploadFileOnClick = () => {
-    openUploadWidget({
-      onSuccess: (result) => {
-        setImagePublicId(() => [result.info.public_id]);
-      },
-      onError: (error) => {
-        console.log(error);
-      },
+  const resetUploadedImages = () => {
+    updateQuestionMutation.mutate({
+      questionContent: { images: [] },
     });
   };
 
-  const resetUploadedImages = () => {
-    setImagePublicId([]);
+  const onUploadSuccess = (result: any) => {
+    updateQuestionMutation.mutate({
+      questionContent: { images: [result.info.public_id] },
+    });
   };
 
   return (
     <>
-      {JSON.stringify(imagePublicId) !==
-        JSON.stringify(question.content.images) && (
-        <Box sx={{ mb: 2 }}>
-          <Typography
-            variant="subtitle1"
-            color={(theme) => theme.palette.warning.main}
-            align="center"
-          >
-            Changes are not saved yet! Please save the section.
-          </Typography>
-        </Box>
-      )}
-
       <Stack spacing={4}>
-        {imagePublicId.length > 0 && (
+        {getImagesValuesSafe().length > 0 && (
           <Box
-            key={JSON.stringify(imagePublicId)}
+            key={JSON.stringify(getImagesValuesSafe())}
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <CloudinaryImagePreview imagePublicId={imagePublicId[0]} />
+            <CloudinaryImagePreview imagePublicId={getImagesValuesSafe()[0]} />
           </Box>
         )}
 
-        {imagePublicId.length <= 0 && (
+        {getImagesValuesSafe().length <= 0 && (
           <Box
             sx={{
               display: "flex",
@@ -207,7 +185,13 @@ const UnlockedQuestionBlockSingleImageTwoChoices = ({
               alignItems: "center",
             }}
           >
-            <UploadFileButtonCard onClick={() => handleUploadFileOnClick()} />
+            <UploadFileButtonCard
+              onClick={() =>
+                handleOpenCloudinaryUploadWidget({
+                  onSuccess: onUploadSuccess,
+                })
+              }
+            />
           </Box>
         )}
 
@@ -217,6 +201,9 @@ const UnlockedQuestionBlockSingleImageTwoChoices = ({
             justifyContent: "space-around",
             alignItems: "center",
           }}
+          key={
+            question.content.leftTextOption + question.content.rightTextOption
+          }
         >
           <TextField
             label="First option"
@@ -234,7 +221,7 @@ const UnlockedQuestionBlockSingleImageTwoChoices = ({
           />
         </Box>
 
-        {imagePublicId.length > 0 && (
+        {getImagesValuesSafe().length > 0 && (
           <Box
             sx={{
               display: "flex",
@@ -251,7 +238,13 @@ const UnlockedQuestionBlockSingleImageTwoChoices = ({
             >
               Reset images
             </Button>
-            <UploadFileButtonSimple onClick={() => handleUploadFileOnClick()} />
+            <UploadFileButtonSimple
+              onClick={() =>
+                handleOpenCloudinaryUploadWidget({
+                  onSuccess: onUploadSuccess,
+                })
+              }
+            />
           </Box>
         )}
       </Stack>

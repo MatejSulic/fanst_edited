@@ -77,7 +77,17 @@ export default async function handler(
         });
         questionDocuments.forEach(async (doc) => {
           Object.entries(questions[doc._id.toString()]).forEach(
-            ([key, value]) => (doc[key] = value)
+            ([key, value]) => {
+              // update question content
+              if (key === "content") {
+                Object.entries(value).forEach(([contentKey, contentValue]) => {
+                  doc[key][contentKey] = contentValue;
+                });
+                doc.markModified("content");
+              } else {
+                doc[key] = value;
+              }
+            }
           );
           await doc.save();
         });

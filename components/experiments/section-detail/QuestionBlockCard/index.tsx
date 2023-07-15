@@ -54,7 +54,7 @@ const QuestionBlockCard = ({
     question._id.toString()
   );
 
-  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
+  const { register } = useUpdateSectionFormContext();
 
   const { isSectionEditable } = useIsSectionEditableContext();
 
@@ -121,6 +121,7 @@ const QuestionBlockCard = ({
     <>
       <Card>
         <CardHeader
+          avatar={<Typography variant="h6">{question.position}</Typography>}
           title={
             locked ? (
               <Box

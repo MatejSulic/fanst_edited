@@ -1,15 +1,14 @@
-import { AdvancedImage, lazyload } from "@cloudinary/react";
+import { AdvancedImage } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import {
   QuestionBlockCardSharedProps,
   QuestionBlockSpecificCardSharedProps,
 } from ".";
-import { useUpdateSectionFormContext } from "../../../../contexts/experiments/experiment-detail/section-detail/updateSectionFormContext";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
-import { openUploadWidget } from "../../../../lib/cloudinary/uploadWidget";
+import { handleOpenCloudinaryUploadWidget } from "../../../../utils/cloudinaryFileUpload";
+import { useUpdateQuestionContent } from "../../../../hooks/questions/useUpdateQuestionContent";
 
 type UploadFileButtonProps = { onClick: () => void };
 
@@ -150,66 +149,35 @@ const LockedQuestionBlockImageSelect = ({
 const UnlockedQuestionBlockImageSelect = ({
   question,
 }: QuestionBlockSpecificCardSharedProps) => {
-  const [leftImagePublicId, setLeftImagePublicId] = useState("");
-  const [rightImagePublicId, setRightImagePublicId] = useState("");
-  const { register, setValue, onSubmit } = useUpdateSectionFormContext();
-
-  useEffect(
-    () => setLeftImagePublicId(question.content.leftImage || ""),
-    [question.content.leftImage]
+  const updateQuestionMutation = useUpdateQuestionContent(
+    question.experimentId.toString(),
+    question.sectionId.toString(),
+    question._id.toString()
   );
-
-  useEffect(
-    () => setRightImagePublicId(question.content.rightImage || ""),
-    [question.content.rightImage]
-  );
-
-  useEffect(() => {
-    setValue(
-      `questions.${question._id.toString()}.content.leftImage`,
-      leftImagePublicId
-    );
-  }, [leftImagePublicId, setValue, question._id]);
-
-  useEffect(() => {
-    setValue(
-      `questions.${question._id.toString()}.content.rightImage`,
-      rightImagePublicId
-    );
-  }, [rightImagePublicId, setValue, question._id]);
 
   const handleUploadFileOnClick = (position: "left" | "right") => {
     return () =>
-      openUploadWidget({
+      handleOpenCloudinaryUploadWidget({
         onSuccess: (result) => {
           if (position === "left") {
-            setLeftImagePublicId(result.info.public_id);
+            updateQuestionMutation.mutate({
+              questionContent: { leftImage: result.info.public_id },
+            });
           } else {
-            setRightImagePublicId(result.info.public_id);
+            updateQuestionMutation.mutate({
+              questionContent: { rightImage: result.info.public_id },
+            });
           }
-        },
-        onError: (error) => {
-          console.log(error);
         },
       });
   };
 
+  const getLeftImageValueSafe = () => question.content.leftImage || "";
+
+  const getRightImageValueSafe = () => question.content.rightImage || "";
+
   return (
     <>
-      {((leftImagePublicId &&
-        leftImagePublicId !== question.content.leftImage) ||
-        (rightImagePublicId &&
-          rightImagePublicId !== question.content.rightImage)) && (
-        <Box sx={{ mb: 2 }}>
-          <Typography
-            variant="subtitle1"
-            color={(theme) => theme.palette.warning.main}
-            align="center"
-          >
-            Changes are not saved yet! Please save the section.
-          </Typography>
-        </Box>
-      )}
       <Box
         sx={{
           display: "flex",
@@ -219,17 +187,18 @@ const UnlockedQuestionBlockImageSelect = ({
           gap: { xs: 2, lg: 8 },
         }}
       >
-        {leftImagePublicId ? (
-          <Stack key={leftImagePublicId} spacing={2}>
-            <CloudinaryImagePreview imagePublicId={leftImagePublicId} />
+        {getLeftImageValueSafe() ? (
+          <Stack key={getLeftImageValueSafe()} spacing={2}>
+            <CloudinaryImagePreview imagePublicId={getLeftImageValueSafe()} />
             <UploadFileButtonSimple onClick={handleUploadFileOnClick("left")} />
           </Stack>
         ) : (
           <UploadFileButtonCard onClick={handleUploadFileOnClick("left")} />
         )}
-        {rightImagePublicId ? (
-          <Stack key={rightImagePublicId} spacing={2}>
-            <CloudinaryImagePreview imagePublicId={rightImagePublicId} />
+
+        {getRightImageValueSafe() ? (
+          <Stack key={getRightImageValueSafe()} spacing={2}>
+            <CloudinaryImagePreview imagePublicId={getRightImageValueSafe()} />
             <UploadFileButtonSimple
               onClick={handleUploadFileOnClick("right")}
             />

@@ -30,6 +30,6 @@ export type CreateNewSectionType = Pick<SectionType, "type"> & {
 
 export type UpdateSectionType = Partial<
   Omit<SectionType, "_id" | "experimentId" | "type" | "questions"> & {
-    questions: UpdateQuestionType[];
+    questions: { [key: string]: UpdateQuestionType };
   }
 >;
