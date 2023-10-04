@@ -16,6 +16,7 @@ type ComparisonResultType = {
   leftChoice: string;
   rightChoice: string;
   chosenChoice: string;
+  centerImage: string;
 };
 
 const CloudinaryImagePreview = ({
@@ -48,6 +49,7 @@ const ExperimentQuestionSingleImageTwoChoices = ({
   ): ComparisonResultType => {
     const leftChoice = question.content.leftTextOption;
     const rightChoice = question.content.rightTextOption;
+    const centerImage = question.content.images![0];
     return {
       leftChoice,
       rightChoice,
@@ -57,6 +59,7 @@ const ExperimentQuestionSingleImageTwoChoices = ({
           : chosenChoice === "right"
           ? rightChoice
           : "timeLimitExceeded",
+      centerImage,
     };
   };
 
@@ -92,15 +95,16 @@ const ExperimentQuestionSingleImageTwoChoices = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: 4,
         position: "relative",
+        marginTop: 12,
+        gap: 0,
       }}
     >
-      <CloudinaryImagePreview
-        imagePublicId={question.content.images![0]}
-        width={imageWidth}
-        height={imageHeight}
-      />
+        <CloudinaryImagePreview
+          imagePublicId={question.content.images![0]}
+          width={imageWidth}
+          height={imageHeight}
+        />
       {/* <Box sx={{ position: "absolute", top: 0 }}>
         <ReactKonvaStage
           width={imageWidth!}
@@ -108,13 +112,14 @@ const ExperimentQuestionSingleImageTwoChoices = ({
           setResult={setResult}
         />
       </Box> */}
-
+      {/* <Typography >+</Typography> */}
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-around",
           alignItems: "center",
           width: "100%",
+          marginTop: 4,
         }}
       >
         <Button
@@ -131,13 +136,6 @@ const ExperimentQuestionSingleImageTwoChoices = ({
         >
           {question.content.rightTextOption}
         </Button>
-        {/* <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => handleSubmitQuestion(result)}
-        >
-          Submit
-        </Button> */}
       </Box>
     </Box>
   );

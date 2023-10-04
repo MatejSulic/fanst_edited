@@ -28,6 +28,9 @@ const QuestionContentSchema = new Schema<QuestionContentType>(
     rightImage: String,
     leftTextOption: String,
     rightTextOption: String,
+    initAngle: Number,
+    inputAngle: Number,
+    inputValue: Number,
   },
   { _id: false }
 );

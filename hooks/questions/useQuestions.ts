@@ -117,8 +117,11 @@ export const useSectionQuestions = (
     const { data } = await axios.get(
       `/api/experiments/${experimentId}/sections/${sectionId}/questions`
     );
+    // return data.data.sort(
+    //   (questA, questB) => questA.position - questB.position
+    // );
     return data.data.sort(
-      (questA, questB) => questA.position - questB.position
+      () => Math.random() - 0.5
     );
   };
 

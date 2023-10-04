@@ -85,12 +85,13 @@ const ExperimentListItem = ({ experiment }: Props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="subtitle1">
-                  <TextTruncate
+                <Typography variant="subtitle1" noWrap>
+                  {/* <TextTruncate
                     textElement="span"
                     line={1}
                     text={experiment.title}
-                  />
+                  /> */}
+                  {experiment.title}
                 </Typography>
                 {/* <span>{experiment.title}</span> */}
                 {experiment.locked && (

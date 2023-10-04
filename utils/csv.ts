@@ -27,7 +27,7 @@ export const exportExperimentResultsDetailToCsv = async (
     "Center Image",
     "Drawn Points ('x1 y1 x2 y2' as factors of image dimensions)",
   ];
-  csv += headerRowValues.join(",") + "\n";
+  csv += headerRowValues.join(";") + "\n";
 
   const experimentDetailValues = [
     experimentResultsDetail._id.toString(),
@@ -69,8 +69,8 @@ export const exportExperimentResultsDetailToCsv = async (
                   ...sectionDetailValues,
                   ...questionDetailValues,
                   ...comparisonDetailValues,
-                ].join(",") +
-                ",," +
+                ].join(";") +
+                ";;" +
                 "\n";
             });
           } else if (
@@ -87,9 +87,9 @@ export const exportExperimentResultsDetailToCsv = async (
               experimentResult.participantId,
               ...sectionDetailValues,
               ...questionDetailValues,
-            ];
-            csv += ",,,,";
-            csv += questionResult.result.centerImage + ",";
+            ].join(";");
+            csv += ";;;;";
+            csv += questionResult.result.centerImage + ";";
             csv += questionResult.result.drawnPoints.join(" ");
             csv += "\n";
           } else if (
@@ -114,9 +114,48 @@ export const exportExperimentResultsDetailToCsv = async (
                 ...sectionDetailValues,
                 ...questionDetailValues,
                 ...comparisonDetailValues,
-              ].join(",") +
-              ",," +
-              "\n";
+              ].join(";");
+            csv += ";" + questionResult.result.centerImage + ";";
+            csv += "\n";
+          } else if (
+            questionResult.questionType === "SINGLE_IMAGE_ANGLE" &&
+            questionResult.result
+          ) {
+            const questionDetailValues = [
+              questionResult.questionId,
+              questionResult.questionType,
+              questionResult.questionPosition,
+            ];
+            csv += [
+              ...experimentDetailValues,
+              experimentResult.participantId,
+              ...sectionDetailValues,
+              ...questionDetailValues,
+            ].join(";");
+            csv += ";;;;";
+            csv += questionResult.result.centerImage + ";";
+            csv += questionResult.result.initAngle + ";";
+            csv += questionResult.result.inputAngle
+            csv += "\n";
+          } else if (
+            questionResult.questionType === "SINGLE_IMAGE_INPUT_VALUE" &&
+            questionResult.result
+          ) {
+            const questionDetailValues = [
+              questionResult.questionId,
+              questionResult.questionType,
+              questionResult.questionPosition,
+            ];
+            csv += [
+              ...experimentDetailValues,
+              experimentResult.participantId,
+              ...sectionDetailValues,
+              ...questionDetailValues,
+            ].join(";");
+            csv += ";;;;";
+            csv += questionResult.result.centerImage + ";";
+            csv += questionResult.result.inputValue;
+            csv += "\n";
           }
         }
       });

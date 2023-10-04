@@ -37,7 +37,9 @@ const SectionCardContent = ({ sectionDescription, questions }: Props) => {
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <List sx={{ p: 0, m: 0 }}>
                 <Stack spacing={2}>
-                  {questions.map((item, idx) => (
+                  {questions.sort(
+                    (a, b) => a.position - b.position
+                  ).map((item, idx) => (
                     <QuestionBlockListItem
                       key={item._id.toString()}
                       question={item}

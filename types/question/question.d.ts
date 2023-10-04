@@ -17,6 +17,11 @@ type QuestionContentType = {
   // in case of SINGLE_IMAGE_TWO_CHOICES
   leftTextOption?: string;
   rightTextOption?: string;
+  // in case of SINGLE_IMAGE_ANGLE
+  initAngle?: number;
+  inputAngle?: number;
+  // in case of SINGLE_IMAGE_INPUT_VALUE
+  inputValue?: number;
 };
 
 export type QuestionType = {

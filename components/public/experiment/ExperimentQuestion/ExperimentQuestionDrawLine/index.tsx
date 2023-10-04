@@ -46,10 +46,17 @@ const ExperimentQuestionDrawLine = ({
   // computed as factors of width and height respectively
   const [result, setResult] = useState<number[] | null>(null);
 
+  const [ isImageVisible, setIsImageVisible ] = useState<boolean>(true);
+
   useEffect(() => {
     if (!question.content.images || !question.content.images[0]) {
       handleSubmitQuestion(null);
     }
+
+    const timer = setTimeout(() => {
+      setIsImageVisible(true);
+    }, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSubmitQuestion = (res?: any) => {
@@ -82,11 +89,11 @@ const ExperimentQuestionDrawLine = ({
         position: "relative",
       }}
     >
-      <CloudinaryImagePreview
+      {isImageVisible && <CloudinaryImagePreview
         imagePublicId={question.content.images![0]}
         width={imageWidth}
         height={imageHeight}
-      />
+      />}
       <Box sx={{ position: "absolute", top: 0 }}>
         <ReactKonvaStage
           width={imageWidth!}
@@ -94,7 +101,6 @@ const ExperimentQuestionDrawLine = ({
           setResult={setResult}
         />
       </Box>
-
       {result && (
         <Box
           sx={{

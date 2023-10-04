@@ -124,6 +124,7 @@ export const copyExperiment = async (
             type: question.type,
             content: question.content,
             settings: question.settings,
+            position: question.position,
           });
           return newQuestion
             .save()

@@ -8,6 +8,8 @@ import ExperimentQuestionDrawLine from "./ExperimentQuestionDrawLine";
 import ExperimentQuestionImageSelect from "./ExperimentQuestionImageSelect";
 import ExperimentQuestionPlainText from "./ExperimentQuestionPlainText";
 import ExperimentQuestionSingleImageTwoChoices from "./ExperimentQuestionSingleImageTwoChoices";
+import ExperimentQuestionSingleImageAngle from "./ExperimentQuestionSingleImageAngle";
+import ExperimentQuestionSingleImageInputValue from "./ExperimentQuestionSingleImageInputValue";
 
 export type ExperimentQuestionSharedProps = {
   question: QuestionType;
@@ -65,6 +67,22 @@ const ExperimentQuestion = ({
     } else if (question.type === "SINGLE_IMAGE_TWO_CHOICES") {
       return (
         <ExperimentQuestionSingleImageTwoChoices
+          question={question}
+          section={section}
+          submitQuestion={submitQuestion}
+        />
+      );
+    } else if (question.type === "SINGLE_IMAGE_ANGLE") {
+      return (
+        <ExperimentQuestionSingleImageAngle
+          question={question}
+          section={section}
+          submitQuestion={submitQuestion}
+        />
+      );
+    } else if (question.type === "SINGLE_IMAGE_INPUT_VALUE") {
+      return (
+        <ExperimentQuestionSingleImageInputValue
           question={question}
           section={section}
           submitQuestion={submitQuestion}
