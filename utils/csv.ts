@@ -93,7 +93,7 @@ export const exportExperimentResultsDetailToCsv = async (
             csv += questionResult.result.drawnPoints.join(" ");
             csv += "\n";
           } else if (
-            questionResult.questionType === "SINGLE_IMAGE_TWO_CHOICES" &&
+            (questionResult.questionType === "SINGLE_IMAGE_TWO_CHOICES" || questionResult.questionType === "SINGLE_IMAGE_TWO_CHOICES_CALIBRATION") &&
             questionResult.result
           ) {
             const questionDetailValues = [

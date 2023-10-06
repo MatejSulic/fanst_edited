@@ -7,7 +7,11 @@ import React from "react";
 
 const PublicAppBar = () => {
   return (
-    <MuiAppBar position="static">
+    <MuiAppBar 
+    position="static"
+    sx={{
+        backgroundColor: "black",
+    }}>
       <Box
         sx={{
           maxWidth: "100%",

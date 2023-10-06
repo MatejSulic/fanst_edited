@@ -14,18 +14,19 @@ const SectionSettingsCardAside = ({ section }: Props) => {
   const lockExperimentContext = useLockExperimentContext();
 
   useEffect(() => {
-    setValue(
-      "settings.questionDisplayTime",
-      section.settings?.questionDisplayTime
-    );
+    setValue("settings.questionDisplayTime",section.settings?.questionDisplayTime);
     setValue("settings.imageWidth", section.settings?.imageWidth);
     setValue("settings.imageHeight", section.settings?.imageHeight);
     setValue("settings.distanceOfImages", section.settings?.distanceOfImages);
+    setValue("settings.calibrationImagePublicId", section.settings?.calibrationImagePublicId);
+    setValue("settings.calibrationTimeInSeconds", section.settings?.calibrationTimeInSeconds);
   }, [
     section.settings?.distanceOfImages,
     section.settings?.imageHeight,
     section.settings?.imageWidth,
     section.settings?.questionDisplayTime,
+    section.settings?.calibrationImagePublicId,
+    section.settings?.calibrationTimeInSeconds,
     setValue,
   ]);
 
@@ -77,6 +78,19 @@ const SectionSettingsCardAside = ({ section }: Props) => {
                 defaultValue={section.settings?.distanceOfImages}
                 {...register("settings.distanceOfImages")}
               />
+              <TextField
+                fullWidth
+                label="Calibration image Public Id"
+                defaultValue={section.settings?.calibrationImagePublicId}
+                {...register("settings.calibrationImagePublicId")}
+              />
+              <TextField
+                fullWidth
+                label="Calibration time in seconds"
+                defaultValue={section.settings?.calibrationTimeInSeconds}
+                {...register("settings.calibrationTimeInSeconds")}
+              />
+
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Save section settings

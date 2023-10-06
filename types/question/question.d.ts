@@ -14,7 +14,7 @@ type QuestionContentType = {
   // in case of IMAGE_SELECT
   leftImage?: string;
   rightImage?: string;
-  // in case of SINGLE_IMAGE_TWO_CHOICES
+  // in case of SINGLE_IMAGE_TWO_CHOICES and SINGLE_IMAGE_TWO_CHOICES_CALIBRATION
   leftTextOption?: string;
   rightTextOption?: string;
   // in case of SINGLE_IMAGE_ANGLE

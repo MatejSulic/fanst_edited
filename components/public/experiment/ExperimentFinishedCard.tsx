@@ -9,20 +9,26 @@ const ExperimentFinishedCard = ({ experiment }: Props) => {
   return (
     <Card
       variant="outlined"
-      sx={{ width: (theme) => theme.breakpoints.values.md }}
+      sx={{
+         width: (theme) => theme.breakpoints.values.md,
+         backgroundColor: "black",
+         color: "white",
+      }}
     >
       <CardHeader
         title={
-          <Typography variant="h6" sx={{ textAlign: "center" }}>
-            Thank you for filling in the
+          <Typography variant="h6" sx={{ textAlign: "center", color: "white" }}>
+            {/* Thank you for filling in the */}
+            Děkujeme za vyplnění experimentu
             <br />
             <b>{experiment.title}</b>
           </Typography>
         }
       />
       <CardContent>
-        <Typography variant="body2" sx={{ textAlign: "center" }}>
-          You can close the window now.
+        <Typography variant="body2" sx={{ textAlign: "center", color: "white" }}>
+          {/* You can close the window now. */}
+          Nyní můžete zavřít okno.
         </Typography>
       </CardContent>
     </Card>

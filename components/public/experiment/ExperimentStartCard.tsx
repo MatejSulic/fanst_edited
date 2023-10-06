@@ -30,13 +30,13 @@ const ExperimentStartCard = ({ experiment, participantId }: Props) => {
   return (
     <Card
       variant="outlined"
-      sx={{ width: (theme) => theme.breakpoints.values.md }}
+      sx={{ width: (theme) => theme.breakpoints.values.md, backgroundColor: "black", }}
     >
       <form onSubmit={(e) => handleExperimentStart(e)}>
         <CardHeader
           title={
-            <Typography variant="h4" sx={{ textAlign: "center" }}>
-              Welcome to
+            <Typography variant="h4" sx={{ textAlign: "center", color: "white", }}>
+              Vítejte v experimentu
               <br />
               <b>{experiment.title}</b>
             </Typography>
@@ -61,7 +61,7 @@ const ExperimentStartCard = ({ experiment, participantId }: Props) => {
         </CardContent> */}
         <CardActions sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
           <Button variant="contained" type="submit">
-            Start the experiment
+            Začít experiment
           </Button>
         </CardActions>
       </form>

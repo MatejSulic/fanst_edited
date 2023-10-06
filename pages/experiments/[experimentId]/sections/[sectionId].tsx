@@ -70,6 +70,9 @@ const SectionDetailPage = () => {
     "IMAGE_SELECT",
     "DRAW_LINE",
     "SINGLE_IMAGE_TWO_CHOICES",
+    "SINGLE_IMAGE_ANGLE",
+    "SINGLE_IMAGE_INPUT_VALUE",
+    "SINGLE_IMAGE_TWO_CHOICES_CALIBRATION",
   ];
   const sectionHasEditableQuestion = Boolean(
     questions.find((question) => editableQuestionTypes.includes(question.type))

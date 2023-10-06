@@ -9,6 +9,8 @@ type SectionSettingsType = {
   distanceOfImages?: number; // distance in mm (only for '2AFC' or 'Blank' type)
   imageWidth?: number; // in mm (only for '2AFC' or 'Blank' type)
   imageHeight?: number; // in mm (only for '2AFC' or 'Blank' type)
+  calibrationImagePublicId?: string; // in mm (only for '2AFC' or 'Blank' type)
+  calibrationTimeInSeconds?: number; // in mm (only for '2AFC' or 'Blank' type)
 };
 
 export type SectionType = {

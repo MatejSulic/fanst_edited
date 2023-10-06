@@ -37,22 +37,35 @@ const ExperimentWithdrawConsentCard = ({
   return (
     <Card
       variant="outlined"
-      sx={{ width: (theme) => theme.breakpoints.values.md }}
+      sx={{
+         width: (theme) => theme.breakpoints.values.md,
+         backgroundColor: "black",
+      }}
     >
       <CardHeader
         title={
-          <Typography variant="h4" sx={{ textAlign: "center" }}>
-            You have finished the
+          <Typography
+           variant="h4"
+            sx={{
+               textAlign: "center",
+               color: "white",
+            }}>
+            {/* You have finished the */}
+            Dokončili jste experiment
             <br />
             <b>{experiment.title}</b>
           </Typography>
         }
       />
       <CardContent>
-        <Typography variant="body1">
-          To withdraw your consent with collection of your data, please click
+        <Typography variant="body1" sx={{ color: "white", }}>
+          Pokud byste se nyní nebo někdy v budoucnu rozhodli odvolat svůj souhlas se
+          sběrem dat, klikněte na tlačítko <strong>Odvolat souhlas</strong> níže.
+          Všechna data týkající se vašich odpovědí pak budou trvale smazána a nebudou dále zpracovávána.
+          
+          {/* To withdraw your consent with collection of your data, please click
           the button below. All data regarding your answers will be permanently
-          deleted. You will not be able to participate in the experiment again.
+          deleted. You will not be able to participate in the experiment again. */}
         </Typography>
       </CardContent>
       <CardActions
@@ -63,12 +76,13 @@ const ExperimentWithdrawConsentCard = ({
           color="warning"
           onClick={() => handleWithdrawConsent()}
         >
-          Withdraw consent
+          {/* Withdraw consent */}
+          Odvolat souhlas
         </Button>
         <Link
           href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}/finished`}
         >
-          <Button variant="contained">Finish</Button>
+          <Button variant="contained">Konec</Button>
         </Link>
       </CardActions>
     </Card>

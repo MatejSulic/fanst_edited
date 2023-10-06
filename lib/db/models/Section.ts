@@ -11,6 +11,8 @@ const SectionSettingsSchema = new Schema<SectionSettingsType>(
     distanceOfImages: Number,
     imageWidth: { type: Number, default: 10 },
     imageHeight: { type: Number, default: 10 },
+    calibrationImagePublicId: { type: String }, //string; // in mm (only for '2AFC' or 'Blank' type)
+    calibrationTimeInSeconds: { type: Number, default: 1.5 }, // in mm (only for '2AFC' or 'Blank' type)
   },
   { _id: false }
 );

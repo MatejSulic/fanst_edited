@@ -11,8 +11,9 @@ const ContentWrapper = ({ children }: Props) => {
     <Container
       maxWidth={"lg"}
       sx={{
-        maxHeight: "100vh",
-        height: "100vh",
+        // maxHeight: "100vh",
+        // height: "100vh",
+        backgroundColor: "black",
         // pb: 4,
         // mb: 4,
       }}

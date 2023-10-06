@@ -12,6 +12,7 @@ import {
 import { usePublicExperiment } from "../../../../../hooks/public/experiments/useExperiments";
 import { useSections } from "../../../../../hooks/sections/useSections";
 import { UpdateSectionResultsType } from "../../../../../types/experimentProgress";
+import { Background } from "@cloudinary/url-gen/qualifiers";
 
 const ExperimentPreviewPage = () => {
   const router = useRouter();

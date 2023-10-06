@@ -6,6 +6,7 @@ import QuestionTypeDrawLine from "./QuestionTypeDrawLine";
 import QuestionTypeSingleImageTwoChoices from "./QuestionTypeSingleImageTwoChoices";
 import QuestionTypeSingleImageAngle from "./QuestionTypeSingleImageAngle";
 import QuestionTypeSingleImageInputValue from "./QuestionTypeSingleImageInputValue";
+import QuestionTypeSingleImageTwoChoicesCalibration from "./QuestionTypeSingleImageTwoChoicesCalibration";
 
 type Props = {
   type: QuestionType["type"];
@@ -34,7 +35,10 @@ const QuestionTypeDisplayedCard = ({ type, ...props }: Props) => {
     case "SINGLE_IMAGE_INPUT_VALUE":
       Component = QuestionTypeSingleImageInputValue;
       break;
-    default:
+      case "SINGLE_IMAGE_TWO_CHOICES_CALIBRATION":
+        Component = QuestionTypeSingleImageTwoChoicesCalibration;
+        break;
+      default:
       return null;
   }
 

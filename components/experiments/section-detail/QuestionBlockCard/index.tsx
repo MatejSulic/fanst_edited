@@ -29,6 +29,7 @@ import QuestionBlockDrawImage from "./QuestionBlockDrawLine";
 import QuestionBlockSingleImageTwoChoices from "./QuestionBlockSingleImageTwoChoices";
 import QuestionBlockSingleImageAngle from "./QuestionBlockSingleImageAngle";
 import QuestionBlockSingleImageInputValue from "./QuestionBlockSingleImageInputValue";
+import QuestionBlockSingleImageTwoChoicesCalibration from "./QuestionBlockSingleImageTwoChoicesCalibration";
 
 export type QuestionBlockCardSharedProps = {
   question: QuestionType;
@@ -124,6 +125,13 @@ const QuestionBlockCard = ({
     } else if (question.type === "SINGLE_IMAGE_INPUT_VALUE") {
       return (
         <QuestionBlockSingleImageInputValue
+          question={question}
+          locked={locked}
+        />
+      );
+    } else if (question.type === "SINGLE_IMAGE_TWO_CHOICES_CALIBRATION") {
+      return (
+        <QuestionBlockSingleImageTwoChoicesCalibration
           question={question}
           locked={locked}
         />
