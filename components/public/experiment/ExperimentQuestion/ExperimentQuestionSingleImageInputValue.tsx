@@ -105,7 +105,7 @@ const ExperimentQuestionSingleInputValue = ({
           variant="contained"
           onClick={() => handleSubmitQuestion({"centerImage": question.content.images![0], "inputValue": +inputValue})}
         >
-          Submit
+          Odeslat
         </Button>
       </Box>
     </Box>

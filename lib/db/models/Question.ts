@@ -42,7 +42,7 @@ const QuestionSchema = new Schema<QuestionType>({
     required: true,
   },
   sectionId: { type: Schema.Types.ObjectId, ref: "Section", required: true },
-  title: { type: String, default: "New Question" },
+  title: { type: String, default: "" },
   position: { type: Number, default: 1 },
   type: { type: String, enum: questionTypeTypes, required: true },
   content: { type: QuestionContentSchema, default: () => ({}) },

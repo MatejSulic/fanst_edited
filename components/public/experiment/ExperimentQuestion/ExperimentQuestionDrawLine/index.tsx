@@ -114,7 +114,7 @@ const ExperimentQuestionDrawLine = ({
             color="primary"
             onClick={() => handleSubmitQuestion(result)}
           >
-            Submit
+            Odeslat
           </Button>
         </Box>
       )}

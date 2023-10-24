@@ -145,7 +145,7 @@ const ExperimentQuestionSingleImageAngle = ({
           variant="contained"
           onClick={() => handleSubmitQuestion({"centerImage": question.content.images![0], "initAngle": initAngle, "inputAngle": angle})}
         >
-          Submit
+          Odeslat
         </Button>
       </Box>
     </Box>

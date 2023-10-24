@@ -9,6 +9,8 @@ import {
 } from "../../hooks/results/useResults";
 import { CSVLink } from "react-csv";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { ExperimentResultsDetail } from "../../types/experimentResults";
 
 const ExportCsvButton = ({ id }: { id: string }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,12 +43,21 @@ const ExportCsvButton = ({ id }: { id: string }) => {
   );
 };
 
+// type ExperimentResultsDetail = {
+//   id: string;
+//   name: string;
+// };
+
 const ResultsPage = () => {
   const router = useRouter();
   const { data, isLoading, isError } = useResults();
 
-  if (isLoading || isError) {
-    return null;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error occurred</div>;
   }
 
   const columns: GridColDef[] = [
@@ -92,10 +103,17 @@ const ResultsPage = () => {
   }));
 
   return (
-    <>
-      <AppBar />
-      <ContentWrapper>
-        <DataGrid
+    // <div>
+    //     {router.query.experimentId + "<br>"}
+    //     {/* Render your results */}
+    //     {JSON.stringify(data)}
+    //  </div>
+
+     <>
+       <AppBar />
+       <ContentWrapper>
+         <DataGrid
+          autoHeight
           initialState={{
             filter: {
               filterModel: {
@@ -112,12 +130,13 @@ const ResultsPage = () => {
           columns={columns}
           isRowSelectable={() => false}
           sx={{
-            width: { md: "75%", xs: "100%" },
-            maxHeight: "75%",
+            width: { md: "100%", xs: "100%" },
+            maxHeight: "90%",
           }}
-        />
-      </ContentWrapper>
-    </>
+         />
+       </ContentWrapper>
+     </>
+
   );
 };
 

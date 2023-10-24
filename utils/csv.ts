@@ -31,8 +31,8 @@ export const exportExperimentResultsDetailToCsv = async (
 
   const experimentDetailValues = [
     experimentResultsDetail._id.toString(),
-    experimentResultsDetail.title,
-    experimentResultsDetail.description,
+    experimentResultsDetail.title.replace(/(\r\n|\n|\r)/gm, ""),
+    experimentResultsDetail.description.replace(/(\r\n|\n|\r)/gm, ""),
     experimentResultsDetail.settings.numberOfParticipantGroups,
     experimentResultsDetail.results.length,
   ];

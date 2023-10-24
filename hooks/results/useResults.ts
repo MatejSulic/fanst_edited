@@ -7,7 +7,9 @@ import {
 } from "./queries";
 
 export const useResults = () => {
+  console.log("useResults called"); // For debugging
   const getResults = async (): Promise<ExperimentResultsDetail[]> => {
+    console.log("Fetching results"); // For debugging
     const { data } = await axios.get("/api/results");
     return data.data;
   };

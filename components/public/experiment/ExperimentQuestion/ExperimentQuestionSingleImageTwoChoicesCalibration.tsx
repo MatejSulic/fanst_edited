@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ExperimentQuestionSharedProps } from ".";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { convertCmToPx } from "../../../../utils/sizeConversion";
+import KeyPressHandler from "../../../common/input/KeyPressHandler";
 
 type CloudinaryImagePreviewProps = {
   imagePublicId: string;
@@ -110,30 +111,40 @@ const ExperimentQuestionSingleImageTwoChoicesCalibration = ({
         gap: 0,
       }}
     >
-      {getQuestionState == 0 && <CloudinaryImagePreview
+    <Box
+      sx={{ display: getQuestionState == 0 ? "flex" : "none", }}
+    >
+      <CloudinaryImagePreview
         imagePublicId={section.settings.calibrationImagePublicId}
         width={imageWidth}
         height={imageHeight}
-      />}
-      {getQuestionState == 1 && <CloudinaryImagePreview
-        imagePublicId={question.content.images![0]}
-        width={imageWidth}
-        height={imageHeight}
-      />}
+      />
+    </Box>
+    <Box
+      sx={{ display: getQuestionState == 1 ? "flex" : "none", }}
+    >
+        <CloudinaryImagePreview
+          imagePublicId={question.content.images![0]}
+          width={imageWidth}
+          height={imageHeight}
+        />
+      </Box>
 
       {getQuestionState > 1 && <Box
         sx={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          marginTop: 20,
+          marginTop: 34,
         }}
       >
+        <KeyPressHandler leftKeyFunction={() => handleSubmitQuestion(createComparisonResult("left"))} rightKeyFunction={() => handleSubmitQuestion(createComparisonResult("right"))} />
         <Button
           size="large"
           variant="contained"
           onClick={() => handleSubmitQuestion(createComparisonResult("left"))}
+          sx={{ marginRight: 2, minWidth: "90px" }}
         >
           {question.content.leftTextOption}
         </Button>
@@ -141,6 +152,7 @@ const ExperimentQuestionSingleImageTwoChoicesCalibration = ({
           size="large"
           variant="contained"
           onClick={() => handleSubmitQuestion(createComparisonResult("right"))}
+          sx={{ marginLeft: 2, minWidth: "90px"  }}
         >
           {question.content.rightTextOption}
         </Button>
