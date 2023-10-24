@@ -1,4 +1,5 @@
-import AdbIcon from "@mui/icons-material/Adb";
+//import AdbIcon from "@mui/icons-material/Adb";
+import ScienceIcon from '@mui/icons-material/Science';
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -22,7 +23,7 @@ const PublicAppBar = () => {
         }}
       >
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <ScienceIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -39,7 +40,7 @@ const PublicAppBar = () => {
             FaNST
           </Typography>
 
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <ScienceIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap

@@ -8,5 +8,5 @@ export const getParticipantMailtoBodyUriEncoded = (
   encodeURI(
     `You have been invited to complete an experiment.
 Follow this link to continue:
-http://localhost:3000/public/experiment-preview/${experimentId}/${participantId}`
+http://147.32.81.162/public/experiment-preview/${experimentId}/${participantId}`
   );

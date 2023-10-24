@@ -1,4 +1,5 @@
-import AdbIcon from "@mui/icons-material/Adb";
+// import AdbIcon from "@mui/icons-material/Adb";
+import ScienceIcon from '@mui/icons-material/Science';
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -106,7 +107,7 @@ const AppBar = () => {
               alignItems: "center",
             }}
           >
-            <AdbIcon sx={{ display: { md: "none", xs: "flex" }, mr: 1 }} />
+            <ScienceIcon sx={{ display: { md: "none", xs: "flex" }, mr: 1 }} />
             <Typography
               variant="h5"
               noWrap
@@ -132,7 +133,7 @@ const AppBar = () => {
               alignItems: "center",
             }}
           >
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            <ScienceIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
