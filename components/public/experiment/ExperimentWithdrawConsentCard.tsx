@@ -62,14 +62,15 @@ const ExperimentWithdrawConsentCard = ({
           Pokud byste se nyní nebo někdy v budoucnu rozhodli odvolat svůj souhlas se
           sběrem dat, klikněte na tlačítko <strong>Odvolat souhlas</strong> níže.
           Všechna data týkající se vašich odpovědí pak budou trvale smazána a nebudou dále zpracovávána.
-          
+
+          Na tuto stránku se dostanete pomocí odkazu, který jste obdrželi pro spuštění experimentu.          
           {/* To withdraw your consent with collection of your data, please click
           the button below. All data regarding your answers will be permanently
           deleted. You will not be able to participate in the experiment again. */}
         </Typography>
       </CardContent>
       <CardActions
-        sx={{ display: "flex", justifyContent: "flex-end", gap: 4, pb: 2 }}
+        sx={{ display: "flex", justifyContent: "space-between", gap: 4, pb: 2 }}
       >
         <Button
           variant="contained"
@@ -82,7 +83,7 @@ const ExperimentWithdrawConsentCard = ({
         <Link
           href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}/finished`}
         >
-          <Button variant="contained">Konec</Button>
+          <Button variant="contained">Souhlasím, ukončit experiment</Button>
         </Link>
       </CardActions>
     </Card>

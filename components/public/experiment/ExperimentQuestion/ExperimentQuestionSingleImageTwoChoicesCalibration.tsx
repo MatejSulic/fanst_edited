@@ -109,6 +109,7 @@ const ExperimentQuestionSingleImageTwoChoicesCalibration = ({
         position: "relative",
         marginTop: 12,
         gap: 0,
+        cursor: "none",
       }}
     >
     <Box
@@ -137,6 +138,7 @@ const ExperimentQuestionSingleImageTwoChoicesCalibration = ({
           alignItems: "center",
           width: "100%",
           marginTop: 34,
+          marginBottom: 31,
         }}
       >
         <KeyPressHandler leftKeyFunction={() => handleSubmitQuestion(createComparisonResult("left"))} rightKeyFunction={() => handleSubmitQuestion(createComparisonResult("right"))} />
@@ -144,7 +146,7 @@ const ExperimentQuestionSingleImageTwoChoicesCalibration = ({
           size="large"
           variant="contained"
           onClick={() => handleSubmitQuestion(createComparisonResult("left"))}
-          sx={{ marginRight: 2, minWidth: "90px" }}
+          sx={{ marginRight: 2, minWidth: "90px", cursor: "none" }}
         >
           {question.content.leftTextOption}
         </Button>
@@ -152,7 +154,7 @@ const ExperimentQuestionSingleImageTwoChoicesCalibration = ({
           size="large"
           variant="contained"
           onClick={() => handleSubmitQuestion(createComparisonResult("right"))}
-          sx={{ marginLeft: 2, minWidth: "90px"  }}
+          sx={{ marginLeft: 2, minWidth: "90px", cursor: "none"  }}
         >
           {question.content.rightTextOption}
         </Button>

@@ -19,7 +19,7 @@ const ExperimentQuestionPlainText = ({
           value={question.content.text}
           // style={{ height: 200 }}
           bounds="#react-quill-container"
-          preserveWhitespace
+          // preserveWhitespace
           readOnly
         />
       </Box>
