@@ -8,6 +8,9 @@ import { sectionTypeTypes } from "../../../types/section/sectionTypes";
 const SectionSettingsSchema = new Schema<SectionSettingsType>(
   {
     questionDisplayTime: Number,
+    imageDisplayTime: Number,
+    preImageDelayTime: Number,
+    interQuestionDelay: Number,
     distanceOfImages: Number,
     imageWidth: { type: Number, default: 10 },
     imageHeight: { type: Number, default: 10 },

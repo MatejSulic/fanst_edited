@@ -106,6 +106,49 @@ export const useUpdateQuestionMutation = (
   });
 };
 
+export const useBulkCreateQuestionsMutation = (
+  experimentId: string,
+  sectionId: string
+) => {
+  const queryClient = useQueryClient();
+
+  const bulkCreate = async ({
+    imagePublicIds,
+  }: {
+    imagePublicIds: string[];
+  }) => {
+    await Promise.all(
+      imagePublicIds.map((publicId) =>
+        axios.post(
+          `/api/experiments/${experimentId}/sections/${sectionId}/questions`,
+          {
+            experimentId,
+            sectionId,
+            type: "SINGLE_IMAGE_TWO_CHOICES",
+            content: {
+              images: [publicId],
+              leftTextOption: "Yes",
+              rightTextOption: "No",
+            },
+          }
+        )
+      )
+    );
+  };
+
+  return useMutation(
+    ["bulkCreateQuestions", experimentId, sectionId],
+    {
+      mutationFn: bulkCreate,
+      onSuccess: () => {
+        queryClient.invalidateQueries(
+          questionListQueryKey(experimentId, sectionId)
+        );
+      },
+    }
+  );
+};
+
 export const useSectionQuestions = (
   experimentId?: string,
   sectionId?: string

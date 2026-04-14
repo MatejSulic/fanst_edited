@@ -13,7 +13,7 @@ const ContentWrapper = ({ children }: Props) => {
       sx={{
         // maxHeight: "100vh",
         // height: "100vh",
-        backgroundColor: "black",
+        backgroundColor: "white",
         // pb: 4,
         // mb: 4,
       }}

@@ -1,7 +1,7 @@
 import { AdvancedImage, lazyload } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import { Box, Button } from "@mui/material";
-import { useCallback, useEffect } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ExperimentQuestionSharedProps } from ".";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
 import { convertCmToPx } from "../../../../utils/sizeConversion";
@@ -44,6 +44,54 @@ const ExperimentQuestionSingleImageTwoChoices = ({
   section,
   submitQuestion,
 }: ExperimentQuestionSharedProps) => {
+  const [imageVisible, setImageVisible] = useState(true);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const preDelay = section.settings?.preImageDelayTime;
+    const displayTime = section.settings?.imageDisplayTime;
+
+    // reset
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setImageVisible(false);
+    setCountdown(null);
+
+    const startImageDisplay = () => {
+      setImageVisible(true);
+      if (displayTime && displayTime > 0) {
+        timerRef.current = setTimeout(
+          () => setImageVisible(false),
+          displayTime * 1000
+        );
+      }
+    };
+
+    if (preDelay && preDelay > 0) {
+      let remaining = Math.round(preDelay);
+      setCountdown(remaining);
+      intervalRef.current = setInterval(() => {
+        remaining -= 1;
+        if (remaining <= 0) {
+          clearInterval(intervalRef.current);
+          setCountdown(null);
+          startImageDisplay();
+        } else {
+          setCountdown(remaining);
+        }
+      }, 1000);
+    } else {
+      startImageDisplay();
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [question._id, section.settings?.imageDisplayTime, section.settings?.preImageDelayTime]);
+
   const createComparisonResult = (
     chosenChoice: "left" | "right" | "timeLimitExceeded"
   ): ComparisonResultType => {
@@ -100,19 +148,34 @@ const ExperimentQuestionSingleImageTwoChoices = ({
         gap: 0,
       }}
     >
+      {countdown !== null ? (
+        <Box
+          sx={{
+            width: imageWidth || 200,
+            height: imageHeight || 200,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography sx={{ fontSize: 96, color: "white", userSelect: "none" }}>
+            {countdown}
+          </Typography>
+        </Box>
+      ) : imageVisible ? (
         <CloudinaryImagePreview
           imagePublicId={question.content.images![0]}
           width={imageWidth}
           height={imageHeight}
         />
-      {/* <Box sx={{ position: "absolute", top: 0 }}>
-        <ReactKonvaStage
-          width={imageWidth!}
-          height={imageHeight!}
-          setResult={setResult}
+      ) : (
+        <Box
+          sx={{
+            width: imageWidth || 200,
+            height: imageHeight || 200,
+          }}
         />
-      </Box> */}
-      {/* <Typography >+</Typography> */}
+      )}
       <Box
         sx={{
           display: "flex",

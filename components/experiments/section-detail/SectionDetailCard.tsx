@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, NoSsr } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   DragDropContext,
   DropResult,
@@ -13,8 +13,12 @@ import { SectionType } from "../../../types/section/section";
 import NewQuestionDialog from "./NewQuestionDialog";
 import SectionCardContent from "./SectionCardContent";
 import SectionCardHeader from "./SectionCardHeader";
-import { useUpdateQuestionMutation } from "../../../hooks/questions/useQuestions";
+import {
+  useBulkCreateQuestionsMutation,
+  useUpdateQuestionMutation,
+} from "../../../hooks/questions/useQuestions";
 import { useIsSectionEditableContext } from "../../../contexts/experiments/experiment-detail/section-detail/isSectionEditableContext";
+import { handleOpenCloudinaryMultiUploadWidget } from "../../../utils/cloudinaryFileUpload";
 
 type Props = {
   section: SectionType;
@@ -24,9 +28,14 @@ type Props = {
 const SectionDetailCard = ({ section, questions }: Props) => {
   const router = useRouter();
   const [newQuestionDialogOpen, setNewQuestionDialogOpen] = useState(false);
+  const pendingPublicIds = useRef<string[]>([]);
 
   const lockExperimentContext = useLockExperimentContext();
   const { isSectionEditable } = useIsSectionEditableContext();
+  const bulkCreateMutation = useBulkCreateQuestionsMutation(
+    section.experimentId.toString(),
+    section._id.toString()
+  );
   const undefinedQuestionUpdateMutation = useUpdateQuestionMutation(
     section.experimentId.toString(),
     section._id.toString()
@@ -89,12 +98,35 @@ const SectionDetailCard = ({ section, questions }: Props) => {
               }}
             >
               {isSectionEditable && (
-                <Button
-                  variant="outlined"
-                  onClick={() => setNewQuestionDialogOpen(true)}
-                >
-                  Add New Question
-                </Button>
+                <>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      pendingPublicIds.current = [];
+                      handleOpenCloudinaryMultiUploadWidget({
+                        onSuccess: (result) => {
+                          pendingPublicIds.current.push(result.info.public_id);
+                        },
+                        onQueuesEnd: () => {
+                          if (pendingPublicIds.current.length > 0) {
+                            bulkCreateMutation.mutate({
+                              imagePublicIds: pendingPublicIds.current,
+                            });
+                            pendingPublicIds.current = [];
+                          }
+                        },
+                      });
+                    }}
+                  >
+                    Bulk Add Questions
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setNewQuestionDialogOpen(true)}
+                  >
+                    Add New Question
+                  </Button>
+                </>
               )}
               <Button type="submit" variant="contained">
                 Save section

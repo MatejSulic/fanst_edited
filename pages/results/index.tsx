@@ -110,6 +110,7 @@ const ResultsPage = () => {
     //  </div>
 
      <>
+  
        <AppBar />
        <ContentWrapper>
          <DataGrid

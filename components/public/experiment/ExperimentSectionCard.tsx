@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { useSectionQuestions } from "../../../hooks/questions/useQuestions";
 import {
   UpdateQuestionResultsType,
@@ -18,6 +18,9 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     UpdateQuestionResultsType[]
   >([]);
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
+  const [waitCountdown, setWaitCountdown] = useState<number | null>(null);
+  const pendingResultsRef = useRef<UpdateQuestionResultsType | undefined>(undefined);
+  const waitIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const {
     data: questions,
@@ -47,8 +50,8 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     return <Typography variant="h1">Error</Typography>;
   }
 
-  const handleSubmitQuestion = (results?: UpdateQuestionResultsType) => {
-    // submit whole section on last question
+  const advanceQuestion = (results?: UpdateQuestionResultsType) => {
+    setWaitCountdown(null);
     if (currentQuestionIdx === questions.length - 1 || questions.length === 0) {
       submitSection({
         sectionId: section._id.toString(),
@@ -63,6 +66,53 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       setCurrentQuestionIdx((prev) => prev + 1);
     }
   };
+
+  const handleSubmitQuestion = (results?: UpdateQuestionResultsType) => {
+    const interDelay = section.settings?.interQuestionDelay;
+    const isLastQuestion = currentQuestionIdx === questions.length - 1 || questions.length === 0;
+
+    if (isLastQuestion || !interDelay || interDelay <= 0) {
+      advanceQuestion(results);
+      return;
+    }
+
+    pendingResultsRef.current = results;
+    let remaining = Math.round(interDelay);
+    setWaitCountdown(remaining);
+    waitIntervalRef.current = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        clearInterval(waitIntervalRef.current);
+        advanceQuestion(pendingResultsRef.current);
+      } else {
+        setWaitCountdown(remaining);
+      }
+    }, 1000);
+  };
+
+  if (waitCountdown !== null) {
+    return (
+      <Card
+        variant="outlined"
+        sx={{ width: "100%", backgroundColor: "black", color: "white" }}
+      >
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: 300,
+            }}
+          >
+            <Typography sx={{ fontSize: 96, color: "white", userSelect: "none" }}>
+              {waitCountdown}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return questions.length > 0 ? (
     <Card
@@ -89,18 +139,6 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
           submitQuestion={handleSubmitQuestion}
         />
       </CardContent>
-      {/* {(section.type === "INTRODUCTION" ||
-        section.type === "ACKNOWLEDGEMENT") && (
-        <CardActions
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <Button variant="contained">Next</Button>
-        </CardActions>
-      )} */}
     </Card>
   ) : null;
 };
