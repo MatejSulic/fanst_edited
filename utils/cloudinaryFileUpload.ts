@@ -1,4 +1,7 @@
-import { openUploadWidget } from "../lib/cloudinary/uploadWidget";
+import {
+  openMultiUploadWidget,
+  openUploadWidget,
+} from "../lib/cloudinary/uploadWidget";
 
 export const handleOpenCloudinaryUploadWidget = ({
   onSuccess,
@@ -7,6 +10,22 @@ export const handleOpenCloudinaryUploadWidget = ({
 }) => {
   openUploadWidget({
     onSuccess: (result) => onSuccess(result),
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+};
+
+export const handleOpenCloudinaryMultiUploadWidget = ({
+  onSuccess,
+  onQueuesEnd,
+}: {
+  onSuccess: (result: any) => void;
+  onQueuesEnd: () => void;
+}) => {
+  openMultiUploadWidget({
+    onSuccess: (result) => onSuccess(result),
+    onQueuesEnd,
     onError: (error) => {
       console.log(error);
     },

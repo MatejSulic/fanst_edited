@@ -6,6 +6,9 @@ type SectionTypeType = (typeof sectionTypeTypes)[number];
 
 type SectionSettingsType = {
   questionDisplayTime?: number; // time in seconds (indifinitely when undefined)
+  imageDisplayTime?: number; // time in seconds the image is visible before hiding (indefinitely when undefined)
+  preImageDelayTime?: number; // countdown in seconds before image appears (0 = no delay)
+  interQuestionDelay?: number; // seconds between answer and next question (0 = show Next button)
   distanceOfImages?: number; // distance in mm (only for '2AFC' or 'Blank' type)
   imageWidth?: number; // in mm (only for '2AFC' or 'Blank' type)
   imageHeight?: number; // in mm (only for '2AFC' or 'Blank' type)
