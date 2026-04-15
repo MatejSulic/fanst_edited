@@ -18,8 +18,6 @@
 # misc
 .DS_Store
 *.pem
-*.key
-*.key.pub
 
 # debug
 npm-debug.log*
