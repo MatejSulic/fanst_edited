@@ -61,7 +61,7 @@ const SectionDetailPage = () => {
   }
 
   if (isError || sectionsIsError) {
-    return <Typography variant="h1">Error</Typography>;
+    return <Typography variant="h1">Failed to load section. Please try again later.</Typography>;
   }
 
   const isSectionEditable = currentSection?.type === "BLANK";

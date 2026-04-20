@@ -47,7 +47,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
   }
 
   if (isError) {
-    return <Typography variant="h1">Error</Typography>;
+    return <Typography variant="h1">Failed to load questions. Please try again later.</Typography>;
   }
 
   const advanceQuestion = (results?: UpdateQuestionResultsType) => {

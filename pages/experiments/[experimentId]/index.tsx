@@ -57,7 +57,7 @@ const ExperimentDetailPage = () => {
   }
 
   if (isError || experimentIsError) {
-    return <Typography variant="h1">Error</Typography>;
+    return <Typography variant="h1">Failed to load experiment. Please try again later.</Typography>;
   }
 
   return experiment ? (

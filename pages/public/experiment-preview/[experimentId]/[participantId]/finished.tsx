@@ -20,7 +20,7 @@ const ExperimentFinishedPage = () => {
   }
 
   if (experimentIsError) {
-    return <Typography variant="h1">Error</Typography>;
+    return <Typography variant="h1">Failed to load experiment data. Please try again later.</Typography>;
   }
 
   return (

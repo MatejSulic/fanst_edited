@@ -53,7 +53,7 @@ const ExperimentPreviewPage = () => {
   }
 
   if (experimentIsError || experimentProgressIsError || sectionsIsError) {
-    return <Typography variant="h1">Error</Typography>;
+    return <Typography variant="h1">Failed to load the experiment. Please check your link or try again later.</Typography>;
   }
 
   const experimentFinished = !!experimentProgress?.finished;

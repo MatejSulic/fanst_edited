@@ -57,7 +57,7 @@ const ResultsPage = () => {
   }
 
   if (isError) {
-    return <div>Error occurred</div>;
+    return <div>Failed to load results. Please try again later.</div>;
   }
 
   const columns: GridColDef[] = [

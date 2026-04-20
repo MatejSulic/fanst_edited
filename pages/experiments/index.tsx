@@ -28,7 +28,7 @@ const ExperimentsListPage = () => {
   }
 
   if (isError) {
-    return <Typography variant="h1">Error</Typography>;
+    return <Typography variant="h1">Failed to load experiments. Please try again later.</Typography>;
   }
 
   const unlockedExperiments = experiments.filter((item) => !item.locked);
