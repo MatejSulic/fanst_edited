@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, LinearProgress, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useSectionQuestions } from "../../../hooks/questions/useQuestions";
 import {
@@ -90,56 +90,42 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     }, 1000);
   };
 
-  if (waitCountdown !== null) {
-    return (
-      <Card
-        variant="outlined"
-        sx={{ width: "100%", backgroundColor: "black", color: "white" }}
-      >
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: 300,
-            }}
-          >
-            <Typography sx={{ fontSize: 96, color: "white", userSelect: "none" }}>
-              {waitCountdown}
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
-    );
-  }
+  const progress = questions.length > 0
+    ? ((currentQuestionIdx + 1) / questions.length) * 100
+    : 0;
 
   return questions.length > 0 ? (
-    <Card
-     variant="outlined"
-      sx={{
-        width: "100%",
-        backgroundColor: "black",
-        color: "white"
-      }}
-    >
-      <CardHeader
-        title={
-          <Typography variant="h6" sx={{color: "white"}}>
-            {questions[currentQuestionIdx].title}
-          </Typography>
-        }
-        sx={{ textAlign: "center"}}
-      />
-      <CardContent>
-        <ExperimentQuestion
-          key={questions[currentQuestionIdx]._id.toString()}
-          section={section}
-          question={questions[currentQuestionIdx]}
-          submitQuestion={handleSubmitQuestion}
-        />
-      </CardContent>
-    </Card>
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ mb: 1, textAlign: "center" }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+          {currentQuestionIdx + 1} / {questions.length}
+        </Typography>
+        <LinearProgress variant="determinate" value={progress} />
+      </Box>
+
+      {waitCountdown !== null ? (
+        <Box sx={{ width: "100%", minHeight: 400, backgroundColor: "white" }} />
+      ) : (
+        <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white" }}>
+          <CardHeader
+            title={
+              <Typography variant="h6">
+                {questions[currentQuestionIdx].title}
+              </Typography>
+            }
+            sx={{ textAlign: "center" }}
+          />
+          <CardContent>
+            <ExperimentQuestion
+              key={questions[currentQuestionIdx]._id.toString()}
+              section={section}
+              question={questions[currentQuestionIdx]}
+              submitQuestion={handleSubmitQuestion}
+            />
+          </CardContent>
+        </Card>
+      )}
+    </Box>
   ) : null;
 };
 

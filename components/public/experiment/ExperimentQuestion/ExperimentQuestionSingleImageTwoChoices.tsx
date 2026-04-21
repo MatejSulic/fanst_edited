@@ -1,6 +1,6 @@
 import { AdvancedImage, lazyload } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ExperimentQuestionSharedProps } from ".";
 import { cloudinaryCloudName } from "../../../../lib/cloudinary";
@@ -32,8 +32,8 @@ const CloudinaryImagePreview = ({
         })
       }
       // plugins={[lazyload()]}
-      width={width || 200}
-      height={height || 200}
+      width={width || 400}
+      height={height || 400}
       style={{ borderRadius: 4 }}
     />
   );
@@ -141,48 +141,28 @@ const ExperimentQuestionSingleImageTwoChoices = ({
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
-        position: "relative",
-        marginTop: 12,
-        gap: 0,
+        gap: 6,
+        py: 4,
       }}
     >
       {countdown !== null ? (
-        <Box
-          sx={{
-            width: imageWidth || 200,
-            height: imageHeight || 200,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography sx={{ fontSize: 96, color: "white", userSelect: "none" }}>
-            {countdown}
-          </Typography>
-        </Box>
+        <Box sx={{ width: imageWidth || 400, height: imageHeight || 400 }} />
       ) : imageVisible ? (
         <CloudinaryImagePreview
           imagePublicId={question.content.images![0]}
-          width={imageWidth}
-          height={imageHeight}
+          width={imageWidth || 400}
+          height={imageHeight || 400}
         />
       ) : (
-        <Box
-          sx={{
-            width: imageWidth || 200,
-            height: imageHeight || 200,
-          }}
-        />
+        <Box sx={{ width: imageWidth || 400, height: imageHeight || 400 }} />
       )}
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
           width: "100%",
-          marginTop: 4,
         }}
       >
         <Button
