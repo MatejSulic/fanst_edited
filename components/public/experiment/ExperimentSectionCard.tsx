@@ -6,6 +6,7 @@ import {
   UpdateSectionResultsType,
 } from "../../../types/experimentProgress";
 import { SectionType } from "../../../types/section/section";
+import ExperimentIntroductionCard from "./ExperimentIntroductionCard";
 import ExperimentQuestion from "./ExperimentQuestion";
 
 type Props = {
@@ -32,7 +33,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
   );
 
   useEffect(() => {
-    if (questions?.length === 0) {
+    if (section.type !== "INTRODUCTION" && questions?.length === 0) {
       submitSection({
         sectionId: section._id.toString(),
         sectionType: section.type,
@@ -48,6 +49,10 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
 
   if (isError) {
     return <Typography variant="h1">Failed to load questions. Please try again later.</Typography>;
+  }
+
+  if (section.type === "INTRODUCTION") {
+    return <ExperimentIntroductionCard section={section} submitSection={submitSection} />;
   }
 
   const advanceQuestion = (results?: UpdateQuestionResultsType) => {

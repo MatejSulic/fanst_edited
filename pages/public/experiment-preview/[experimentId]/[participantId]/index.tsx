@@ -1,22 +1,24 @@
 import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import ContentWrapper from "../../../../../components/common/layout/ContentWrapper";
 import PublicAppBar from "../../../../../components/public/common/PublicAppBar";
 import ExperimentSectionCard from "../../../../../components/public/experiment/ExperimentSectionCard";
-import ExperimentStartCard from "../../../../../components/public/experiment/ExperimentStartCard";
 import ExperimentWithdrawConsentCard from "../../../../../components/public/experiment/ExperimentWithdrawConsentCard";
 import {
+  useCreateExperimentProgressMutation,
   usePublicExperimentProgress,
   useUpdateExperimentProgressMutation,
 } from "../../../../../hooks/public/experiment-progress/useExperimentProgresses";
 import { usePublicExperiment } from "../../../../../hooks/public/experiments/useExperiments";
 import { useSections } from "../../../../../hooks/sections/useSections";
 import { UpdateSectionResultsType } from "../../../../../types/experimentProgress";
-import { Background } from "@cloudinary/url-gen/qualifiers";
 
 const ExperimentPreviewPage = () => {
   const router = useRouter();
   const { experimentId, participantId } = router.query;
+  const [localSectionIdx, setLocalSectionIdx] = useState(0);
+
   const {
     data: experiment,
     isLoading: experimentIsLoading,
@@ -32,6 +34,11 @@ const ExperimentPreviewPage = () => {
     participantId as string | undefined
   );
 
+  const createExperimentProgressMutation = useCreateExperimentProgressMutation(
+    experimentId as string,
+    participantId as string
+  );
+
   const experimentProgressMutation = useUpdateExperimentProgressMutation(
     experimentId as string,
     participantId as string
@@ -42,6 +49,18 @@ const ExperimentPreviewPage = () => {
     isLoading: sectionsIsLoading,
     isError: sectionsIsError,
   } = useSections(experimentId as string | undefined);
+
+  // Create progress record as soon as we know it doesn't exist yet
+  useEffect(() => {
+    if (
+      !experimentProgressIsLoading &&
+      experimentProgress === null &&
+      !createExperimentProgressMutation.isLoading &&
+      !createExperimentProgressMutation.isSuccess
+    ) {
+      createExperimentProgressMutation.mutate();
+    }
+  }, [experimentProgress, experimentProgressIsLoading]);
 
   if (
     experimentIsLoading ||
@@ -56,29 +75,28 @@ const ExperimentPreviewPage = () => {
     return <Typography variant="h1">Failed to load the experiment. Please check your link or try again later.</Typography>;
   }
 
-  const experimentFinished = !!experimentProgress?.finished;
-
-  // experimentProgress does not exist yet - first time opening the experiment
-  const currentSection =
-    experimentProgress === null
-      ? null
-      : sections[experimentProgress.currentSectionIdx];
+  const isFinished = localSectionIdx >= sections.length;
+  const currentSection = isFinished ? null : sections[localSectionIdx];
 
   const handleSectionSubmit = (results: UpdateSectionResultsType) => {
-    experimentProgressMutation.mutate({ sectionResults: results });
+    // Only write to DB for non-INTRODUCTION sections, and only if not already submitted
+    if (results.sectionType !== "INTRODUCTION" && experimentProgress !== null) {
+      const alreadySubmitted = (experimentProgress.sectionResults as any[])?.some(
+        (r) => r.sectionId?.toString() === results.sectionId
+      );
+      if (!alreadySubmitted) {
+        experimentProgressMutation.mutate({ sectionResults: results });
+      }
+    }
+    setLocalSectionIdx((prev) => prev + 1);
   };
 
   return (
     <>
       <PublicAppBar />
       <ContentWrapper>
-        {experimentFinished ? (
+        {isFinished ? (
           <ExperimentWithdrawConsentCard
-            experiment={experiment}
-            participantId={participantId as string}
-          />
-        ) : currentSection === null ? (
-          <ExperimentStartCard
             experiment={experiment}
             participantId={participantId as string}
           />

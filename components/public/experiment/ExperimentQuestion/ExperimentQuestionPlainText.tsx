@@ -42,7 +42,7 @@ const ExperimentQuestionPlainText = ({
             })
           }
         >
-          Pokračovat
+          Continue
         </Button>
       </Box>
     </>
