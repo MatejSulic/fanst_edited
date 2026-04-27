@@ -50,8 +50,7 @@ const ExperimentWithdrawConsentCard = ({
                textAlign: "center",
                color: "white",
             }}>
-            {/* You have finished the */}
-            Dokončili jste experiment
+            You have finished the experiment
             <br />
             <b>{experiment.title}</b>
           </Typography>
@@ -59,14 +58,9 @@ const ExperimentWithdrawConsentCard = ({
       />
       <CardContent>
         <Typography variant="body1" sx={{ color: "white", }}>
-          Pokud byste se nyní nebo někdy v budoucnu rozhodli odvolat svůj souhlas se
-          sběrem dat, klikněte na tlačítko <strong>Odvolat souhlas</strong> níže.
-          Všechna data týkající se vašich odpovědí pak budou trvale smazána a nebudou dále zpracovávána.
+          If you would now or at any time in the future decide to revoke your consent to data collection, click the button <strong>Withdraw consent</strong> below. All data regarding your answers will then be permanently deleted and will not be further processed.
 
-          Na tuto stránku se dostanete pomocí odkazu, který jste obdrželi pro spuštění experimentu.          
-          {/* To withdraw your consent with collection of your data, please click
-          the button below. All data regarding your answers will be permanently
-          deleted. You will not be able to participate in the experiment again. */}
+          You can access this page using the link you received to start the experiment.
         </Typography>
       </CardContent>
       <CardActions
@@ -77,13 +71,12 @@ const ExperimentWithdrawConsentCard = ({
           color="warning"
           onClick={() => handleWithdrawConsent()}
         >
-          {/* Withdraw consent */}
-          Odvolat souhlas
+          Withdraw consent
         </Button>
         <Link
           href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}/finished`}
         >
-          <Button variant="contained">Souhlasím, ukončit experiment</Button>
+          <Button variant="contained">Agree, finish experiment</Button>
         </Link>
       </CardActions>
     </Card>
