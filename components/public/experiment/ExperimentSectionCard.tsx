@@ -109,7 +109,11 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       </Box>
 
       {waitCountdown !== null ? (
-        <Box sx={{ width: "100%", minHeight: 400, backgroundColor: "white" }} />
+        <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white", minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Typography variant="h1" sx={{ color: "black", fontWeight: "bold" }}>
+            +
+          </Typography>
+        </Card>
       ) : (
         <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white" }}>
           <CardHeader
