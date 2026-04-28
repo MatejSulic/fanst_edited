@@ -6,6 +6,7 @@ import {
   UpdateSectionResultsType,
 } from "../../../types/experimentProgress";
 import { SectionType } from "../../../types/section/section";
+import { convertCmToPx } from "../../../utils/sizeConversion";
 import ExperimentIntroductionCard from "./ExperimentIntroductionCard";
 import ExperimentQuestion from "./ExperimentQuestion";
 
@@ -99,6 +100,19 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
     ? ((currentQuestionIdx + 1) / questions.length) * 100
     : 0;
 
+  const imageWidth = section.settings?.imageWidth
+    ? convertCmToPx(section.settings.imageWidth)
+    : undefined;
+  const imageHeight = section.settings?.imageHeight
+    ? convertCmToPx(section.settings.imageHeight)
+    : undefined;
+  const is2AFC = section.type === "2AFC";
+  const gap = section.settings?.distanceOfImages
+    ? convertCmToPx(section.settings.distanceOfImages) / 8
+    : 16;
+  const contentWidth = is2AFC ? 2 * (imageWidth ?? 200) + gap : (imageWidth ?? 400);
+  const contentHeight = imageHeight ?? (is2AFC ? 200 : 400);
+
   return questions.length > 0 ? (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ mb: 1, textAlign: "center" }}>
@@ -109,11 +123,25 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       </Box>
 
       {waitCountdown !== null ? (
-        <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white", minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Box sx={{ position: "relative", width: 24, height: 24 }}>
-            <Box sx={{ position: "absolute", top: "50%", left: 0, right: 0, height: 2, backgroundColor: "black", transform: "translateY(-50%)" }} />
-            <Box sx={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, backgroundColor: "black", transform: "translateX(-50%)" }} />
-          </Box>
+        <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white" }}>
+          <CardHeader
+            title={
+              <Typography variant="h6" sx={{ visibility: "hidden" }}>
+                {questions[currentQuestionIdx].title}
+              </Typography>
+            }
+            sx={{ textAlign: "center" }}
+          />
+          <CardContent>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Box sx={{ width: contentWidth, height: contentHeight, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{ position: "relative", width: 24, height: 24 }}>
+                  <Box sx={{ position: "absolute", top: "50%", left: 0, right: 0, height: 2, backgroundColor: "black", transform: "translateY(-50%)" }} />
+                  <Box sx={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, backgroundColor: "black", transform: "translateX(-50%)" }} />
+                </Box>
+              </Box>
+            </Box>
+          </CardContent>
         </Card>
       ) : (
         <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white" }}>
