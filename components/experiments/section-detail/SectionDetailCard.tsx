@@ -109,8 +109,13 @@ const SectionDetailCard = ({ section, questions }: Props) => {
                         },
                         onQueuesEnd: () => {
                           if (pendingPublicIds.current.length > 0) {
+                            const ids = [...pendingPublicIds.current];
+                            for (let i = ids.length - 1; i > 0; i--) {
+                              const j = Math.floor(Math.random() * (i + 1));
+                              [ids[i], ids[j]] = [ids[j], ids[i]];
+                            }
                             bulkCreateMutation.mutate({
-                              imagePublicIds: pendingPublicIds.current,
+                              imagePublicIds: ids,
                             });
                             pendingPublicIds.current = [];
                           }
