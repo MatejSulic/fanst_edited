@@ -123,7 +123,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
       </Box>
 
       {waitCountdown !== null ? (
-        <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white" }}>
+        <Card sx={{ width: "100%", backgroundColor: "white", border: "none", boxShadow: "none" }}>
           <CardHeader
             title={
               <Typography variant="h6" sx={{ visibility: "hidden" }}>
@@ -144,7 +144,7 @@ const ExperimentSectionCard = ({ section, submitSection }: Props) => {
           </CardContent>
         </Card>
       ) : (
-        <Card variant="outlined" sx={{ width: "100%", backgroundColor: "white" }}>
+        <Card sx={{ width: "100%", backgroundColor: "white", border: "none", boxShadow: "none" }}>
           <CardHeader
             title={
               <Typography variant="h6">

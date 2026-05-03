@@ -40,3 +40,7 @@ export const experimentCopyMutationKey = (experimentId: string) => [
   experimentId,
   "experiment-copy-mutation",
 ];
+
+export const experimentGenerateAnonymousParticipantsMutationKey = (
+  experimentId: string
+) => ["experiments", experimentId, "generate-anonymous-participants-mutation"];

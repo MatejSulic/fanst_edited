@@ -4,9 +4,10 @@ import { ParticipantType } from "../../../types/participant";
 const ParticipantSchema = new Schema<ParticipantType>({
   email: {
     type: String,
-    required: [true, "Please provide an Email"],
+    default: "",
   },
   consent: { type: Boolean, default: true },
+  anonymous: { type: Boolean, default: false },
 });
 
 export default mongoose.models.Participant ||

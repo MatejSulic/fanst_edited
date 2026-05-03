@@ -41,3 +41,14 @@ export const withdrawConsentMutationKey = (
   participantId,
   "withdraw-consent-mutation",
 ];
+
+export const saveConsentMutationKey = (
+  experimentId: string,
+  participantId: string
+) => [
+  "public",
+  "experiment-progress",
+  experimentId,
+  participantId,
+  "save-consent-mutation",
+];

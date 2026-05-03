@@ -6,9 +6,9 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useSaveConsentMutation } from "../../../hooks/public/experiment-progress/useSaveConsent";
 import { useWithdrawConsentMutation } from "../../../hooks/public/experiment-progress/useWIthdrawConsent";
 import { ExperimentType } from "../../../types/experiment";
 
@@ -23,6 +23,10 @@ const ExperimentWithdrawConsentCard = ({
 }: Props) => {
   const router = useRouter();
   const withdrawConsentMutation = useWithdrawConsentMutation(
+    experiment._id.toString(),
+    participantId
+  );
+  const saveConsentMutation = useSaveConsentMutation(
     experiment._id.toString(),
     participantId
   );
@@ -73,11 +77,17 @@ const ExperimentWithdrawConsentCard = ({
         >
           Withdraw consent
         </Button>
-        <Link
-          href={`/public/experiment-preview/${experiment._id.toString()}/${participantId}/finished`}
+        <Button
+          variant="contained"
+          onClick={() => {
+            saveConsentMutation.mutate();
+            router.push(
+              `/public/experiment-preview/${experiment._id.toString()}/${participantId}/finished`
+            );
+          }}
         >
-          <Button variant="contained">Agree, finish experiment</Button>
-        </Link>
+          Agree, finish experiment
+        </Button>
       </CardActions>
     </Card>
   );

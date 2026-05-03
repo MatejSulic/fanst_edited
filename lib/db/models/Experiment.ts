@@ -142,6 +142,46 @@ export const copyExperiment = async (
   return newExperiment;
 };
 
+export const generateAnonymousParticipant = async (
+  experimentId: string
+): Promise<string> => {
+  await dbConnect();
+  let experiment = await ExperimentModel.findById(new ObjectId(experimentId));
+
+  let newParticipant = new Participant({ email: "", anonymous: true });
+  newParticipant = await newParticipant.save();
+
+  const experimentParticipantGroups = await ParticipantGroupModel.aggregate()
+    .match({ experimentId: new ObjectId(experimentId) })
+    .project({ participantsCount: { $size: "$participants" } })
+    .sort({ participantsCount: "asc" })
+    .limit(1);
+  const smallestParticipantGroupId = experimentParticipantGroups[0]._id;
+  const smallestParticipantGroup = await ParticipantGroupModel.findById(
+    smallestParticipantGroupId
+  );
+
+  smallestParticipantGroup.participants.push(newParticipant._id.toString());
+  await smallestParticipantGroup.save();
+
+  experiment.participants.push(newParticipant._id.toString());
+  if (smallestParticipantGroup.participants.length === 1) {
+    experiment.participantsPerGroups.push({
+      group: smallestParticipantGroupId.toString(),
+      participants: [newParticipant._id.toString()],
+    });
+  } else {
+    experiment.participantsPerGroups
+      .find((obj) => obj.get("group") === smallestParticipantGroupId.toString())
+      .get("participants")
+      .push(newParticipant._id.toString());
+    experiment.markModified("participantsPerGroups");
+  }
+  await experiment.save();
+
+  return newParticipant._id.toString();
+};
+
 export const inviteParticipant = async (
   experimentId: string,
   participantEmail: string
