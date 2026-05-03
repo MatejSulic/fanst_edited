@@ -12,6 +12,8 @@ export const openUploadWidget = ({ onSuccess, onError }: Props) => {
       cloudName: cloudinaryCloudName,
       uploadPreset: cloudinaryUploadPreset,
       sources: ["local", "url"],
+      use_filename: true,
+      unique_filename: false,
     },
     (error: any, result: any) => {
       if (result.event === "success") {
@@ -42,6 +44,8 @@ export const openMultiUploadWidget = ({
       uploadPreset: cloudinaryUploadPreset,
       sources: ["local", "url"],
       multiple: true,
+      use_filename: true,
+      unique_filename: false,
     },
     (error: any, result: any) => {
       if (result.event === "success") {
