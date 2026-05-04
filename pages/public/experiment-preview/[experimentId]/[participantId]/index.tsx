@@ -79,8 +79,7 @@ const ExperimentPreviewPage = () => {
   const currentSection = isFinished ? null : sections[localSectionIdx];
 
   const handleSectionSubmit = (results: UpdateSectionResultsType) => {
-    // Only write to DB for non-INTRODUCTION sections, and only if not already submitted
-    if (results.sectionType !== "INTRODUCTION" && experimentProgress !== null) {
+    if (experimentProgress !== null) {
       const alreadySubmitted = (experimentProgress.sectionResults as any[])?.some(
         (r) => r.sectionId?.toString() === results.sectionId
       );
